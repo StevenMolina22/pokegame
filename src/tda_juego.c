@@ -65,7 +65,7 @@ void procesar_entrada(Juego* j, Direccion d) {
         return;
     }
     tablero_mover_jugador(j->tablero, d);
-    // tablero_mover_pokes(j->tablero);
+    tablero_mover_pokes(j->tablero);
 }
 
 void verificar_capturas(Juego* j) {
@@ -98,8 +98,6 @@ void actualizar_captura(Juego* j, Poke* p) {
     jug->puntos += jug->multiplicador * p->puntos;
     jug->ultimo_capturado = p;
 }
-
-
 
 // TODO! Eliminar esta funcion
 Jugador* juego_jugador(Juego* j) {

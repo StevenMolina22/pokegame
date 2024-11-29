@@ -2,6 +2,7 @@
 #include "tda_tablero_priv.h"
 #include "../extra/ansi.h"
 
+#include "tipos.h"
 #include <stdio.h>
 
 // ---- INTERFAZ TDA
@@ -82,11 +83,20 @@ Pokedex* tablero_pokedex(Tablero* t) {
 
 // ---- FUNCIONES AUXILIARES
 void matriz_print(str_t m[ALTO][ANCHO]) {
+    for (size_t j = 0; j < ANCHO + 2; j++) {
+        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
+    }
+    printf("\n");
     for (size_t i = 0; i < ALTO; i++) {
+        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
         for (size_t j = 0; j < ANCHO; j++) {
             printf("%s", m[i][j]);
         }
+        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
         printf("\n");
+    }
+    for (size_t j = 0; j < ANCHO + 2; j++) {
+        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
     }
     printf("\n");
 }
