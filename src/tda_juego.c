@@ -1,4 +1,5 @@
 #include "tda_juego.h"
+#include "tda_pokedex.h"
 #include "tda_tablero.h"
 
 struct juego {
@@ -11,7 +12,21 @@ Juego* juego_crear() {
     if (juego == NULL) {
         return NULL;
     }
-    // juego->tablero = tablero_crear();
+
+    Jugador* jugador = jugador_crear();
+    if (jugador == NULL) {
+        free(juego);
+        return NULL;
+    }
+
+    Pokedex* pkx = pokedex_crear();
+    if (pkx == NULL) {
+        free(juego);
+        free(jugador);
+        return NULL;
+    }
+
+    juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx);
     return juego;
 }
 

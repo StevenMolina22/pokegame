@@ -13,15 +13,15 @@ typedef enum color {
 } Color;
 
 typedef struct poke {
-    char nombre[100];
+    char* nombre;
     Color color;
     size_t puntos;
     size_t x;
     size_t y;
-    char patron[100];
+    char* patron;
 } Poke;
 
-Poke* poke_crear();
+Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron);
 
 void poke_destruir(Poke*);
 
