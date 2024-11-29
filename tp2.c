@@ -1,19 +1,16 @@
 #include "extra/engine.h"
 #include "extra/ansi.h"
+#include "src/tipo_jugador.h"
+#include "src/tda_juego.h"
+
 #include <stdio.h>
 
-struct jugador {
-	int x;
-	int y;
-	int iteraciones;
-};
-
-int max(int a, int b)
+size_t max(size_t a, size_t b)
 {
 	return a > b ? a : b;
 }
 
-int min(int a, int b)
+size_t min(size_t a, size_t b)
 {
 	return a < b ? a : b;
 }
@@ -37,36 +34,49 @@ int logica(int entrada, void *datos)
 
 	jugador->iteraciones++;
 
-	printf("Utilizar " ANSI_COLOR_CYAN ANSI_COLOR_BOLD
-	       "⬆⬇⬅➡" ANSI_COLOR_RESET " para moverse\n");
+	printf("Utilizar " ANSI_COLOR_CYAN ANSI_COLOR_BOLD "⬆⬇⬅➡" ANSI_COLOR_RESET " para moverse\n");
 
-	printf("Presionar " ANSI_COLOR_RED ANSI_COLOR_BOLD "Q" ANSI_COLOR_RESET
-	       " para salir\n");
+	printf("Presionar " ANSI_COLOR_RED ANSI_COLOR_BOLD "Q" ANSI_COLOR_RESET " para salir\n");
 
-	printf("Iteraciones: %d Tiempo: %d\n", jugador->iteraciones,
-	       jugador->iteraciones / 5);
+	printf("Iteraciones: %zu Tiempo: %zu\n", jugador->iteraciones, jugador->iteraciones / 5);
 
-	for (int i = 0; i < jugador->y; i++)
-		printf("\n");
+	for (size_t i = 0; i < jugador->y; i++) {
+    	printf("\n");
+	}
 
-	for (int i = 0; i < jugador->x; i++)
-		printf(" ");
+	for (size_t i = 0; i < jugador->x; i++) {
+    	printf(" ");
+	}
 
 	printf(ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω" ANSI_COLOR_RESET);
 
 	printf("\n");
 	esconder_cursor();
 
-	return entrada == 'q' || entrada == 'Q';
+	return entrada == 'q' || entrada == 'Q'; // retorna 1 para salir o 0 para seguir
+}
+
+int logica2(int entrada, void* datos) {
+    Juego* juego = datos;
+    juego_correr(juego, entrada);
+    return entrada == 'q' || entrada == 'Q';
 }
 
 int main()
 {
+    Juego* juego = juego_crear();
+    juego_iniciar(juego);
+
 	struct jugador jugador = { 0 };
 
+	// game_loop(logica, juego);
 	game_loop(logica, &jugador);
 
 	mostrar_cursor();
-
 	return 0;
 }
+
+// main
+// -> loop
+// -> logica
+// -> juego_correr
