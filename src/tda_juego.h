@@ -3,6 +3,15 @@
 
 typedef struct juego Juego;
 
+#include "tda_pokedex.h"
+#include "tda_tablero.h"
+#include "tda_tablero_priv.h"
+#include <stdio.h>
+
+// TODO! eliminar esta funcion
+//
+Jugador* juego_jugador(Juego* j);
+
 /**
  * Crea la estructura para el juego
  */

@@ -3,7 +3,6 @@
 
 #include "tipos.h"
 #include "tda_pokedex.h"
-#include "tda_juego.h"
 
 typedef struct jugador Jugador;
 struct jugador {

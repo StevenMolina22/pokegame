@@ -1,8 +1,8 @@
 #include "tda_pokedex.h"
-#include "abb.h"
+#include "lista.h"
 
 struct pokedex {
-    abb_t* pokes;
+    Lista* pokes;
 };
 
 // struct it_pokedex {
@@ -15,13 +15,12 @@ int cmp(void *, void *); // TODO!: Implementar funcion
  */
 Pokedex* pokedex_crear() {
     Pokedex* pkx = malloc(sizeof(Pokedex));
-    abb_t* abb = abb_crear(&cmp);
-    if (abb == NULL) {
+    Lista* l = lista_crear();
+    if (l == NULL) {
         free(pkx);
         return NULL;
     }
-
-    pkx->pokes = abb;
+    pkx->pokes = l;
     return pkx;
 }
 
@@ -56,13 +55,17 @@ size_t pokedex_len(Pokedex* pkx) {
     if (pkx == NULL) {
         return 0;
     }
-    return abb_cantidad(pkx->pokes);
+    return lista_len(pkx->pokes);
 }
 
 /**
  * Devuelve una lista de todos los pokemones
  */
-void pokedex_lista(Pokedex* pkx) {
+Lista* pokedex_lista(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return NULL;
+    }
+    return pkx->pokes;
 }
 
 /**
@@ -81,12 +84,4 @@ void pokedex_agregar_random(Pokedex* pkx) {
  * Destruye la pokedex y todas las estructuras asociadas a esta
  */
 void pokedex_destuir(Pokedex* pkx) {
-}
-
-
-// ---- FUNCIONES AUXILIARES
-int cmp(void* a, void* b) {
-    char* s1 = a;
-    char* s2 = b;
-    return strcmp(s1, s2);
 }

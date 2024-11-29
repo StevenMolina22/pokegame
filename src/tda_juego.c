@@ -1,8 +1,5 @@
+
 #include "tda_juego.h"
-#include "tda_pokedex.h"
-#include "tda_tablero.h"
-#include "tda_tablero_priv.h"
-#include <stdio.h>
 
 struct juego {
     Tablero* tablero;
@@ -15,7 +12,7 @@ void verificar_capturas(Juego* j);
 void actualizar_captura(Juego* j, Poke* p);
 
 Juego* juego_crear() {
-    Juego* juego = malloc(sizeof(Juego));
+    Juego* juego = calloc(1, sizeof(Juego));
     if (juego == NULL) {
         return NULL;
     }
@@ -68,7 +65,7 @@ void procesar_entrada(Juego* j, Direccion d) {
         return;
     }
     tablero_mover_jugador(j->tablero, d);
-    tablero_mover_pokes(j->tablero);
+    // tablero_mover_pokes(j->tablero);
 }
 
 void verificar_capturas(Juego* j) {
@@ -100,4 +97,11 @@ void actualizar_captura(Juego* j, Poke* p) {
 
     jug->puntos += jug->multiplicador * p->puntos;
     jug->ultimo_capturado = p;
+}
+
+
+
+// TODO! Eliminar esta funcion
+Jugador* juego_jugador(Juego* j) {
+    return tablero_jugador(j->tablero);
 }

@@ -7,14 +7,16 @@
 // ---- INTERFAZ TDA
 // INIT & DEINIT
 Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx) {
-    Tablero* t = malloc(sizeof(Tablero));
+    Tablero* t = calloc(1, sizeof(Tablero));
     if (t == NULL) {
         return NULL;
     }
     // TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
     for (size_t i = 0; i < alto; i++) {
         for (size_t j = 0; j < ancho; j++) {
-            t->matriz[i][j] = "";
+            // char* s = malloc(100 * sizeof(char));
+            // s = " ";
+            t->matriz[i][j] = " ";
         }
     }
     t->jugador = jugador;
@@ -37,7 +39,7 @@ void tablero_vaciar(Tablero* t) {
     }
     for (size_t i = 0; i < ALTO; i++) {
         for (size_t j = 0; j < ANCHO; j++) {
-            t->matriz[i][j] = "";
+            t->matriz[i][j] = " ";
         }
     }
 }
@@ -81,7 +83,7 @@ Pokedex* tablero_pokedex(Tablero* t) {
 // ---- FUNCIONES AUXILIARES
 void matriz_print(str_t m[ALTO][ANCHO]) {
     for (size_t i = 0; i < ALTO; i++) {
-        for (size_t j = 0; j < ANCHO; i++) {
+        for (size_t j = 0; j < ANCHO; j++) {
             printf("%s", m[i][j]);
         }
         printf("\n");

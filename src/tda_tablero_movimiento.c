@@ -10,7 +10,9 @@ void tablero_mover_jugador(Tablero* t, Direccion d) {
     if (entrada_es_valida(t, d)) {
         mover_entidad(&t->jugador->x, &t->jugador->y, d);
     }
+    // printf("t->jugador: %p", (void*)t->jugador);
     t->jugador->ultimo_movimiento = d;
+    // printf("Se paso la parte de t->jugador->ult..\n");
 }
 
 void tablero_mover_pokes(Tablero* t) {

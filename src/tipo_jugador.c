@@ -2,7 +2,7 @@
 #include "tda_pokedex.h"
 
 Jugador* jugador_crear() {
-    Jugador* jugador = malloc(sizeof(Jugador));
+    Jugador* jugador = calloc(1, sizeof(Jugador));
     if (jugador == NULL) {
         return NULL;
     }
@@ -20,6 +20,7 @@ Jugador* jugador_crear() {
     jugador->multiplicador_max = 1;
     jugador->puntos = 0;
     jugador->ultimo_movimiento = 0; // TODO!: Verificar esta inicializacion de enum
+
     return jugador;
 }
 Jugador* jugador_destruir(Jugador*);
