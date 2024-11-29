@@ -16,7 +16,7 @@ struct tablero {
 
 // VERIFICACIONES
 bool entrada_es_valida(Tablero* t, Direccion entrada);
-bool poke_entrada_es_valida(Tablero* t, Poke* p, Patron entrada);
+bool es_patron_valido(Tablero* t, Poke* p, Patron entrada);
 bool es_direccion_valida(Tablero* t, Poke* p, Direccion d);
 bool esta_en_rango(Tablero* t, size_t x, size_t y, Direccion d);
 

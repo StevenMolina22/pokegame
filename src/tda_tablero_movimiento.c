@@ -1,3 +1,4 @@
+#include "lista.h"
 #include "tda_tablero.h"
 #include "tda_tablero_priv.h"
 #include "tipos.h"
@@ -19,6 +20,17 @@ void tablero_mover_pokes(Tablero* t) {
     if (t == NULL) {
         return;
     }
+    ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
+    while (lista_it_hay_siguiente(it)) {
+        Poke* p = lista_it_actual(it);
+        for (size_t i = 0; i < strlen(p->patron); i++) {
+            if (es_patron_valido(t, p, p->patron[i])) {
+                tablero_mover_poke(t, p, p->patron[i]);
+            }
+        }
+        lista_it_avanzar(it);
+    }
+    lista_it_destruir(it);
     // TODO!: Implementar iterando sobre la pokedex
 }
 
@@ -68,6 +80,28 @@ void mover_entidad(size_t *x, size_t *y, Direccion d) {
 
 bool entrada_es_valida(Tablero* t, Direccion d) {
     return esta_en_rango(t, t->jugador->x, t->jugador->y, d);
+}
+
+bool es_patron_valido(Tablero* t, Poke* p, Patron patron) {
+    // TODO!
+    switch (patron) {
+        case PatronArriba:
+            return esta_en_rango(t, p->x, p->y, patron_a_direccion(patron));
+        case PatronAbajo:
+            return esta_en_rango(t, p->x, p->y, patron_a_direccion(patron));
+        case PatronDerecha:
+            return esta_en_rango(t, p->x, p->y, patron_a_direccion(patron));
+        case PatronIzquierda:
+            return esta_en_rango(t, p->x, p->y, patron_a_direccion(patron));
+        case PatronEspejo:
+            return es_direccion_valida(t, p, t->jugador->ultimo_movimiento);
+        case PatronInverso:
+            return es_direccion_valida(t, p, direccion_inversa(t->jugador->ultimo_movimiento));
+        case PatronRandom:
+            return true; // siempre valido
+        default:
+            return false;
+    }
 }
 
 bool es_direccion_valida(Tablero* t, Poke* p, Direccion d) {

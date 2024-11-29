@@ -42,6 +42,7 @@ bool tablero_esta_capturado(Tablero* t, Poke* p);
 void tablero_mover_jugador(Tablero* t, Direccion d);
 
 /**
+bool es_patron_valido(Poke* p, Patron patron) {
  * Mueve los pokemones de la pokedex del tablero respecto a cada patron que tiene
  * solo son movidos si este movimiento es valido
  */

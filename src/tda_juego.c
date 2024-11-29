@@ -79,6 +79,7 @@ void verificar_capturas(Juego* j) {
     Pokedex* pkx = tablero_pokedex(j->tablero);
     Lista* l = pokedex_lista(pkx);
     ListaIt* it = lista_it_crear(l);
+
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
         lista_it_avanzar(it);
