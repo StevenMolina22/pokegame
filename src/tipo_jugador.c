@@ -23,4 +23,9 @@ Jugador* jugador_crear() {
 
     return jugador;
 }
-Jugador* jugador_destruir(Jugador*);
+
+void jugador_destruir(Jugador* j) {
+    pokedex_destuir(j->combo_max);
+    pokedex_destuir(j->combo_actual);
+    free(j);
+}

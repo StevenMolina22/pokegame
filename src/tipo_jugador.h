@@ -19,6 +19,6 @@ struct jugador {
 };
 
 Jugador* jugador_crear();
-Jugador* jugador_destruir(Jugador*);
+void jugador_destruir(Jugador*);
 
 #endif

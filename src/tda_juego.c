@@ -1,7 +1,4 @@
-
 #include "tda_juego.h"
-#include "lista.h"
-#include "tda_pokedex.h"
 #include "tda_tablero.h"
 
 struct juego {
@@ -60,6 +57,11 @@ void juego_mostrar_resultados(Juego* j) {
 }
 
 void juego_destruir(Juego* j) {
+    if (j == NULL) {
+        return;
+    }
+    tablero_destruir(j->tablero);
+    free(j);
 }
 
 // ---- FUNCIONES AUXILIARES

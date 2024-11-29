@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../extra/engine.h"
+#include "../extra/ansi.h"
 
 #define ANCHO 32
 #define ALTO 15

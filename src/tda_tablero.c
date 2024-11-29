@@ -1,11 +1,7 @@
 #include "tda_tablero.h"
-#include "lista.h"
-#include "tda_pokedex.h"
 #include "tda_tablero_priv.h"
-#include "../extra/ansi.h"
+#include "tipo_poke.h"
 
-#include "tipos.h"
-#include <stdio.h>
 
 // ---- INTERFAZ TDA
 // INIT & DEINIT
@@ -33,6 +29,9 @@ void tablero_destruir(Tablero* t) {
     if (t == NULL) {
         return;
     }
+    jugador_destruir(t->jugador);
+    pokedex_destuir(t->pokes);
+    free(t);
 }
 
 // GENERALES
@@ -68,7 +67,9 @@ void tablero_mostrar(Tablero* t) {
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
-        t->matriz[p->y][p->x] = "*";
+        char s[100];
+        poke_inicial_color(p, s);
+        t->matriz[p->y][p->x] = s;
         lista_it_avanzar(it);
     }
     lista_it_destruir(it);

@@ -23,6 +23,8 @@ typedef struct poke {
 
 Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron);
 
+void poke_inicial_color(Poke* p, char* dest);
+
 void poke_destruir(void*);
 
 #endif

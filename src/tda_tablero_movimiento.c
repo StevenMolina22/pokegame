@@ -2,6 +2,7 @@
 #include "tda_tablero.h"
 #include "tda_tablero_priv.h"
 #include "tipos.h"
+#include <stdlib.h>
 
 // ---- INTERFAZ TDA
 void tablero_mover_jugador(Tablero* t, Direccion d) {
@@ -11,9 +12,7 @@ void tablero_mover_jugador(Tablero* t, Direccion d) {
     if (entrada_es_valida(t, d)) {
         mover_entidad(&t->jugador->x, &t->jugador->y, d);
     }
-    // printf("t->jugador: %p", (void*)t->jugador);
     t->jugador->ultimo_movimiento = d;
-    // printf("Se paso la parte de t->jugador->ult..\n");
 }
 
 void tablero_mover_pokes(Tablero* t) {
@@ -31,7 +30,6 @@ void tablero_mover_pokes(Tablero* t) {
         lista_it_avanzar(it);
     }
     lista_it_destruir(it);
-    // TODO!: Implementar iterando sobre la pokedex
 }
 
 
@@ -54,8 +52,10 @@ void tablero_mover_poke(Tablero *t, Poke *p, Patron patron) {
             mover_entidad(&p->x, &p->y, t->jugador->ultimo_movimiento);
             break;
         case PatronInverso:
+            mover_entidad(&p->x, &p->y, direccion_inversa(t->jugador->ultimo_movimiento));
             break;
         case PatronRandom:
+            mover_random(t, p);
             break;
     }
 }
@@ -124,8 +124,15 @@ bool esta_en_rango(Tablero* t, size_t x, size_t y, Direccion d) {
 }
 
 // Movimientos Auxiliares
-void mover_random(Poke* p) {
+void mover_random(Tablero* t, Poke* p) {
     // TODO!
+    while (true) {
+        Direccion d = rand() % 4;
+        if (esta_en_rango(t, p->x, p->y, d)) {
+            mover_entidad(&p->x, &p->y, d);
+            return;
+        }
+    }
 }
 
 Direccion direccion_inversa(Direccion d) {
