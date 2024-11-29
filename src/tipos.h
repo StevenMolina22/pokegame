@@ -4,9 +4,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 #define ANCHO 32
 #define ALTO 15
+
+#define ERROR -1
 
 typedef enum direccion {
     Arriba      = 'W',

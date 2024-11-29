@@ -12,6 +12,7 @@ struct jugador {
     Pokedex* combo_max;
     Pokedex* combo_actual;
     size_t multiplicador_max;
+    size_t multiplicador;
     size_t puntos;
     size_t iteraciones;
     size_t x;

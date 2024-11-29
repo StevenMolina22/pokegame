@@ -5,6 +5,7 @@
 #include "tipos.h"
 
 typedef struct pokedex Pokedex;
+typedef struct it_pokedex ItPokedex;
 
 /**
  * Crea una nueva pokedex
@@ -34,12 +35,7 @@ void pokedex_vaciar(Pokedex* pkx);
 /**
  * Devuelve la cantidad de pokemones en la pokedex
  */
-void pokedex_len(Pokedex* pkx);
-
-/**
- * Devuelve una lista de todos los pokemones
- */
-void pokedex_lista(Pokedex* pkx);
+size_t pokedex_len(Pokedex* pkx);
 
 /**
  * Agrega una cantidad n de pokemones a la pokedex
@@ -50,6 +46,8 @@ void pokedex_spawn(Pokedex* pkx);
  * Agrega un pokemon random a la pokedex
  */
 void pokedex_agregar_random(Pokedex* pkx);
+
+// ---- ITERADOR
 
 /**
  * Destruye la pokedex y todas las estructuras asociadas a esta

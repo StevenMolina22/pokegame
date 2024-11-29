@@ -5,14 +5,17 @@ struct pokedex {
     abb_t* pokes;
 };
 
-int (*comparador)(void *, void *); // TODO!: Implementar funcion
+// struct it_pokedex {
+// };
+
+int cmp(void *, void *); // TODO!: Implementar funcion
 
 /**
  * Crea una nueva pokedex
  */
 Pokedex* pokedex_crear() {
     Pokedex* pkx = malloc(sizeof(Pokedex));
-    abb_t* abb = abb_crear(comparador);
+    abb_t* abb = abb_crear(&cmp);
     if (abb == NULL) {
         free(pkx);
         return NULL;
@@ -49,7 +52,11 @@ void pokedex_vaciar(Pokedex* pkx) {
 /**
  * Devuelve la cantidad de pokemones en la pokedex
  */
-void pokedex_len(Pokedex* pkx) {
+size_t pokedex_len(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return 0;
+    }
+    return abb_cantidad(pkx->pokes);
 }
 
 /**
@@ -74,4 +81,12 @@ void pokedex_agregar_random(Pokedex* pkx) {
  * Destruye la pokedex y todas las estructuras asociadas a esta
  */
 void pokedex_destuir(Pokedex* pkx) {
+}
+
+
+// ---- FUNCIONES AUXILIARES
+int cmp(void* a, void* b) {
+    char* s1 = a;
+    char* s2 = b;
+    return strcmp(s1, s2);
 }
