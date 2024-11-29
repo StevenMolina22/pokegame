@@ -13,9 +13,9 @@ size_t hasher(const char *str)
 	return idx;
 }
 
-nodo_t *nodo_crear(char *clave, void *valor)
+Nodo *nodo_crear(char *clave, void *valor)
 {
-	nodo_t *nodo = malloc(sizeof(nodo_t));
+	Nodo *nodo = malloc(sizeof(Nodo));
 	if (!nodo)
 		return NULL;
 	entrada_t *entrada = malloc(sizeof(entrada_t));
@@ -31,17 +31,17 @@ nodo_t *nodo_crear(char *clave, void *valor)
 	return nodo;
 }
 
-void nodo_destruir(nodo_t *nodo)
+void nodo_destruir(Nodo *nodo)
 {
 	free(nodo->entrada->clave);
 	free(nodo->entrada);
 	free(nodo);
 }
 
-nodo_t *encontrar_nodo(hash_t *hash, char *clave)
+Nodo *encontrar_nodo(Hash *hash, char *clave)
 {
 	size_t idx = hasher(clave) % hash->cap;
-	nodo_t *actual = hash->tabla[idx];
+	Nodo *actual = hash->tabla[idx];
 	while (actual) {
 		if (strcmp(actual->entrada->clave, clave) == 0) {
 			return actual;
@@ -51,13 +51,13 @@ nodo_t *encontrar_nodo(hash_t *hash, char *clave)
 	return NULL;
 }
 
-bool agregar_entrada(hash_t *hash, char *clave, void *valor)
+bool agregar_entrada(Hash *hash, char *clave, void *valor)
 {
 	size_t idx = hasher(clave) % hash->cap;
-	nodo_t *nuevo = nodo_crear(clave, valor);
+	Nodo *nuevo = nodo_crear(clave, valor);
 	if (!nuevo)
 		return false;
-	nodo_t *nodo = hash->tabla[idx];
+	Nodo *nodo = hash->tabla[idx];
 	if (nodo) {
 		nuevo->sig = nodo;
 		nodo->ant = nuevo;
@@ -66,19 +66,19 @@ bool agregar_entrada(hash_t *hash, char *clave, void *valor)
 	return true;
 }
 
-bool hash_rehash(hash_t *hash)
+bool hash_rehash(Hash *hash)
 {
 	hash->cap *= 2;
-	nodo_t **tabla_vieja = hash->tabla;
-	nodo_t **tabla = calloc(hash->cap, sizeof(nodo_t *));
+	Nodo **tabla_vieja = hash->tabla;
+	Nodo **tabla = calloc(hash->cap, sizeof(Nodo *));
 	if (!tabla)
 		return false;
 	hash->tabla = tabla;
 	hash->size = 0;
 	for (size_t i = 0; i < hash->cap / 2; i++) {
-		nodo_t *nodo = tabla_vieja[i];
+		Nodo *nodo = tabla_vieja[i];
 		while (nodo) {
-			nodo_t *siguiente = nodo->sig;
+			Nodo *siguiente = nodo->sig;
 			if (!agregar_entrada(hash, nodo->entrada->clave,
 					     nodo->entrada->valor))
 				return false;

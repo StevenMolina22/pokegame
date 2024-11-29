@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct archivo_csv;
+typedef struct archivo_csv CSV;
+typedef bool (*FnParse)(const char *, void *);
 
 /**
  * Intenta abrir un archivo CSV para su posterior lectura.
@@ -12,7 +13,7 @@ struct archivo_csv;
  *
  * Devuelve un puntero a un archivo_csv en caso de éxito, o NULL en caso de error.
  */
-struct archivo_csv *abrir_archivo_csv(const char *nombre_archivo,
+CSV *abrir_archivo_csv(const char *nombre_archivo,
 				      char separador);
 
 /**
@@ -28,12 +29,11 @@ struct archivo_csv *abrir_archivo_csv(const char *nombre_archivo,
  *
  * Devuelve la cantidad de columnas leídas correctamente.
  */
-size_t leer_linea_csv(struct archivo_csv *archivo, size_t columnas,
-		      bool (*funciones[])(const char *, void *), void *ctx[]);
+size_t leer_linea_csv(CSV *archivo, size_t columnas, FnParse funcs[], void *ctx[]);
 
 /**
  * Cierra un archivo CSV previamente abierto.
  */
-void cerrar_archivo_csv(struct archivo_csv *archivo);
+void cerrar_archivo_csv(CSV *archivo);
 
 #endif // CSV_H

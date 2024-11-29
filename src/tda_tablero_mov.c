@@ -1,8 +1,5 @@
-#include "lista.h"
 #include "tda_tablero.h"
 #include "tda_tablero_priv.h"
-#include "tipos.h"
-#include <stdlib.h>
 
 // ---- INTERFAZ TDA
 void tablero_mover_jugador(Tablero* t, Direccion d) {

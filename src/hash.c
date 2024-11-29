@@ -3,12 +3,12 @@
 
 #define FACTOR_REHASH 0.75
 
-hash_t *hash_crear(size_t cap)
+Hash *hash_crear(size_t cap)
 {
-	hash_t *hash = malloc(sizeof(hash_t));
+    Hash *hash = malloc(sizeof(Hash));
 	if (!hash)
 		return NULL;
-	nodo_t **tabla = calloc(cap, sizeof(nodo_t *));
+	Nodo **tabla = calloc(cap, sizeof(Nodo *));
 	if (!tabla) {
 		free(hash);
 		return NULL;
@@ -19,14 +19,14 @@ hash_t *hash_crear(size_t cap)
 	return hash;
 }
 
-size_t hash_cantidad(hash_t *hash)
+size_t hash_cantidad(Hash *hash)
 {
 	if (!hash)
 		return 0;
 	return hash->size;
 }
 
-bool hash_insertar(hash_t *hash, char *_clave, void *valor, void **encontrado)
+bool hash_insertar(Hash *hash, char *_clave, void *valor, void **encontrado)
 {
 	if (!hash || !_clave)
 		return false;
@@ -35,7 +35,7 @@ bool hash_insertar(hash_t *hash, char *_clave, void *valor, void **encontrado)
 			return false;
 	}
 	// encontrar nodo y actualizar argumento
-	nodo_t *nodo = encontrar_nodo(hash, _clave);
+	Nodo *nodo = encontrar_nodo(hash, _clave);
 	if (nodo) {
 		if (encontrado)
 			*encontrado = nodo->entrada->valor;
@@ -58,29 +58,29 @@ bool hash_insertar(hash_t *hash, char *_clave, void *valor, void **encontrado)
 	return true;
 }
 
-void *hash_buscar(hash_t *hash, char *clave)
+void *hash_buscar(Hash *hash, char *clave)
 {
 	if (!hash || !clave)
 		return NULL;
-	nodo_t *nodo = encontrar_nodo(hash, clave);
+	Nodo *nodo = encontrar_nodo(hash, clave);
 	if (!nodo)
 		return NULL;
 	return nodo->entrada->valor;
 }
 
-bool hash_contiene(hash_t *hash, char *clave)
+bool hash_contiene(Hash *hash, char *clave)
 {
 	if (!hash || !clave)
 		return false;
 	return encontrar_nodo(hash, clave) != NULL;
 }
 
-void *hash_quitar(hash_t *hash, char *clave)
+void *hash_quitar(Hash *hash, char *clave)
 {
 	if (!hash || !clave)
 		return NULL;
 	size_t idx = hasher(clave) % hash->cap;
-	nodo_t *nodo = encontrar_nodo(hash, clave);
+	Nodo *nodo = encontrar_nodo(hash, clave);
 	if (!nodo)
 		return NULL;
 	if (nodo->ant) { // no es el primero
@@ -97,13 +97,13 @@ void *hash_quitar(hash_t *hash, char *clave)
 	return valor;
 }
 
-size_t hash_iterar(hash_t *hash, bool (*f)(char *, void *, void *), void *ctx)
+size_t hash_iterar(Hash *hash, bool (*f)(char *, void *, void *), void *ctx)
 {
 	if (!hash || !f)
 		return 0;
 	size_t iterados = 0;
 	for (size_t i = 0; i < hash->cap; i++) {
-		nodo_t *actual = hash->tabla[i];
+		Nodo *actual = hash->tabla[i];
 		while (actual) {
 			iterados++;
 			if (!f(actual->entrada->clave, actual->entrada->valor,
@@ -116,19 +116,19 @@ size_t hash_iterar(hash_t *hash, bool (*f)(char *, void *, void *), void *ctx)
 	return iterados;
 }
 
-void hash_destruir(hash_t *hash)
+void hash_destruir(Hash *hash)
 {
 	hash_destruir_todo(hash, NULL);
 }
 
-void hash_destruir_todo(hash_t *hash, void (*destructor)(void *))
+void hash_destruir_todo(Hash *hash, void (*destructor)(void *))
 {
 	if (!hash)
 		return;
 	for (size_t i = 0; i < hash->cap; i++) {
-		nodo_t *actual = hash->tabla[i];
+		Nodo *actual = hash->tabla[i];
 		while (actual) {
-			nodo_t *siguiente = actual->sig;
+			Nodo *siguiente = actual->sig;
 			if (destructor)
 				destructor(actual->entrada->valor);
 			nodo_destruir(actual);

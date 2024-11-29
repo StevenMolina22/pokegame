@@ -39,6 +39,9 @@ void pokedex_vaciar(Pokedex* pkx);
 size_t pokedex_len(Pokedex* pkx);
 
 
+/**
+ * Devuelve una lista con todos los pokemones de la pokedex
+ */
 Lista* pokedex_lista(Pokedex* pkx);
 
 /**
