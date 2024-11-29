@@ -9,9 +9,8 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
     poke->color = color;
     poke->puntos = puntos;
     poke->patron = patron;
-    // TODO!: Agrega posiciones random para x, y
-    poke->x = 5;
-    poke->y = 5;
+    poke->x = (size_t)rand() % (ANCHO + 1);
+    poke->y = (size_t)rand() % (ALTO + 1);
     return poke;
 }
 

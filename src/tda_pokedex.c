@@ -90,15 +90,12 @@ Lista* pokedex_lista(Pokedex* pkx) {
  * Agrega una cantidad n de pokemones a la pokedex
  */
 void pokedex_spawn(Pokedex* pkx) {
-    Poke* p1 = poke_crear("Pikachu", 15, Amarillo, "N");
-    Poke* p2 = poke_crear("Pikachu", 15, Amarillo, "N");
-    p2->x = 10;
-    p2->y = 10;
-    if (p1 == NULL) {
-        return;
-    }
+    Poke* p1 = poke_crear("Pikachu", 15, Amarillo, "I");
+    Poke* p2 = poke_crear("Pikachu", 15, Amarillo, "J");
+    Poke* p3 = poke_crear("Lapras", 15, Azul, "NRORSRER");
     pokedex_agregar(pkx, p1);
     pokedex_agregar(pkx, p2);
+    pokedex_agregar(pkx, p3);
 }
 
 /**
