@@ -94,7 +94,7 @@ bool lista_agregar_elemento(Lista *lista, size_t idx, void *data)
 	return true;
 }
 
-bool lista_agregar_al_final(Lista *lista, void *item)
+bool lista_agregar_final(Lista *lista, void *item)
 {
 	if (!lista)
 		return false;
@@ -167,7 +167,7 @@ bool remover_mitad(Lista *lista, size_t idx, void **removido)
 }
 
 // Remover principal
-bool lista_quitar_elemento(Lista *lista, size_t idx, void **removido)
+bool lista_quitar(Lista *lista, size_t idx, void **removido)
 {
 	if (!lista || idx >= lista->cantidad)
 		return false;
@@ -226,7 +226,7 @@ size_t lista_iterar_elementos(Lista *lista, bool (*f)(void *, void *),
 	return i;
 }
 
-ListaIt *lista_iterador_crear(Lista *lista)
+ListaIt *lista_it_crear(Lista *lista)
 {
 	if (!lista)
 		return NULL;
@@ -236,28 +236,28 @@ ListaIt *lista_iterador_crear(Lista *lista)
 	return iter;
 }
 
-bool lista_iterador_hay_siguiente(ListaIt *iter)
+bool lista_it_hay_siguiente(ListaIt *iter)
 {
 	if (!iter || !iter->actual)
 		return false;
 	return true;
 }
 
-void lista_iterador_avanzar(ListaIt *iter)
+void lista_it_avanzar(ListaIt *iter)
 {
 	if (!iter || !iter->actual)
 		return;
 	iter->actual = iter->actual->siguiente;
 }
 
-void *lista_iterador_obtener_elemento_actual(ListaIt *iter)
+void *lista_it_actual(ListaIt *iter)
 {
 	if (!iter || !iter->actual)
 		return NULL;
 	return iter->actual->data;
 }
 
-void lista_iterador_destruir(ListaIt *iter)
+void lista_it_destruir(ListaIt *iter)
 {
 	free(iter);
 }

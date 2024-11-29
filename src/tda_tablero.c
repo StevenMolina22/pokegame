@@ -1,4 +1,6 @@
 #include "tda_tablero.h"
+#include "lista.h"
+#include "tda_pokedex.h"
 #include "tda_tablero_priv.h"
 #include "../extra/ansi.h"
 
@@ -45,7 +47,7 @@ void tablero_vaciar(Tablero* t) {
     }
 }
 
-bool tablero_vericar_captura(Tablero* t, Poke* p) {
+bool tablero_esta_capturado(Tablero* t, Poke* p) {
     if (t == NULL) {
         return false;
     }
@@ -61,6 +63,15 @@ void tablero_mostrar(Tablero* t) {
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;
     t->matriz[y][x] = ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω";
+
+    // pokemones
+    ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
+    while (lista_it_hay_siguiente(it)) {
+        Poke* p = lista_it_actual(it);
+        t->matriz[p->y][p->x] = "*";
+        lista_it_avanzar(it);
+    }
+    lista_it_destruir(it);
 
     matriz_print(t->matriz);
 }

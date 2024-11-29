@@ -3,6 +3,7 @@
 
 #include "tipo_poke.h"
 #include "tipos.h"
+#include "lista.h"
 
 typedef struct pokedex Pokedex;
 typedef struct it_pokedex ItPokedex;
@@ -37,6 +38,9 @@ void pokedex_vaciar(Pokedex* pkx);
  */
 size_t pokedex_len(Pokedex* pkx);
 
+
+Lista* pokedex_lista(Pokedex* pkx);
+
 /**
  * Agrega una cantidad n de pokemones a la pokedex
  */
@@ -46,6 +50,7 @@ void pokedex_spawn(Pokedex* pkx);
  * Agrega un pokemon random a la pokedex
  */
 void pokedex_agregar_random(Pokedex* pkx);
+
 
 // ---- ITERADOR
 

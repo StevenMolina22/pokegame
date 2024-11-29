@@ -1,5 +1,8 @@
 
 #include "tda_juego.h"
+#include "lista.h"
+#include "tda_pokedex.h"
+#include "tda_tablero.h"
 
 struct juego {
     Tablero* tablero;
@@ -72,6 +75,22 @@ void verificar_capturas(Juego* j) {
     // TODO!: Elegir como se va encontrar y eliminar el pokemon capturado
     // NOTA: A tener en cuenta el hecho de iterar y eliminar a la vez
     //      o el hecho de iterar primero y buscar todos para luego eliminar
+    size_t i = 0;
+    Pokedex* pkx = tablero_pokedex(j->tablero);
+    Lista* l = pokedex_lista(pkx);
+    ListaIt* it = lista_it_crear(l);
+    while (lista_it_hay_siguiente(it)) {
+        Poke* p = lista_it_actual(it);
+        lista_it_avanzar(it);
+        if (tablero_esta_capturado(j->tablero, p)) {
+            actualizar_captura(j, p);
+            lista_quitar(l, i, NULL);
+            pokedex_agregar_random(pkx);
+        } else {
+            i++;
+        }
+    }
+    lista_it_destruir(it);
 }
 
 void actualizar_captura(Juego* j, Poke* p) {

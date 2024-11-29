@@ -1,5 +1,5 @@
 #include "tda_pokedex.h"
-#include "lista.h"
+#include "tipo_poke.h"
 
 struct pokedex {
     Lista* pokes;
@@ -34,18 +34,36 @@ void pokedex_carga_desde(Pokedex* pkx, char* archivo) {
  * Agrega un pokemon a la pokedex
  */
 void pokedex_agregar(Pokedex* pkx, Poke* p) {
+    if (pkx == NULL) {
+        return;
+    }
+    lista_agregar_final(pkx->pokes, p);
 }
 
 /**
  * Remueve el pokemon del indice especificado de la pokedex
  */
 void pokedex_remover(Pokedex* pkx, size_t idx) {
+    if (pkx == NULL) {
+        return;
+    }
+    // TODO!: Analizar si logica remover es necesaria, de ser asi analizar como implementar
+    // lista_
 }
 
 /**
  * Vacia la pokedex de todos sus pokemones
  */
 void pokedex_vaciar(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return;
+    }
+    lista_destruir_todo(pkx->pokes, &poke_destruir);
+    Lista* l = lista_crear();
+    if (l == NULL) {
+        return;
+    }
+    pkx->pokes = l;
 }
 
 /**
@@ -72,6 +90,15 @@ Lista* pokedex_lista(Pokedex* pkx) {
  * Agrega una cantidad n de pokemones a la pokedex
  */
 void pokedex_spawn(Pokedex* pkx) {
+    Poke* p1 = poke_crear("Pikachu", 15, Amarillo, "N");
+    Poke* p2 = poke_crear("Pikachu", 15, Amarillo, "N");
+    p2->x = 10;
+    p2->y = 10;
+    if (p1 == NULL) {
+        return;
+    }
+    pokedex_agregar(pkx, p1);
+    pokedex_agregar(pkx, p2);
 }
 
 /**

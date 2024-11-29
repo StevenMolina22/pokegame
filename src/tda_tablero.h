@@ -30,7 +30,7 @@ void tablero_vaciar(Tablero* t);
 /**
  * Verifica que el jugador haya captura el pokemon dado
  */
-bool tablero_vericar_captura(Tablero* t, Poke* p);
+bool tablero_esta_capturado(Tablero* t, Poke* p);
 
 
 

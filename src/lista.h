@@ -105,7 +105,7 @@ void lista_it_avanzar(ListaIt *);
 /**
  * Devuelve el elemento iterado
  */
-void *lista_it_obtener_actual(ListaIt *);
+void *lista_it_actual(ListaIt *);
 
 /**
  * Eso

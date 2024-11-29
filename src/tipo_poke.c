@@ -10,10 +10,10 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
     poke->puntos = puntos;
     poke->patron = patron;
     // TODO!: Agrega posiciones random para x, y
-    // poke->x = ;
-    // poke->y = ;
+    poke->x = 5;
+    poke->y = 5;
     return poke;
 }
 
-void poke_destruir(Poke* p) {
+void poke_destruir(void* p) {
 }
