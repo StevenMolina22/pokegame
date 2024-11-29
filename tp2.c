@@ -58,6 +58,7 @@ int logica(int entrada, void *datos)
 
 int logica2(int entrada, void* datos) {
     Juego* juego = datos;
+    borrar_pantalla();
     juego_correr(juego, entrada);
     return entrada == 'q' || entrada == 'Q';
 }
@@ -70,7 +71,8 @@ int main()
 	struct jugador jugador = { 0 };
 
 	// game_loop(logica, juego);
-	game_loop(logica, &jugador);
+	game_loop(logica2, &jugador);
+	juego_mostrar_resultados(juego);
 
 	mostrar_cursor();
 	return 0;

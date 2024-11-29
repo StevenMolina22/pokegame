@@ -1,6 +1,7 @@
 #include "tda_juego.h"
 #include "tda_pokedex.h"
 #include "tda_tablero.h"
+#include "tda_tablero_priv.h"
 #include <stdio.h>
 
 struct juego {
@@ -42,7 +43,7 @@ void juego_iniciar(Juego* j) {
 }
 
 void juego_correr(Juego* j, int entrada) {
-    procesar_entrada(j, entrada);
+    procesar_entrada(j, tecla_a_direccion(entrada));
     verificar_capturas(j);
     tablero_mostrar(j->tablero);
 }

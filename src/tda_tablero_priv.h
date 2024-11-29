@@ -28,8 +28,10 @@ void mover_entidad(size_t *x, size_t *y, Direccion d);
 char** matriz_crear(size_t ancho, size_t alto);
 void matriz_print(str_t m[ALTO][ANCHO]);
 
-Direccion patron_a_direccion(Patron p);
 Direccion direccion_inversa(Direccion d);
 void mover_random(Poke* p);
+// conversiones
+Direccion patron_a_direccion(Patron p);
+Direccion tecla_a_direccion(Tecla t);
 
 #endif

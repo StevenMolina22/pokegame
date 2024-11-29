@@ -24,24 +24,24 @@ void tablero_mover_pokes(Tablero* t) {
 // ---- AUXILIARES
 void tablero_mover_poke(Tablero *t, Poke *p, Patron patron) {
     switch (patron) {
-        case PokeArriba:
+        case PatronArriba:
             mover_entidad(&p->x, &p->y, patron_a_direccion(patron));
             break;
-        case PokeAbajo:
+        case PatronAbajo:
             mover_entidad(&p->x, &p->y, patron_a_direccion(patron));
             break;
-        case PokeDerecha:
+        case PatronDerecha:
             mover_entidad(&p->x, &p->y, patron_a_direccion(patron));
             break;
-        case PokeIzquierda:
+        case PatronIzquierda:
             mover_entidad(&p->x, &p->y, patron_a_direccion(patron));
             break;
-        case PokeEspejo:
+        case PatronEspejo:
             mover_entidad(&p->x, &p->y, t->jugador->ultimo_movimiento);
             break;
-        case PokeInverso:
+        case PatronInverso:
             break;
-        case PokeRandom:
+        case PatronRandom:
             break;
     }
 }
@@ -102,21 +102,38 @@ Direccion direccion_inversa(Direccion d) {
             return Izquierda;
         case Izquierda:
             return Derecha;
+        default:
+            return ERROR;
     }
 }
 
 // conversiones
 Direccion patron_a_direccion(Patron p) {
     switch (p) {
-    case PokeArriba:
+    case PatronArriba:
         return Arriba;
-    case PokeAbajo:
+    case PatronAbajo:
         return Abajo;
-    case PokeDerecha:
+    case PatronDerecha:
         return Derecha;
-    case PokeIzquierda:
+    case PatronIzquierda:
         return Izquierda;
     default:
         return ERROR;
+    }
+}
+
+Direccion tecla_a_direccion(Tecla t) {
+    switch (t) {
+        case TeclaArriba:
+            return Arriba;
+        case TeclaAbajo:
+            return Abajo;
+        case TeclaDerecha:
+            return Derecha;
+        case TeclaIzquierda:
+            return Izquierda;
+        default:
+            return ERROR;
     }
 }
