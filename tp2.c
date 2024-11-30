@@ -1,124 +1,97 @@
-#include "extra/engine.h"
-#include "extra/ansi.h"
-#include "src/tipo_jugador.h"
+#include "src/tda_menu.h"
 #include "src/tda_juego.h"
+#include "src/io_csv.h"
 
-size_t max(size_t a, size_t b)
-{
-	return a > b ? a : b;
-}
+bool mostrar_pokedex(void* ctx);
+bool juego_jugar(void* ctx);
+bool juego_jugar_semilla(void* ctx);
+bool salir(void* ctx);
+//
+void init_menu(Menu* m);
 
-size_t min(size_t a, size_t b)
-{
-	return a < b ? a : b;
-}
-
-int logica(int entrada, void *datos)
-{
-	struct jugador *jugador = datos;
-	borrar_pantalla();
-
-	if (entrada == TECLA_DERECHA)
-		jugador->x++;
-	else if (entrada == TECLA_IZQUIERDA)
-		jugador->x--;
-	else if (entrada == TECLA_ARRIBA)
-		jugador->y--;
-	else if (entrada == TECLA_ABAJO)
-		jugador->y++;
-
-	jugador->x = min(20, max(0, jugador->x));
-	jugador->y = min(10, max(0, jugador->y));
-
-	jugador->iteraciones++;
-
-	printf("Utilizar " ANSI_COLOR_CYAN ANSI_COLOR_BOLD "⬆⬇⬅➡" ANSI_COLOR_RESET " para moverse\n");
-
-	printf("Presionar " ANSI_COLOR_RED ANSI_COLOR_BOLD "Q" ANSI_COLOR_RESET " para salir\n");
-
-	printf("Iteraciones: %zu Tiempo: %zu\n", jugador->iteraciones, jugador->iteraciones / 5);
-
-	for (size_t i = 0; i < jugador->y; i++) {
-    	printf("\n");
-	}
-
-	for (size_t i = 0; i < jugador->x; i++) {
-    	printf(" ");
-	}
-
-	printf(ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω" ANSI_COLOR_RESET);
-
-	printf("\n");
-	esconder_cursor();
-
-	return entrada == 'q' || entrada == 'Q'; // retorna 1 para salir o 0 para seguir
-}
-
-int logica2(int entrada, void* datos) {
+int logica(int entrada, void* datos) {
     Juego* juego = datos;
     borrar_pantalla();
-    // entrada = TECLA_DERECHA;
     juego_correr(juego, entrada);
     esconder_cursor();
     return entrada == 'q' || entrada == 'Q';
 }
 
-int logica3(int entrada, void *datos)
+typedef struct accion_ctx {
+    CSV* archivo;
+    Juego* juego;
+} AccionCtx;
+
+int main(int argc, char* argv[])
 {
-    Juego* juego = datos;
-	Jugador *jugador = juego_jugador(juego);
-	borrar_pantalla();
+    if (argc != 2) {
+        printf("Uso: %s <archivo.csv>\n", argv[0]);
+        return ERROR;
+    }
 
-	if (entrada == TECLA_DERECHA)
-		jugador->x++;
-	else if (entrada == TECLA_IZQUIERDA)
-		jugador->x--;
-	else if (entrada == TECLA_ARRIBA)
-		jugador->y--;
-	else if (entrada == TECLA_ABAJO)
-		jugador->y++;
+    CSV* archivo = abrir_archivo_csv(argv[1], ',');
+    if (archivo == NULL) {
+        printf("Archivo inexistente\n");
+        return ERROR;
+    }
 
-	jugador->x = min(20, max(0, jugador->x));
-	jugador->y = min(10, max(0, jugador->y));
+    Menu* m = menu_crear();
+    init_menu(m);
+    menu_mostrar(m);
 
-	jugador->iteraciones++;
+    Juego* juego = juego_crear();
+    AccionCtx ctx = {.juego = juego, .archivo = archivo};
 
-	printf("Utilizar " ANSI_COLOR_CYAN ANSI_COLOR_BOLD "⬆⬇⬅➡" ANSI_COLOR_RESET " para moverse\n");
+    char id_opcion = (char)getchar();
+    // char id_opcion = 'J';
+    menu_accion(m, id_opcion, &ctx);
 
-	printf("Presionar " ANSI_COLOR_RED ANSI_COLOR_BOLD "Q" ANSI_COLOR_RESET " para salir\n");
-
-	printf("Iteraciones: %zu Tiempo: %zu\n", jugador->iteraciones, jugador->iteraciones / 5);
-
-	for (size_t i = 0; i < jugador->y; i++) {
-    	printf("\n");
-	}
-
-	for (size_t i = 0; i < jugador->x; i++) {
-    	printf(" ");
-	}
-
-	printf(ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω" ANSI_COLOR_RESET);
-
-	printf("\n");
-	esconder_cursor();
-
-	return entrada == 'q' || entrada == 'Q'; // retorna 1 para salir o 0 para seguir
+	return 0;
 }
 
-int main()
-{
-    Juego* juego = juego_crear();
+//o
+void init_menu(Menu* m) {
+    menu_agregar(m, 'P', "Pokedex", &mostrar_pokedex);
+    menu_agregar(m, 'J', "Jugar", &juego_jugar);
+    menu_agregar(m, 'S', "Semilla", &juego_jugar_semilla);
+    menu_agregar(m, 'Q', "Quit", &salir);
+}
+
+bool mostrar_pokedex(void* ctx) {
+    printf("Pokedex \n");
+
+    return false;
+}
+
+bool juego_jugar(void* ctx) {
+    printf("Adentro de jugar\n");
+    AccionCtx* _ctx = ctx;
+    Juego* juego = _ctx->juego;
+
     juego_iniciar(juego);
+    game_loop(logica, juego);
 
-	// struct jugador jugador = { 0 };
+    juego_mostrar_resultados(juego);
+    mostrar_cursor();
+	return true;
+}
 
-	// game_loop(logica, juego);
-	game_loop(logica2, juego);
-	// game_loop(logica3, juego);
-	juego_mostrar_resultados(juego);
+bool juego_jugar_semilla(void* ctx) {
+    printf("Adentro de jugar semilla\n");
+    AccionCtx* _ctx = ctx;
+    Juego* juego = _ctx->juego;
 
-	mostrar_cursor();
-	return 0;
+    juego_iniciar(juego);
+    game_loop(logica, juego);
+
+    juego_mostrar_resultados(juego);
+    mostrar_cursor();
+    return false;
+}
+
+bool salir(void* ctx) {
+    printf("Salir");
+    return false;
 }
 
 // main
