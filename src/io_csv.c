@@ -5,41 +5,40 @@
 
 #define MAX_LINEAS 1024
 
-struct archivo_csv {
+struct csv {
 	char sep;
 	FILE *file;
 };
 
-struct archivo_csv *abrir_archivo_csv(const char *nombre_archivo,
-				      char separador)
+CSV *csv_abrir(const char *ruta, char sep)
 {
-	FILE *file = fopen(nombre_archivo, "r");
+	FILE *file = fopen(ruta, "r");
 	if (!file)
 		return NULL;
 
-	struct archivo_csv *csv =
-		(struct archivo_csv *)malloc(sizeof(struct archivo_csv));
+	struct csv *csv =
+		(struct csv *)malloc(sizeof(struct csv));
 	if (!csv)
 		return NULL;
 
 	csv->file = file;
-	csv->sep = separador;
+	csv->sep = sep;
 	return csv;
 }
 
-size_t leer_linea_csv(struct archivo_csv *archivo, size_t columnas,
+size_t csv_leer_linea(CSV *csv, size_t columnas,
 		      bool (*funciones[])(const char *, void *), void *ctx[])
 {
-	if (archivo == NULL || archivo->file == NULL) {
+	if (csv == NULL || csv->file == NULL) {
 		return 0;
 	}
 
 	char buffer[MAX_LINEAS];
-	char *result = fgets(buffer, sizeof(buffer), archivo->file);
+	char *result = fgets(buffer, sizeof(buffer), csv->file);
 	if (!result)
 		return 0;
 
-	Vec *cols = dividir_string(buffer, archivo->sep);
+	Vec *cols = dividir_string(buffer, csv->sep);
 
 	size_t i = 0;
 	while (cols->len <= columnas && i < columnas) {
@@ -59,8 +58,15 @@ size_t leer_linea_csv(struct archivo_csv *archivo, size_t columnas,
 	return i;
 }
 
-void cerrar_archivo_csv(struct archivo_csv *archivo)
+FILE* csv_archivo(CSV* csv) {
+    if (csv == NULL) {
+        return NULL;
+    }
+    return csv->file;
+}
+
+void csv_cerrar(CSV *csv)
 {
-	fclose(archivo->file);
-	free(archivo);
+	fclose(csv->file);
+	free(csv);
 }

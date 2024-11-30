@@ -1,5 +1,6 @@
 
 #include "pa2m.h"
+#include "src/io_csv.h"
 #include "src/tda_pokedex.h"  // Incluye las definiciones de la Pokedex y funciones asociadas
 
 void probar_creacion_pokedex() {
@@ -56,7 +57,10 @@ void probar_cargar_desde_archivo() {
 
     Pokedex *pokedex = pokedex_crear();
 
-    pokedex_carga_desde(pokedex, "pokedex.txt");
+    CSV* csv = csv_abrir("datos/pokedex.csv", ',');
+    pokedex_cargar_desde(pokedex, csv);
+
+    csv_cerrar(csv);
     pa2m_afirmar(pokedex_len(pokedex) > 0, "Se cargaron pokemones desde el archivo");
 
     pokedex_destuir(pokedex);

@@ -63,7 +63,7 @@ size_t lista_len(Lista *lista)
 	return lista->cantidad;
 }
 
-bool lista_agregar_elemento(Lista *lista, size_t idx, void *data)
+bool lista_insertar(Lista *lista, size_t idx, void *data)
 {
 	// Invalido
 	if (!lista || idx > lista->cantidad)
@@ -94,7 +94,7 @@ bool lista_agregar_elemento(Lista *lista, size_t idx, void *data)
 	return true;
 }
 
-bool lista_agregar_final(Lista *lista, void *item)
+bool lista_agregar(Lista *lista, void *item)
 {
 	if (!lista)
 		return false;
@@ -167,7 +167,7 @@ bool remover_mitad(Lista *lista, size_t idx, void **removido)
 }
 
 // Remover principal
-bool lista_quitar(Lista *lista, size_t idx, void **removido)
+bool lista_remover(Lista *lista, size_t idx, void **removido)
 {
 	if (!lista || idx >= lista->cantidad)
 		return false;
@@ -181,21 +181,21 @@ bool lista_quitar(Lista *lista, size_t idx, void **removido)
 	}
 }
 
-void *lista_buscar_elemento(Lista *lista, void *target,
+void *lista_buscar(Lista *lista, void *buscado,
 			    int (*cmp)(void *, void *))
 {
 	if (!lista || !cmp)
 		return NULL;
 	Node *nodo = lista->frente;
 	while (nodo != NULL) {
-		if (cmp(target, nodo->data) == 0)
+		if (cmp(buscado, nodo->data) == 0)
 			return nodo->data;
 		nodo = nodo->siguiente;
 	}
 	return NULL;
 }
 
-bool lista_obtener_elemento(Lista *lista, size_t idx, void **encontrado)
+bool lista_obtener(Lista *lista, size_t idx, void **encontrado)
 {
 	if (!lista || idx >= lista->cantidad)
 		return false;
@@ -210,7 +210,7 @@ bool lista_obtener_elemento(Lista *lista, size_t idx, void **encontrado)
 	return true;
 }
 
-size_t lista_iterar_elementos(Lista *lista, bool (*f)(void *, void *),
+size_t lista_iterar(Lista *lista, bool (*f)(void *, void *),
 			      void *ctx)
 {
 	if (!lista)

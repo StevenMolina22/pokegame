@@ -87,7 +87,7 @@ void verificar_capturas(Juego* j) {
         lista_it_avanzar(it);
         if (tablero_esta_capturado(j->tablero, p)) {
             actualizar_captura(j, p);
-            lista_quitar(l, i, NULL);
+            lista_remover(l, i, NULL);
             pokedex_agregar_random(pkx);
         } else {
             i++;

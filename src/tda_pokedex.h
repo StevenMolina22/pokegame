@@ -4,20 +4,25 @@
 #include "tipo_poke.h"
 #include "tipos.h"
 #include "lista.h"
+#include "io_csv.h"
 
 typedef struct pokedex Pokedex;
 typedef struct it_pokedex ItPokedex;
 
+// ---- INIT & DEINIT
 /**
  * Crea una nueva pokedex
  */
 Pokedex* pokedex_crear();
 
 /**
- * Agrega los pokemones desde un archivo a una pokedex ya creada
+ * Destruye la pokedex y todas las estructuras asociadas a esta
  */
-void pokedex_carga_desde(Pokedex* pkx, char* archivo);
+void pokedex_destuir(Pokedex*);
 
+
+
+// ---- MAIN
 /**
  * Agrega un pokemon a la pokedex
  */
@@ -34,17 +39,6 @@ void pokedex_remover(Pokedex* pkx, size_t idx);
 void pokedex_vaciar(Pokedex* pkx);
 
 /**
- * Devuelve la cantidad de pokemones en la pokedex
- */
-size_t pokedex_len(Pokedex* pkx);
-
-
-/**
- * Devuelve una lista con todos los pokemones de la pokedex
- */
-Lista* pokedex_lista(Pokedex* pkx);
-
-/**
  * Agrega una cantidad n de pokemones a la pokedex
  */
 void pokedex_spawn(Pokedex* pkx);
@@ -55,11 +49,29 @@ void pokedex_spawn(Pokedex* pkx);
 void pokedex_agregar_random(Pokedex* pkx);
 
 
-// ---- ITERADOR
+
+// ---- GETTERS
+/**
+ * Devuelve la cantidad de pokemones en la pokedex
+ */
+size_t pokedex_len(Pokedex* pkx);
 
 /**
- * Destruye la pokedex y todas las estructuras asociadas a esta
+ * Devuelve una lista con todos los pokemones de la pokedex
  */
-void pokedex_destuir(Pokedex*);
+Lista* pokedex_lista(Pokedex* pkx);
+
+
+
+// ---- IO & CSV
+/**
+ *
+ */
+void pokedex_print(Pokedex* pkx, FILE* archivo);
+
+/**
+ * Agrega los pokemones desde un archivo a una pokedex ya creada
+ */
+bool pokedex_cargar_desde(Pokedex* pkx, CSV* csv);
 
 #endif

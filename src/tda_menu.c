@@ -53,28 +53,29 @@ bool menu_agregar(Menu* m, char id, char* opcion, Fn f_accion) {
 }
 
 bool menu_accion(Menu* m, char c, void* ctx) {
-    printf("Adentro de accion\n");
+    // TODO!: Elimininar prints
+    // printf("Adentro de accion\n");
     if (c == 'q' || c == 'Q') {
         return false;
     }
     char s[2];
     s[0] = c;
     s[1] = '\0';
-    printf("Antes de hash buscar \n");
+    // printf("Antes de hash buscar \n");
     FuncAccion* fn = hash_buscar(m->acciones, s);
-    printf("Despues de hash buscar \n");
+    // printf("Despues de hash buscar \n");
     // NOTA ERROR: fn->accion es una funcion incorrecta
     if (fn == NULL || fn->accion == NULL) {
-        printf("No fn o fn->accion\n");
+        // printf("No fn o fn->accion\n");
         return false;
     }
-    printf("Antes fn->accion\n");
+    // printf("Antes fn->accion\n");
     fn->accion(ctx);
     return true;
 }
 
 void menu_mostrar(Menu* m) {
-    printf("Optiones: \n");
+    printf("Opciones: \n");
     hash_iterar(m->opciones, &imprimir_entrada, NULL);
 }
 

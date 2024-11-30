@@ -32,12 +32,12 @@ size_t lista_len(Lista *);
  * Devuelve true si pudo, false en caso de error.
  *
  */
-bool lista_agregar(Lista *list, size_t posicion, void *cosa);
+bool lista_insertar(Lista *l, size_t posicion, void *cosa);
 
 /**
   * Inserta un elemento al final de la lista.
   */
-bool lista_agregar_final(Lista *list, void *cosa);
+bool lista_agregar(Lista *l, void *cosa);
 
 /**
  * Elimina un elemento de la posicion dada.
@@ -46,8 +46,8 @@ bool lista_agregar_final(Lista *list, void *cosa);
  *
  * En caso de error devuelve false, caso contrario true.
  */
-bool lista_quitar(Lista *list, size_t posicion,
-			   void **elemento_quitado);
+bool lista_remover(Lista *l, size_t idx,
+			   void **removido);
 
 /**
  * Busca el elemento buscado en la lista y lo devuelve si lo encuentra.
@@ -56,7 +56,7 @@ bool lista_quitar(Lista *list, size_t posicion,
  *
  * En caso de no encontrarlo devuelve NULL.
  */
-void *lista_buscar(Lista *list, void *buscado,
+void *lista_buscar(Lista *l, void *buscado,
 			    int (*comparador)(void *, void *));
 
 /**
@@ -68,7 +68,7 @@ void *lista_buscar(Lista *list, void *buscado,
  *
  * Devuelve true si pudo obtener el elemento o false en caso de error.
  */
-bool lista_obtener(Lista *list, size_t posicion,
+bool lista_obtener(Lista *l, size_t posicion,
 			    void **elemento_encontrado);
 
 /**
@@ -80,7 +80,7 @@ bool lista_obtener(Lista *list, size_t posicion,
  *
  * Devuelve la cantidad de elementos iterados.
  * */
-size_t lista_iterar(Lista *list, bool (*f)(void *, void *),
+size_t lista_iterar(Lista *l, bool (*f)(void *, void *),
 			      void *ctx);
 
 /**
@@ -88,7 +88,7 @@ size_t lista_iterar(Lista *list, bool (*f)(void *, void *),
  *
  * En caso de error devuelve NULL
  */
-ListaIt *lista_it_crear(Lista *list);
+ListaIt *lista_it_crear(Lista *l);
 
 /**
  * Devuelve true si hay siguiente.

@@ -13,6 +13,7 @@
 
 #define ERROR -1
 
+// ---- Movimiento
 typedef enum tecla {
     TeclaArriba = TECLA_ARRIBA,
     TeclaAbajo = TECLA_ABAJO,
@@ -27,6 +28,7 @@ typedef enum direccion {
     Izquierda,
 } Direccion;
 
+// ---- Pokemones
 typedef enum patron {
     PatronArriba      = 'N',
     PatronAbajo       = 'S',
@@ -36,5 +38,18 @@ typedef enum patron {
     PatronInverso     = 'I',
     PatronRandom      = 'R',
 } Patron;
+
+typedef enum color {
+    Rojo,
+    Azul,
+    Rosa,
+    Amarillo,
+    Magenta,
+    Verde,
+} Color;
+
+
+// Conversores
+Color color_desde(char* s);
 
 #endif

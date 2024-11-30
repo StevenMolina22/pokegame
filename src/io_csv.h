@@ -1,10 +1,11 @@
 #ifndef IO_CSV_H
 #define IO_CSV_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-typedef struct archivo_csv CSV;
+typedef struct csv CSV;
 typedef bool (*FnParse)(const char *, void *);
 
 /**
@@ -13,7 +14,7 @@ typedef bool (*FnParse)(const char *, void *);
  *
  * Devuelve un puntero a un archivo_csv en caso de éxito, o NULL en caso de error.
  */
-CSV *abrir_archivo_csv(const char *nombre_archivo,
+CSV *csv_abrir(const char *nombre_archivo,
 				      char separador);
 
 /**
@@ -29,11 +30,13 @@ CSV *abrir_archivo_csv(const char *nombre_archivo,
  *
  * Devuelve la cantidad de columnas leídas correctamente.
  */
-size_t leer_linea_csv(CSV *archivo, size_t columnas, FnParse funcs[], void *ctx[]);
+size_t csv_leer_linea(CSV *archivo, size_t columnas, FnParse funcs[], void *ctx[]);
 
 /**
  * Cierra un archivo CSV previamente abierto.
  */
-void cerrar_archivo_csv(CSV *archivo);
+void csv_cerrar(CSV *archivo);
+
+FILE* csv_archivo(CSV* csv);
 
 #endif // CSV_H

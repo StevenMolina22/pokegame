@@ -1,6 +1,7 @@
 #include "src/tda_menu.h"
 #include "src/tda_juego.h"
 #include "src/io_csv.h"
+#include "src/tda_pokedex.h"
 
 bool mostrar_pokedex(void* ctx);
 bool juego_jugar(void* ctx);
@@ -18,7 +19,7 @@ int logica(int entrada, void* datos) {
 }
 
 typedef struct accion_ctx {
-    CSV* archivo;
+    CSV* csv;
     Juego* juego;
 } AccionCtx;
 
@@ -29,8 +30,8 @@ int main(int argc, char* argv[])
         return ERROR;
     }
 
-    CSV* archivo = abrir_archivo_csv(argv[1], ',');
-    if (archivo == NULL) {
+    CSV* csv = csv_abrir(argv[1], ',');
+    if (csv == NULL) {
         printf("Archivo inexistente\n");
         return ERROR;
     }
@@ -40,12 +41,16 @@ int main(int argc, char* argv[])
     menu_mostrar(m);
 
     Juego* juego = juego_crear();
-    AccionCtx ctx = {.juego = juego, .archivo = archivo};
+    AccionCtx ctx = {.juego = juego, .csv = csv};
 
     char id_opcion = (char)getchar();
+
     // char id_opcion = 'J';
     menu_accion(m, id_opcion, &ctx);
 
+    csv_cerrar(csv);
+    juego_destruir(juego);
+    menu_destruir(m);
 	return 0;
 }
 
@@ -58,8 +63,14 @@ void init_menu(Menu* m) {
 }
 
 bool mostrar_pokedex(void* ctx) {
-    printf("Pokedex \n");
+    AccionCtx* _ctx = ctx;
+    CSV* csv = _ctx->csv;
 
+    Pokedex* pkx = pokedex_crear();
+    pokedex_cargar_desde(pkx, csv);
+
+    pokedex_print(pkx, stdout);
+    pokedex_destuir(pkx);
     return false;
 }
 

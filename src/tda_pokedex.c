@@ -1,18 +1,11 @@
 #include "tda_pokedex.h"
+#include "lista.h"
 #include "tipo_poke.h"
 
 struct pokedex {
-    Lista* pokes;
+    Lista* lista;
 };
 
-// struct it_pokedex {
-// };
-
-int cmp(void *, void *); // TODO!: Implementar funcion
-
-/**
- * Crea una nueva pokedex
- */
 Pokedex* pokedex_crear() {
     Pokedex* pkx = malloc(sizeof(Pokedex));
     Lista* l = lista_crear();
@@ -20,75 +13,46 @@ Pokedex* pokedex_crear() {
         free(pkx);
         return NULL;
     }
-    pkx->pokes = l;
+    pkx->lista = l;
     return pkx;
 }
 
-/**
- * Agrega los pokemones desde un archivo a una pokedex ya creada
- */
-void pokedex_carga_desde(Pokedex* pkx, char* archivo) {
-}
+// TODO!: Es pokedex remover necesario?
+void pokedex_remover(Pokedex* pkx, size_t idx) {}
 
-/**
- * Agrega un pokemon a la pokedex
- */
 void pokedex_agregar(Pokedex* pkx, Poke* p) {
     if (pkx == NULL) {
         return;
     }
-    lista_agregar_final(pkx->pokes, p);
+    lista_agregar(pkx->lista, p);
 }
 
-/**
- * Remueve el pokemon del indice especificado de la pokedex
- */
-void pokedex_remover(Pokedex* pkx, size_t idx) {
-    if (pkx == NULL) {
-        return;
-    }
-    // TODO!: Analizar si logica remover es necesaria, de ser asi analizar como implementar
-    // lista_
-}
-
-/**
- * Vacia la pokedex de todos sus pokemones
- */
 void pokedex_vaciar(Pokedex* pkx) {
     if (pkx == NULL) {
         return;
     }
-    lista_destruir_todo(pkx->pokes, &poke_destruir);
+    lista_destruir_todo(pkx->lista, &poke_destruir);
     Lista* l = lista_crear();
     if (l == NULL) {
         return;
     }
-    pkx->pokes = l;
+    pkx->lista = l;
 }
 
-/**
- * Devuelve la cantidad de pokemones en la pokedex
- */
 size_t pokedex_len(Pokedex* pkx) {
     if (pkx == NULL) {
         return 0;
     }
-    return lista_len(pkx->pokes);
+    return lista_len(pkx->lista);
 }
 
-/**
- * Devuelve una lista de todos los pokemones
- */
 Lista* pokedex_lista(Pokedex* pkx) {
     if (pkx == NULL) {
         return NULL;
     }
-    return pkx->pokes;
+    return pkx->lista;
 }
 
-/**
- * Agrega una cantidad n de pokemones a la pokedex
- */
 void pokedex_spawn(Pokedex* pkx) {
     Poke* p1 = poke_crear("Pikachu", 15, Amarillo, "I");
     Poke* p2 = poke_crear("Pikachu", 15, Amarillo, "J");
@@ -98,14 +62,35 @@ void pokedex_spawn(Pokedex* pkx) {
     pokedex_agregar(pkx, p3);
 }
 
-/**
- * Agrega un pokemon random a la pokedex
- */
 void pokedex_agregar_random(Pokedex* pkx) {
 }
 
-/**
- * Destruye la pokedex y todas las estructuras asociadas a esta
- */
 void pokedex_destuir(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return;
+    }
+    lista_destruir_todo(pkx->lista, &poke_destruir);
+}
+
+// ---- IO & CSV
+void pokedex_print(Pokedex* pkx, FILE* archivo) {
+    ListaIt* it = lista_it_crear(pkx->lista);
+    while (lista_it_hay_siguiente(it)) {
+        Poke* p = lista_it_actual(it);
+        poke_print(p, archivo);
+        lista_it_avanzar(it);
+    }
+    fprintf(archivo, "\n");
+    lista_it_destruir(it);
+}
+
+bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
+	Poke *pokemon;
+	while ((pokemon = poke_leer(csv)) != NULL) {
+		if (!lista_agregar(pkx->lista, pokemon)) {
+			poke_destruir(pokemon); // Libera si no se puede agregar
+			return false;
+		}
+	}
+	return true;
 }
