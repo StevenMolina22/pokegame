@@ -8,40 +8,45 @@ typedef struct juego Juego;
 #include "tda_tablero_priv.h"
 #include <stdio.h>
 
-// TODO! eliminar esta funcion
-//
-Jugador* juego_jugador(Juego* j);
+// ---- INIT & DEINIT
 
 /**
  * Crea la estructura para el juego
  */
 Juego* juego_crear();
-
-/**
- * Inicia las condiciones necesarias para el juego
- */
-void juego_iniciar(Juego* j, CSV* csv);
-
-/**
- * Realiza las acciones y los movimientos del juego
- */
-void juego_correr(Juego* j, int entrada);
-
-/**
- * Termina el juego
- */
-void juego_terminar(Juego* j);
-
-/**
- * Muestra las estadisticas que tuvo el jugador
- */
-void juego_mostrar_resultados(Juego* j);
-
 /**
  * Destruye el juego y todas las estructuras relacionadas con este
  */
 void juego_destruir(Juego* j);
 
+
+
+// ---- PRINCIPALES
+/**
+ * Inicia las condiciones necesarias para el juego
+ */
+void juego_iniciar(Juego* j, CSV* csv);
+/**
+ * Realiza las acciones y los movimientos del juego
+ */
+void juego_correr(Juego* j, int entrada);
+/**
+ * Termina el juego
+ */
+void juego_terminar(Juego* j);
+/**
+ * Muestra las estadisticas que tuvo el jugador
+ */
+void juego_mostrar_resultados(Juego* j);
+
+
 // ---- GETTERS
+/**
+ * Devuelve el tiempo en el que se empezo el juego
+ */
 time_t juego_tiempo_inicio(Juego* j);
+/**
+ *
+ */
+
 #endif

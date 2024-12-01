@@ -1,10 +1,10 @@
 #include "tda_menu.h"
-#include "hash.h"
+#include "hash/hash.h"
 
 bool imprimir_entrada(char* clave, void* valor, void* ctx) {
     char* descripcion = valor;
 
-    printf("\t%s. %s\n", clave, descripcion);
+    printf("\t[%s]. %s\n", clave, descripcion);
     return true;
 }
 

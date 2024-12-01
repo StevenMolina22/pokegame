@@ -1,6 +1,5 @@
-
 #include "pa2m.h"
-#include "src/io_csv.h"
+#include "src/io/io_csv.h"
 #include "src/tda_pokedex.h"  // Incluye las definiciones de la Pokedex y funciones asociadas
 
 void probar_creacion_pokedex() {
@@ -47,7 +46,7 @@ void probar_cargar_desde_archivo() {
     pokedex_destruir(pokedex);
 }
 
-void probar_spawn_y_random() {
+void prueba1() {
     pa2m_nuevo_grupo("Pruebas de generación de pokemones");
 
     Pokedex *pokedex = pokedex_crear();

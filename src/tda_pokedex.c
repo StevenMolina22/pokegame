@@ -1,6 +1,6 @@
 #include "tda_pokedex.h"
-#include "abb.h"
-#include "lista.h"
+#include "abb/abb.h"
+#include "lista/lista.h"
 #include "tipo_poke.h"
 #include "tipos.h"
 

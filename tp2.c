@@ -1,7 +1,7 @@
 #include "extra/engine.h"
 #include "src/tda_menu.h"
 #include "src/tda_juego.h"
-#include "src/io_csv.h"
+#include "src/io/io_csv.h"
 #include "src/tda_pokedex.h"
 
 #define TIEMPO_MAX 60 // 1 minuto max

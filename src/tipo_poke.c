@@ -1,13 +1,13 @@
 #include "tipo_poke.h"
-#include "io_csv.h"
-#include "io_utils.h"
+#include "io/io_csv.h"
+#include "io/io_utils.h"
 #include "tipos.h"
 
 #define N_COLS 4
 
 // INIT & DEINIT
 Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
-    Poke* poke = malloc(sizeof(Poke));
+    Poke* poke = calloc(1, sizeof(Poke));
     if (poke == NULL) {
         return NULL;
     }
@@ -99,9 +99,6 @@ Poke *poke_leer(CSV *csv)
 	void* punteros[N_COLS] = { &nombre, &puntos, &color, &patron };
 
 	if (csv_leer_linea(csv, N_COLS, funcs, punteros) != N_COLS) {
-		// free(nombre); // Libera en caso de fallo
-		// free(color);
-		// free(patron);
 		return NULL;
 	}
 

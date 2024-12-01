@@ -60,30 +60,55 @@ bool tablero_esta_capturado(Tablero* t, Poke* p) {
 }
 
 // IO
+
+
 void tablero_mostrar(Tablero* t) {
     if (t == NULL) {
         return;
     }
+
+    // Limpia el tablero
     tablero_vaciar(t);
+
+    // Posición del jugador
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;
-    strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω");
+    strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω"); // Jugador representado como "Ω"
 
-    printf("Puntos: %zu\n", t->jugador->puntos);
-    printf("Multiplicador: %zu\n", t->jugador->multiplicador);
-    printf("Combo actual: \n");
+    // Encabezado con estadísticas
+    printf("%s╔══════════════════════════════════════════════════════════╗\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s║   %sEstadísticas: %-50s║\n",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+           ANSI_COLOR_GREEN,
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s║   %sPuntos: %-47zu%s║\n",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+           ANSI_COLOR_GREEN, t->jugador->puntos,
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s║   %sMultiplicador: %-40zu%s║\n",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+           ANSI_COLOR_YELLOW, t->jugador->multiplicador,
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s║   %sCombo actual: %-41s%s║\n",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+           ANSI_COLOR_CYAN, "Activa tus combos!",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s╚══════════════════════════════════════════════════════════╝\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
 
-    // pokemones
+    // Actualiza la posición de los pokemones en el tablero
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
-        poke_inicial_color(p, t->matriz[p->y][p->x]);
+        poke_inicial_color(p, t->matriz[p->y][p->x]); // Asigna colores y representaciones únicas
         lista_it_avanzar(it);
     }
     lista_it_destruir(it);
 
+    // Imprime la matriz del tablero
     matriz_print(t->matriz);
 }
+
+
 
 // GETTERS
 Jugador* tablero_jugador(Tablero* t) {
@@ -100,25 +125,46 @@ Pokedex* tablero_pokedex(Tablero* t) {
     return t->pokes;
 }
 
+size_t tablero_ancho(Tablero* t) {
+    if (t == NULL) {
+        return 0;
+    }
+    return t->ancho;
+}
 
-// ---- FUNCIONES AUXILIARES
+size_t tablero_alto(Tablero* t) {
+    if (t == NULL) {
+        return 0;
+    }
+    return t->alto;
+}
+
+
 void matriz_print(str_t m[ALTO][ANCHO]) {
-    // cabezera
-    for (size_t j = 0; j < ANCHO + 2; j++) {
-        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
+    // Línea superior
+    printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "+");
+    for (size_t j = 0; j < ANCHO; j++) {
+        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "--");
     }
-    printf("\n");
+    printf("%s+\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+
     for (size_t i = 0; i < ALTO; i++) {
-        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
+        // Separador izquierdo
+        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "|");
+
+        // Imprimir celdas de la fila
         for (size_t j = 0; j < ANCHO; j++) {
-            printf("%s", m[i][j]);
+            printf("%s %s ", ANSI_COLOR_RESET, m[i][j]);
         }
-        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
-        printf("\n");
+
+        // Separador derecho
+        printf("%s|\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     }
-    // pie
-    for (size_t j = 0; j < ANCHO + 2; j++) {
-        printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
+
+    // Línea inferior
+    printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "+");
+    for (size_t j = 0; j < ANCHO; j++) {
+        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "--");
     }
-    printf("\n");
+    printf("%s+\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
 }
