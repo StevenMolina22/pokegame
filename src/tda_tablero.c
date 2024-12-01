@@ -10,6 +10,7 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
     if (t == NULL) {
         return NULL;
     }
+
     // TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
     for (size_t i = 0; i < ALTO; i++) {
         for (size_t j = 0; j < ANCHO; j++) {
@@ -18,6 +19,7 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
             // t->matriz[i][j] = " ";
         }
     }
+
     t->jugador = jugador;
     t->pokes = pkx;
     t->ancho = ancho;
@@ -94,6 +96,7 @@ void tablero_mostrar(Tablero* t) {
            ANSI_COLOR_CYAN, "Activa tus combos!",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     printf("%s╚══════════════════════════════════════════════════════════╝\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    pokedex_print_nombres(t->jugador->combo_actual, stdout);
 
     // Actualiza la posición de los pokemones en el tablero
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));

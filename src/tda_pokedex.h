@@ -62,6 +62,10 @@ Lista* pokedex_lista(Pokedex* pkx);
  */
 void pokedex_print(Pokedex* pkx, FILE* archivo);
 /**
+ *
+ */
+void pokedex_print_nombres(Pokedex* pkx, FILE* archivo);
+/**
  * Agrega los pokemones desde un archivo a una pokedex ya creada
  */
 bool pokedex_cargar_desde(Pokedex* pkx, CSV* csv);

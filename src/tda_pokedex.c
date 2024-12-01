@@ -131,6 +131,13 @@ void pokedex_print(Pokedex* pkx, FILE* archivo) {
     abb_destruir(abb);
 }
 
+void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
+    ABB* abb = abb_crear(&_cmp);
+    lista_iterar(pkx->lista, &agregar_a_abb, abb);
+    abb_iterar_inorden(abb, &_poke_print_nombre, archivo);
+    abb_destruir(abb);
+}
+
 bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
 	Poke *p;
 	while ((p = poke_leer(csv)) != NULL) {
@@ -140,13 +147,6 @@ bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
 		}
 	}
 	return true;
-}
-
-void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
-    ABB* abb = abb_crear(&_cmp);
-    lista_iterar(pkx->lista, &agregar_a_abb, abb);
-    abb_iterar_inorden(abb, &_poke_print_nombre, archivo);
-    abb_destruir(abb);
 }
 
 
