@@ -1,6 +1,7 @@
 #include "tda_juego.h"
 #include "tda_pokedex.h"
 #include "tda_tablero.h"
+#include "tipo_poke.h"
 
 struct juego {
     Tablero* tablero;
@@ -33,6 +34,9 @@ Juego* juego_crear() {
     }
 
     juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx);
+    if (juego->tablero == NULL) {
+        return NULL;
+    }
     juego->tiempo_inicio = time(NULL);
     return juego;
 }

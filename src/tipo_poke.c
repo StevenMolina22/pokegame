@@ -11,16 +11,17 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
     if (poke == NULL) {
         return NULL;
     }
-    poke->nombre = nombre;
-    poke->patron = patron;
-    // poke->nombre = my_strdup(nombre);
-    // poke->patron = my_strdup(patron);
-    // if (!poke->nombre || !poke->patron) { // Verifica duplicación exitosa
-    //     free(poke->nombre);
-    //     free(poke->patron);
-    //     free(poke);
-    //     return NULL;
-    // }
+    poke->nombre = my_strdup(nombre);
+    if (poke->nombre == NULL) {
+        free(poke);
+        return NULL;
+    }
+    poke->patron = my_strdup(patron);
+    if (poke->patron == NULL) {
+        free(poke->nombre);
+        free(poke);
+        return NULL;
+    }
     poke->color = color;
     poke->puntos = puntos;
     poke->x = (size_t)rand() % (ANCHO);
@@ -105,6 +106,8 @@ Poke *poke_leer(CSV *csv)
 	}
 
 	Poke* pokemon = poke_crear(nombre, (size_t)puntos, color_desde(color), patron);
+	free(nombre);
+	free(patron);
 	free(color);
 	return pokemon;
 }
