@@ -9,6 +9,7 @@
 typedef struct pokedex Pokedex;
 typedef struct it_pokedex ItPokedex;
 
+
 // ---- INIT & DEINIT
 /**
  * Crea una nueva pokedex
@@ -18,7 +19,7 @@ Pokedex* pokedex_crear();
 /**
  * Destruye la pokedex y todas las estructuras asociadas a esta
  */
-void pokedex_destuir(Pokedex*);
+void pokedex_destruir(Pokedex*);
 
 
 
@@ -37,11 +38,6 @@ void pokedex_remover(Pokedex* pkx, size_t idx);
  * Vacia la pokedex de todos sus pokemones
  */
 void pokedex_vaciar(Pokedex* pkx);
-
-/**
- * Agrega una cantidad n de pokemones a la pokedex
- */
-void pokedex_spawn(Pokedex* pkx);
 
 /**
  * Agrega un pokemon random a la pokedex

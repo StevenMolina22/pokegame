@@ -69,7 +69,7 @@ void *lista_buscar(Lista *l, void *buscado,
  * Devuelve true si pudo obtener el elemento o false en caso de error.
  */
 bool lista_obtener(Lista *l, size_t posicion,
-			    void **elemento_encontrado);
+			    void **encontrado);
 
 /**
  * Recorre la lista aplicando la funcion f a cada elemento en orden.

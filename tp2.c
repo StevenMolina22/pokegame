@@ -1,14 +1,19 @@
+#include "extra/engine.h"
 #include "src/tda_menu.h"
 #include "src/tda_juego.h"
 #include "src/io_csv.h"
 #include "src/tda_pokedex.h"
 
+typedef struct accion_ctx {
+    CSV* csv;
+    Juego* juego;
+} AccionCtx;
+
+void init_menu(Menu* m);
 bool mostrar_pokedex(void* ctx);
 bool juego_jugar(void* ctx);
 bool juego_jugar_semilla(void* ctx);
 bool salir(void* ctx);
-//
-void init_menu(Menu* m);
 
 int logica(int entrada, void* datos) {
     Juego* juego = datos;
@@ -17,11 +22,6 @@ int logica(int entrada, void* datos) {
     esconder_cursor();
     return entrada == 'q' || entrada == 'Q';
 }
-
-typedef struct accion_ctx {
-    CSV* csv;
-    Juego* juego;
-} AccionCtx;
 
 int main(int argc, char* argv[])
 {
@@ -43,9 +43,9 @@ int main(int argc, char* argv[])
     Juego* juego = juego_crear();
     AccionCtx ctx = {.juego = juego, .csv = csv};
 
-    char id_opcion = (char)getchar();
+    // char id_opcion = (char)getchar();
 
-    // char id_opcion = 'J';
+    char id_opcion = 'J';
     menu_accion(m, id_opcion, &ctx);
 
     csv_cerrar(csv);
@@ -54,7 +54,6 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-//o
 void init_menu(Menu* m) {
     menu_agregar(m, 'P', "Pokedex", &mostrar_pokedex);
     menu_agregar(m, 'J', "Jugar", &juego_jugar);
@@ -70,16 +69,16 @@ bool mostrar_pokedex(void* ctx) {
     pokedex_cargar_desde(pkx, csv);
 
     pokedex_print(pkx, stdout);
-    pokedex_destuir(pkx);
+    pokedex_destruir(pkx);
     return false;
 }
 
 bool juego_jugar(void* ctx) {
-    printf("Adentro de jugar\n");
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;
+    CSV* csv = _ctx->csv;
 
-    juego_iniciar(juego);
+    juego_iniciar(juego, csv);
     game_loop(logica, juego);
 
     juego_mostrar_resultados(juego);
@@ -91,8 +90,9 @@ bool juego_jugar_semilla(void* ctx) {
     printf("Adentro de jugar semilla\n");
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;
+    CSV* csv = _ctx->csv;
 
-    juego_iniciar(juego);
+    juego_iniciar(juego, csv);
     game_loop(logica, juego);
 
     juego_mostrar_resultados(juego);

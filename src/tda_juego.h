@@ -20,7 +20,7 @@ Juego* juego_crear();
 /**
  * Inicia las condiciones necesarias para el juego
  */
-void juego_iniciar(Juego* j);
+void juego_iniciar(Juego* j, CSV* csv);
 
 /**
  * Realiza las acciones y los movimientos del juego

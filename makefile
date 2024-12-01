@@ -26,7 +26,7 @@ tp2-debug: engine
 	$(CC) $(CFLAGSDEBUG) src/*.c tp2.c engine.o -o tp2
 
 debug: tp2-debug
-	gdb ./tp2 datos/pokedex.csv
+	gdb --args ./tp2 datos/pokedex.csv
 
 clean:
 	rm -f pruebas_alumno tp2 engine.o

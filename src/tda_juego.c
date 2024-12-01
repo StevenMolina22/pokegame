@@ -1,4 +1,5 @@
 #include "tda_juego.h"
+#include "tda_pokedex.h"
 #include "tda_tablero.h"
 
 struct juego {
@@ -34,14 +35,15 @@ Juego* juego_crear() {
     return juego;
 }
 
-void juego_iniciar(Juego* j) {
+void juego_iniciar(Juego* j, CSV* csv) {
     Pokedex* pkx = tablero_pokedex(j->tablero);
-    pokedex_spawn(pkx);
+    pokedex_cargar_desde(pkx, csv);
 }
 
 void juego_correr(Juego* j, int entrada) {
     procesar_entrada(j, tecla_a_direccion(entrada));
     verificar_capturas(j);
+    // pokedex_print(tablero_pokedex(j->tablero), stdout);
     tablero_mostrar(j->tablero);
 }
 

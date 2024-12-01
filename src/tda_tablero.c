@@ -30,7 +30,7 @@ void tablero_destruir(Tablero* t) {
         return;
     }
     jugador_destruir(t->jugador);
-    pokedex_destuir(t->pokes);
+    pokedex_destruir(t->pokes);
     free(t);
 }
 
@@ -67,7 +67,8 @@ void tablero_mostrar(Tablero* t) {
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
-        char s[100];
+        // TODO!: Liberar esta memoria
+        char* s = malloc(100 * sizeof(char));
         poke_inicial_color(p, s);
         t->matriz[p->y][p->x] = s;
         lista_it_avanzar(it);

@@ -19,6 +19,7 @@ void poke_destruir(void*);
 
 // UTILS
 void poke_inicial_color(Poke* p, char* dest);
+Poke* poke_copiar(Poke* p);
 
 // IO & CSV
 void poke_print(Poke* p, FILE* archivo);

@@ -20,6 +20,23 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
     return poke;
 }
 
+Poke* poke_copiar(Poke* p) {
+    if (p == NULL) {
+        return NULL;
+    }
+    Poke* nuevo = malloc(sizeof(Poke));
+    if (nuevo == NULL) {
+        return NULL;
+    }
+    nuevo->nombre = p->nombre;
+    nuevo->color = p->color;
+    nuevo->puntos = p->puntos;
+    nuevo->patron = p->patron;
+    nuevo->x = p->x;
+    nuevo->y = p->y;
+    return nuevo;
+}
+
 void poke_destruir(void* p) {
     free(p);
 }
@@ -59,17 +76,11 @@ Poke *poke_leer(CSV *csv)
 	void* punteros[N_COLS] = { &nombre, &puntos, &color, &patron };
 
 	if (csv_leer_linea(csv, N_COLS, funcs, punteros) != N_COLS) {
-		free(nombre); // Libera en caso de fallo
+		// free(nombre); // Libera en caso de fallo
 		return NULL;
 	}
 
-	Poke *pokemon = malloc(sizeof(Poke));
-	if (!pokemon) {
-		free(nombre);
-		return false;
-	}
-
-	*pokemon = (Poke) { .nombre = nombre, .puntos = (size_t)puntos, .patron = patron, .color = color_desde(color)};
+	Poke* pokemon = poke_crear(nombre, (size_t)puntos, color_desde(color), patron);
 	return pokemon;
 }
 
