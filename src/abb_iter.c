@@ -1,7 +1,7 @@
 #include "abb.h"
 #include "abb_privado.h"
 
-static size_t nodo_iterar_inorden(nodo_t *nodo, bool (*f)(void *, void *),
+static size_t nodo_iterar_inorden(Nodo *nodo, bool (*f)(void *, void *),
 				  void *ctx, bool *seguir_iterando)
 {
 	if (!nodo || !f || !*seguir_iterando)
@@ -18,7 +18,7 @@ static size_t nodo_iterar_inorden(nodo_t *nodo, bool (*f)(void *, void *),
 	return contador;
 }
 
-static size_t nodo_iterar_preorden(nodo_t *nodo, bool (*f)(void *, void *),
+static size_t nodo_iterar_preorden(Nodo *nodo, bool (*f)(void *, void *),
 				   void *ctx, bool *seguir_iterando)
 {
 	if (!nodo || !f || !*seguir_iterando)
@@ -36,7 +36,7 @@ static size_t nodo_iterar_preorden(nodo_t *nodo, bool (*f)(void *, void *),
 	return contador;
 }
 
-static size_t nodo_iterar_postorden(nodo_t *nodo, bool (*f)(void *, void *),
+static size_t nodo_iterar_postorden(Nodo *nodo, bool (*f)(void *, void *),
 				    void *ctx, bool *seguir_iterando)
 {
 	if (!nodo || !f || !*seguir_iterando)
@@ -53,7 +53,7 @@ static size_t nodo_iterar_postorden(nodo_t *nodo, bool (*f)(void *, void *),
 	return contador;
 }
 
-size_t abb_iterar_inorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
+size_t abb_iterar_inorden(ABB *abb, bool (*f)(void *, void *), void *ctx)
 {
 	if (!abb || !f)
 		return 0;
@@ -61,7 +61,7 @@ size_t abb_iterar_inorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 	return nodo_iterar_inorden(abb->raiz, f, ctx, &seguir_iterando);
 }
 
-size_t abb_iterar_preorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
+size_t abb_iterar_preorden(ABB *abb, bool (*f)(void *, void *), void *ctx)
 {
 	if (!abb || !f)
 		return 0;
@@ -69,7 +69,7 @@ size_t abb_iterar_preorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
 	return nodo_iterar_preorden(abb->raiz, f, ctx, &seguir_iterando);
 }
 
-size_t abb_iterar_postorden(abb_t *abb, bool (*f)(void *, void *), void *ctx)
+size_t abb_iterar_postorden(ABB *abb, bool (*f)(void *, void *), void *ctx)
 {
 	if (!abb || !f)
 		return 0;

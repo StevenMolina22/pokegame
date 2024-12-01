@@ -2,16 +2,16 @@
 #include "abb_privado.h"
 
 // ----- FUNCIONES AUXILIARES -----
-nodo_t *abb_nodo_crear(void *elemento)
+Nodo *abb_nodo_crear(void *elemento)
 {
-	nodo_t *nodo = calloc(sizeof(nodo_t), 1);
+	Nodo *nodo = calloc(sizeof(Nodo), 1);
 	if (!nodo)
 		return NULL;
 	nodo->elemento = elemento;
 	return nodo;
 }
 
-static nodo_t *buscar_predecesor_inorden(nodo_t *nodo)
+static Nodo *buscar_predecesor_inorden(Nodo *nodo)
 {
 	while (nodo->der)
 		nodo = nodo->der;
@@ -26,8 +26,8 @@ int sum_even(char *s)
 }
 
 // ----- FIN FUNCIONES AUXILIARES
-static nodo_t *nodo_buscar(nodo_t *nodo, void *elemento,
-			   int (*comparador)(void *, void *), nodo_t **padre)
+static Nodo *nodo_buscar(Nodo *nodo, void *elemento,
+			   int (*comparador)(void *, void *), Nodo **padre)
 {
 	if (!nodo)
 		return NULL;
@@ -45,10 +45,10 @@ static nodo_t *nodo_buscar(nodo_t *nodo, void *elemento,
 		return nodo_buscar(nodo->der, elemento, comparador, padre);
 	}
 }
-static nodo_t *nodo_insertar(abb_t *abb, nodo_t *nodo, void *elemento)
+static Nodo *nodo_insertar(ABB *abb, Nodo *nodo, void *elemento)
 {
 	if (!nodo) {
-		nodo_t *nuevo = abb_nodo_crear(elemento);
+		Nodo *nuevo = abb_nodo_crear(elemento);
 		if (nuevo)
 			abb->nodos++;
 		return nuevo;
@@ -65,15 +65,15 @@ static nodo_t *nodo_insertar(abb_t *abb, nodo_t *nodo, void *elemento)
 	return nodo;
 }
 
-static nodo_t *nodo_quitar_un_hijo(nodo_t *nodo)
+static Nodo *nodo_quitar_un_hijo(Nodo *nodo)
 {
 	// Funcion asume que nodo existe y tiene un solo hijo
-	nodo_t *temp = (nodo->izq) ? nodo->izq : nodo->der;
+	Nodo *temp = (nodo->izq) ? nodo->izq : nodo->der;
 	free(nodo);
 	return temp;
 }
 
-static nodo_t *nodo_quitar(abb_t *abb, nodo_t *nodo, void *buscado,
+static Nodo *nodo_quitar(ABB *abb, Nodo *nodo, void *buscado,
 			   bool *fue_removido, void **encontrado)
 {
 	if (!nodo || !abb->comparador) {
@@ -101,7 +101,7 @@ static nodo_t *nodo_quitar(abb_t *abb, nodo_t *nodo, void *buscado,
 			return nodo_quitar_un_hijo(nodo);
 
 		// Caso: Nodo con dos hijos
-		nodo_t *max_nodo = buscar_predecesor_inorden(nodo->izq);
+		Nodo *max_nodo = buscar_predecesor_inorden(nodo->izq);
 		void *temp = nodo->elemento;
 		nodo->elemento = max_nodo->elemento;
 		max_nodo->elemento = temp;
@@ -112,7 +112,7 @@ static nodo_t *nodo_quitar(abb_t *abb, nodo_t *nodo, void *buscado,
 }
 
 // ----- FUNCIONES DEL ABB -----
-bool abb_insertar(abb_t *abb, void *elemento)
+bool abb_insertar(ABB *abb, void *elemento)
 {
 	if (!abb)
 		return false;
@@ -123,7 +123,7 @@ bool abb_insertar(abb_t *abb, void *elemento)
 	return abb->nodos > nodos_iniciales;
 }
 
-bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
+bool abb_quitar(ABB *abb, void *buscado, void **encontrado)
 {
 	if (!abb) {
 		return false;
@@ -136,15 +136,15 @@ bool abb_quitar(abb_t *abb, void *buscado, void **encontrado)
 	return removido;
 }
 
-void *abb_obtener(abb_t *abb, void *elemento)
+void *abb_obtener(ABB *abb, void *elemento)
 {
 	if (!abb || !elemento)
 		return NULL;
-	nodo_t *nodo = nodo_buscar(abb->raiz, elemento, abb->comparador, NULL);
+	Nodo *nodo = nodo_buscar(abb->raiz, elemento, abb->comparador, NULL);
 	return nodo ? nodo->elemento : NULL;
 }
 
-size_t abb_cantidad(abb_t *abb)
+size_t abb_cantidad(ABB *abb)
 {
 	return abb ? abb->nodos : 0;
 }

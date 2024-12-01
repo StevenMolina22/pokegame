@@ -1,7 +1,7 @@
 #include "abb.h"
 #include "abb_privado.h"
 
-static void nodo_destruir_todo(nodo_t *nodo, void (*destructor)(void *))
+static void nodo_destruir_todo(Nodo *nodo, void (*destructor)(void *))
 {
 	if (!nodo)
 		return;
@@ -12,18 +12,18 @@ static void nodo_destruir_todo(nodo_t *nodo, void (*destructor)(void *))
 	free(nodo);
 }
 
-abb_t *abb_crear(int (*comparador)(void *, void *))
+ABB *abb_crear(int (*comparador)(void *, void *))
 {
 	if (!comparador)
 		return NULL;
-	abb_t *abb = calloc(sizeof(abb_t), 1);
+	ABB *abb = calloc(sizeof(ABB), 1);
 	if (!abb)
 		return NULL;
 	abb->comparador = comparador;
 	return abb;
 }
 
-void abb_destruir(abb_t *abb)
+void abb_destruir(ABB *abb)
 {
 	if (!abb)
 		return;
@@ -31,7 +31,7 @@ void abb_destruir(abb_t *abb)
 	free(abb);
 }
 
-void abb_destruir_todo(abb_t *abb, void (*destructor)(void *))
+void abb_destruir_todo(ABB *abb, void (*destructor)(void *))
 {
 	if (!abb)
 		return;

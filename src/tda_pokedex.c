@@ -1,4 +1,5 @@
 #include "tda_pokedex.h"
+#include "abb.h"
 #include "lista.h"
 #include "tipo_poke.h"
 #include "tipos.h"
@@ -115,22 +116,36 @@ void pokedex_agregar_random(Pokedex* pkx) {
 
 
 // ---- IO & CSV
+bool _poke_print(void* poke, void* ctx) {
+    poke_print((Poke*)poke, stdout);
+    return true;
+}
+
+int cmp(void* p1, void* p2) {
+    Poke* _p1 = p1;
+    Poke* _p2 = p2;
+    return strcmp(_p1->nombre, _p2->nombre);
+}
+
+bool agregar_a_abb(void* poke, void* ctx) {
+    ABB* abb = ctx;
+    abb_insertar(abb, poke);
+    return true;
+}
+
 void pokedex_print(Pokedex* pkx, FILE* archivo) {
-    ListaIt* it = lista_it_crear(pkx->lista);
-    while (lista_it_hay_siguiente(it)) {
-        Poke* p = lista_it_actual(it);
-        poke_print(p, archivo);
-        lista_it_avanzar(it);
-    }
-    fprintf(archivo, "\n");
-    lista_it_destruir(it);
+    ABB* abb = abb_crear(&cmp);
+    lista_iterar(pkx->lista, &agregar_a_abb, abb);
+    abb_iterar_inorden(abb, &_poke_print, NULL);
+    // fprintf(archivo, "\n");
+    abb_destruir(abb);
 }
 
 bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
 	Poke *p;
 	while ((p = poke_leer(csv)) != NULL) {
 		if (!lista_agregar(pkx->lista, p)) {
-		poke_destruir(p); // Libera si no se puede agregar
+    		poke_destruir(p); // Libera si no se puede agregar
 			return false;
 		}
 	}

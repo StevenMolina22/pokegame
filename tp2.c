@@ -48,8 +48,9 @@ int main(int argc, char* argv[])
     }
     AccionCtx ctx = {.juego = juego, .csv = csv};
 
-    // char id_opcion = (char)getchar();
-    char id_opcion = 'J';
+    char id_opcion = (char)getchar();
+    id_opcion = (char)toupper(id_opcion);
+    // char id_opcion = 'J';
     menu_accion(m, id_opcion, &ctx);
 
     mostrar_cursor();
@@ -80,6 +81,7 @@ bool mostrar_pokedex(void* ctx) {
 }
 
 bool juego_jugar(void* ctx) {
+    srand((unsigned int)time(NULL));
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;
     CSV* csv = _ctx->csv;
@@ -92,7 +94,12 @@ bool juego_jugar(void* ctx) {
 }
 
 bool juego_jugar_semilla(void* ctx) {
-    printf("Adentro de jugar semilla\n");
+    size_t semilla;
+    printf("Ingrese una semilla: ");
+    if (scanf("%zu", &semilla) == -1) {
+        return false;
+    };
+    srand((unsigned int)semilla);
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;
     CSV* csv = _ctx->csv;

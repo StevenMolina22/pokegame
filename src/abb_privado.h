@@ -11,11 +11,11 @@ typedef struct nodo {
 	void *elemento;
 	struct nodo *izq;
 	struct nodo *der;
-} nodo_t;
+} Nodo;
 
 struct abb {
 	size_t nodos;
-	nodo_t *raiz;
+	Nodo *raiz;
 	int (*comparador)(void *, void *);
 };
 

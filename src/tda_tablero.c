@@ -26,7 +26,6 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
 }
 
 void tablero_destruir(Tablero* t) {
-    printf("inicio tablero destruir\n");
     if (t == NULL) {
         return;
     }

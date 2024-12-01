@@ -1,7 +1,7 @@
 #include "abb.h"
 #include "abb_privado.h"
 
-static size_t nodo_vectorizar_inorden(nodo_t *nodo, void **vector,
+static size_t nodo_vectorizar_inorden(Nodo *nodo, void **vector,
 				      size_t tamaño, size_t *indice)
 {
 	if (!nodo || *indice >= tamaño)
@@ -17,7 +17,7 @@ static size_t nodo_vectorizar_inorden(nodo_t *nodo, void **vector,
 	return contador;
 }
 
-static size_t nodo_vectorizar_preorden(nodo_t *nodo, void **vector,
+static size_t nodo_vectorizar_preorden(Nodo *nodo, void **vector,
 				       size_t tamaño, size_t *indice)
 {
 	if (!nodo || *indice >= tamaño)
@@ -33,7 +33,7 @@ static size_t nodo_vectorizar_preorden(nodo_t *nodo, void **vector,
 	return contador;
 }
 
-static size_t nodo_vectorizar_postorden(nodo_t *nodo, void **vector,
+static size_t nodo_vectorizar_postorden(Nodo *nodo, void **vector,
 					size_t tamaño, size_t *indice)
 {
 	if (!nodo || *indice >= tamaño)
@@ -51,7 +51,7 @@ static size_t nodo_vectorizar_postorden(nodo_t *nodo, void **vector,
 	return contador;
 }
 
-size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_inorden(ABB *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
@@ -59,7 +59,7 @@ size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
 	return nodo_vectorizar_inorden(abb->raiz, vector, tamaño, &indice);
 }
 
-size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_preorden(ABB *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
@@ -67,7 +67,7 @@ size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
 	return nodo_vectorizar_preorden(abb->raiz, vector, tamaño, &indice);
 }
 
-size_t abb_vectorizar_postorden(abb_t *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_postorden(ABB *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
