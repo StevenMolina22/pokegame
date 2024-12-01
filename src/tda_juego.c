@@ -5,6 +5,7 @@
 struct juego {
     Tablero* tablero;
     size_t semilla;
+    time_t tiempo_inicio;
 };
 
 // ---- FUNCIONES AUXILIARES
@@ -32,6 +33,7 @@ Juego* juego_crear() {
     }
 
     juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx);
+    juego->tiempo_inicio = time(NULL);
     return juego;
 }
 
@@ -128,4 +130,11 @@ void actualizar_captura(Juego* j, Poke* p) {
 // TODO! Eliminar esta funcion
 Jugador* juego_jugador(Juego* j) {
     return tablero_jugador(j->tablero);
+}
+
+time_t juego_tiempo_inicio(Juego* j) {
+    if (j == NULL) {
+        return 0;
+    }
+    return j->tiempo_inicio;
 }

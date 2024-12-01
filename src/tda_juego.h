@@ -42,4 +42,6 @@ void juego_mostrar_resultados(Juego* j);
  */
 void juego_destruir(Juego* j);
 
+// ---- GETTERS
+time_t juego_tiempo_inicio(Juego* j);
 #endif

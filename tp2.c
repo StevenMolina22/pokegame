@@ -4,6 +4,8 @@
 #include "src/io_csv.h"
 #include "src/tda_pokedex.h"
 
+#define TIEMPO_MAX 60 // 1 minuto max
+
 typedef struct accion_ctx {
     CSV* csv;
     Juego* juego;
@@ -20,7 +22,8 @@ int logica(int entrada, void* datos) {
     borrar_pantalla();
     juego_correr(juego, entrada);
     esconder_cursor();
-    return entrada == 'q' || entrada == 'Q';
+    bool tiempo_limite = (difftime(time(NULL), juego_tiempo_inicio(juego)) >= TIEMPO_MAX);
+    return entrada == 'q' || entrada == 'Q' || tiempo_limite;
 }
 
 int main(int argc, char* argv[])
