@@ -11,11 +11,11 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
         return NULL;
     }
     // TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
-    for (size_t i = 0; i < alto; i++) {
-        for (size_t j = 0; j < ancho; j++) {
-            // char* s = malloc(100 * sizeof(char));
-            // s = " ";
-            t->matriz[i][j] = " ";
+    for (size_t i = 0; i < ALTO; i++) {
+        for (size_t j = 0; j < ANCHO; j++) {
+            t->matriz[i][j] = malloc(10 * sizeof(char));
+            strcpy(t->matriz[i][j], " ");
+            // t->matriz[i][j] = " ";
         }
     }
     t->jugador = jugador;
@@ -26,11 +26,17 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
 }
 
 void tablero_destruir(Tablero* t) {
+    printf("inicio tablero destruir\n");
     if (t == NULL) {
         return;
     }
     jugador_destruir(t->jugador);
     pokedex_destruir(t->pokes);
+    for (size_t i = 0; i < t->alto; i++) {
+        for (size_t j = 0; j < t->ancho; j++) {
+            free(t->matriz[i][j]);
+        }
+    }
     free(t);
 }
 
@@ -41,7 +47,8 @@ void tablero_vaciar(Tablero* t) {
     }
     for (size_t i = 0; i < ALTO; i++) {
         for (size_t j = 0; j < ANCHO; j++) {
-            t->matriz[i][j] = " ";
+            // t->matriz[i][j] = " ";
+            strcpy(t->matriz[i][j], " ");
         }
     }
 }
@@ -61,16 +68,14 @@ void tablero_mostrar(Tablero* t) {
     tablero_vaciar(t);
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;
-    t->matriz[y][x] = ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω";
+    strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω");
 
     // pokemones
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
         // TODO!: Liberar esta memoria
-        char* s = malloc(100 * sizeof(char));
-        poke_inicial_color(p, s);
-        t->matriz[p->y][p->x] = s;
+        poke_inicial_color(p, t->matriz[p->y][p->x]);
         lista_it_avanzar(it);
     }
     lista_it_destruir(it);
@@ -96,6 +101,7 @@ Pokedex* tablero_pokedex(Tablero* t) {
 
 // ---- FUNCIONES AUXILIARES
 void matriz_print(str_t m[ALTO][ANCHO]) {
+    // cabezera
     for (size_t j = 0; j < ANCHO + 2; j++) {
         printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
     }
@@ -108,6 +114,7 @@ void matriz_print(str_t m[ALTO][ANCHO]) {
         printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
         printf("\n");
     }
+    // pie
     for (size_t j = 0; j < ANCHO + 2; j++) {
         printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "*");
     }

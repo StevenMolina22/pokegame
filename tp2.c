@@ -29,7 +29,6 @@ int main(int argc, char* argv[])
         printf("Uso: %s <archivo.csv>\n", argv[0]);
         return ERROR;
     }
-
     CSV* csv = csv_abrir(argv[1], ',');
     if (csv == NULL) {
         printf("Archivo inexistente\n");
@@ -37,16 +36,23 @@ int main(int argc, char* argv[])
     }
 
     Menu* m = menu_crear();
+    if (m == NULL) {
+        return ERROR;
+    }
     init_menu(m);
     menu_mostrar(m);
 
     Juego* juego = juego_crear();
+    if (juego == NULL) {
+        return ERROR;
+    }
     AccionCtx ctx = {.juego = juego, .csv = csv};
 
     // char id_opcion = (char)getchar();
-
     char id_opcion = 'J';
     menu_accion(m, id_opcion, &ctx);
+
+    mostrar_cursor();
 
     csv_cerrar(csv);
     juego_destruir(juego);
@@ -82,7 +88,6 @@ bool juego_jugar(void* ctx) {
     game_loop(logica, juego);
 
     juego_mostrar_resultados(juego);
-    mostrar_cursor();
 	return true;
 }
 
@@ -96,7 +101,6 @@ bool juego_jugar_semilla(void* ctx) {
     game_loop(logica, juego);
 
     juego_mostrar_resultados(juego);
-    mostrar_cursor();
     return false;
 }
 
@@ -104,8 +108,3 @@ bool salir(void* ctx) {
     printf("Salir");
     return false;
 }
-
-// main
-// -> loop
-// -> logica
-// -> juego_correr

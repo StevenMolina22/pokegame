@@ -48,7 +48,7 @@ void poke_inicial_color(Poke* p, char* dest) {
             sprintf(dest, "%s%c", ANSI_COLOR_BLUE, p->nombre[0]);
             break;
         case Amarillo:
-            sprintf(dest, "%s%c", ANSI_COLOR_BLUE, p->nombre[0]);
+            sprintf(dest, "%s%c", ANSI_COLOR_YELLOW, p->nombre[0]);
             break;
         case Magenta:
             sprintf(dest, "%s%c", ANSI_COLOR_MAGENTA, p->nombre[0]);

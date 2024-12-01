@@ -19,7 +19,9 @@ Pokedex* pokedex_crear();
 /**
  * Destruye la pokedex y todas las estructuras asociadas a esta
  */
-void pokedex_destruir(Pokedex*);
+void pokedex_destruir(Pokedex* pkx);
+
+Pokedex* pokedex_copiar(Pokedex* pkx);
 
 
 

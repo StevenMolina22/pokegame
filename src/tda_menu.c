@@ -83,7 +83,7 @@ void menu_destruir(Menu* m) {
     if (m == NULL) {
         return;
     }
-    hash_destruir(m->acciones);
+    hash_destruir_todo(m->acciones, &free);
     hash_destruir(m->opciones);
     free(m);
 }

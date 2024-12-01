@@ -7,6 +7,7 @@ struct pokedex {
     Lista* lista;
 };
 
+// ---- INIT & DEINIT
 Pokedex* pokedex_crear() {
     Pokedex* pkx = malloc(sizeof(Pokedex));
     Lista* l = lista_crear();
@@ -18,6 +19,32 @@ Pokedex* pokedex_crear() {
     return pkx;
 }
 
+void pokedex_destruir(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return;
+    }
+    lista_destruir_todo(pkx->lista, &poke_destruir);
+    free(pkx);
+}
+
+Pokedex* pokedex_copiar(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return NULL;
+    }
+    Pokedex* pkx_nueva = pokedex_crear();
+    ListaIt* it = lista_it_crear(pkx->lista);
+    while (lista_it_hay_siguiente(it)) {
+        Poke* p = lista_it_actual(it);
+        Poke* nuevo = poke_copiar(p);
+        pokedex_agregar(pkx_nueva, nuevo);
+
+        lista_it_avanzar(it);
+    }
+    lista_it_destruir(it);
+    return pkx_nueva;
+}
+
+// ---- MAIN
 // TODO!: Es pokedex remover necesario?
 void pokedex_remover(Pokedex* pkx, size_t idx) {}
 
@@ -86,12 +113,6 @@ void pokedex_agregar_random(Pokedex* pkx) {
     pokedex_destruir(pkx_temp);
 }
 
-void pokedex_destruir(Pokedex* pkx) {
-    if (pkx == NULL) {
-        return;
-    }
-    lista_destruir_todo(pkx->lista, &poke_destruir);
-}
 
 // ---- IO & CSV
 void pokedex_print(Pokedex* pkx, FILE* archivo) {

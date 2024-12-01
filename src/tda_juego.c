@@ -108,7 +108,7 @@ void actualizar_captura(Juego* j, Poke* p) {
         size_t actual_len = pokedex_len(jug->combo_actual);
         size_t max_len = pokedex_len(jug->combo_max);
         if (actual_len > max_len) {
-            jug->combo_max = jug->combo_actual;
+            jug->combo_max = pokedex_copiar(jug->combo_actual);
         }
     } else {
         jug->multiplicador = 1;

@@ -8,14 +8,18 @@ Jugador* jugador_crear() {
     }
 
     // TODO!: Agregar todos los atributos para jugador
-    Pokedex* pkx = pokedex_crear();
-    if (pkx == NULL) {
+    Pokedex* combo_actual = pokedex_crear();
+    if (combo_actual == NULL) {
         free(jugador);
-        free(pkx);
+    }
+    Pokedex* combo_max = pokedex_crear();
+    if (combo_max == NULL) {
+        free(combo_max);
+        free(jugador);
     }
 
-    jugador->combo_actual = pkx;
-    jugador->combo_max = pkx;
+    jugador->combo_actual = combo_actual;
+    jugador->combo_max = combo_max;
     jugador->iteraciones = 0;
     jugador->multiplicador_max = 1;
     jugador->puntos = 0;
@@ -25,6 +29,9 @@ Jugador* jugador_crear() {
 }
 
 void jugador_destruir(Jugador* j) {
+    if (j == NULL) {
+        return;
+    }
     pokedex_destruir(j->combo_max);
     pokedex_destruir(j->combo_actual);
     free(j);
