@@ -12,9 +12,17 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
         return NULL;
     }
     poke->nombre = nombre;
+    poke->patron = patron;
+    // poke->nombre = my_strdup(nombre);
+    // poke->patron = my_strdup(patron);
+    // if (!poke->nombre || !poke->patron) { // Verifica duplicación exitosa
+    //     free(poke->nombre);
+    //     free(poke->patron);
+    //     free(poke);
+    //     return NULL;
+    // }
     poke->color = color;
     poke->puntos = puntos;
-    poke->patron = patron;
     poke->x = (size_t)rand() % (ANCHO);
     poke->y = (size_t)rand() % (ALTO);
     return poke;
@@ -28,16 +36,30 @@ Poke* poke_copiar(Poke* p) {
     if (nuevo == NULL) {
         return NULL;
     }
-    nuevo->nombre = p->nombre;
+    nuevo->nombre = my_strdup(p->nombre);
+    if (nuevo->nombre == NULL) {
+        free(nuevo);
+        return NULL;
+    }
+    nuevo->patron = my_strdup(p->patron);
+    if (nuevo->patron == NULL) {
+        free(nuevo->nombre);
+        free(nuevo);
+        return NULL;
+    }
     nuevo->color = p->color;
     nuevo->puntos = p->puntos;
-    nuevo->patron = p->patron;
     nuevo->x = p->x;
     nuevo->y = p->y;
     return nuevo;
 }
 
-void poke_destruir(void* p) {
+void poke_destruir(Poke* p) {
+    if (p == NULL) {
+        return;
+    }
+    free(p->nombre);
+    free(p->patron);
     free(p);
 }
 
@@ -77,10 +99,13 @@ Poke *poke_leer(CSV *csv)
 
 	if (csv_leer_linea(csv, N_COLS, funcs, punteros) != N_COLS) {
 		// free(nombre); // Libera en caso de fallo
+		// free(color);
+		// free(patron);
 		return NULL;
 	}
 
 	Poke* pokemon = poke_crear(nombre, (size_t)puntos, color_desde(color), patron);
+	free(color);
 	return pokemon;
 }
 

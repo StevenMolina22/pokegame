@@ -34,7 +34,6 @@ void pokedex_agregar(Pokedex* pkx, Poke* p);
 /**
  * Remueve el pokemon del indice especificado de la pokedex
  */
-void pokedex_remover(Pokedex* pkx, size_t idx);
 
 /**
  * Vacia la pokedex de todos sus pokemones

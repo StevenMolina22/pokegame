@@ -10,11 +10,11 @@ valgrind-alumno: pruebas_alumno
 	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
 
 pruebas_alumno: src/*.c pruebas_alumno.c engine
-	$(CC) $(CFLAGS) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
+	$(CC) $(CFLAGSDEBUG) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
 
 valgrind-tp2: tp2
-	# valgrind $(VALGRIND_FLAGS) ./tp2 datos/pokedex.csv
-	./tp2 datos/pokedex.csv
+	valgrind $(VALGRIND_FLAGS) --verbose ./tp2 datos/pokedex.csv
+	# ./tp2 datos/pokedex.csv
 
 engine:
 	$(CC) $(ENGINECFLAGS) -c extra/engine.c -o engine.o

@@ -13,42 +13,42 @@ struct csv {
 CSV *csv_abrir(const char *ruta, char sep)
 {
 	FILE *file = fopen(ruta, "r");
-	if (!file)
-		return NULL;
-
-	struct csv *csv =
-		(struct csv *)malloc(sizeof(struct csv));
-	if (!csv)
-		return NULL;
+	if (!file) {
+    	return NULL;
+	}
+	CSV *csv = malloc(sizeof(CSV));
+	if (!csv) {
+	   fclose(file);
+	   return NULL;
+	}
 
 	csv->file = file;
 	csv->sep = sep;
 	return csv;
 }
 
-size_t csv_leer_linea(CSV *csv, size_t columnas,
-		      bool (*funciones[])(const char *, void *), void *ctx[])
+size_t csv_leer_linea(CSV *csv, size_t columnas, FnParse funcs[], void *ctx[])
 {
 	if (csv == NULL || csv->file == NULL) {
 		return 0;
 	}
 
 	char buffer[MAX_LINEAS];
-	char *result = fgets(buffer, sizeof(buffer), csv->file);
-	if (!result)
+	char *resultado = fgets(buffer, sizeof(buffer), csv->file);
+	if (!resultado)
 		return 0;
 
 	Vec *cols = dividir_string(buffer, csv->sep);
 
 	size_t i = 0;
 	while (cols->len <= columnas && i < columnas) {
-		if (funciones[i] == NULL) {
+		if (funcs[i] == NULL) {
 			// if func is null should not continue
 			liberar_partes(cols);
 			return i;
 		}
-		bool success = funciones[i](cols->arr[i], ctx[i]);
-		if (!success) {
+		bool ok = funcs[i](cols->arr[i], ctx[i]);
+		if (!ok) {
 			liberar_partes(cols);
 			return i;
 		}
@@ -67,6 +67,9 @@ FILE* csv_archivo(CSV* csv) {
 
 void csv_cerrar(CSV *csv)
 {
+    if (csv == NULL) {
+        return;
+    }
 	fclose(csv->file);
 	free(csv);
 }

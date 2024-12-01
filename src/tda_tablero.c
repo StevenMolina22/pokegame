@@ -13,7 +13,7 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
     // TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
     for (size_t i = 0; i < ALTO; i++) {
         for (size_t j = 0; j < ANCHO; j++) {
-            t->matriz[i][j] = malloc(10 * sizeof(char));
+            t->matriz[i][j] = malloc(20 * sizeof(char));
             strcpy(t->matriz[i][j], " ");
             // t->matriz[i][j] = " ";
         }
@@ -77,7 +77,6 @@ void tablero_mostrar(Tablero* t) {
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
-        // TODO!: Liberar esta memoria
         poke_inicial_color(p, t->matriz[p->y][p->x]);
         lista_it_avanzar(it);
     }

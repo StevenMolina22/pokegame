@@ -33,25 +33,6 @@ void probar_agregar_pokemones() {
     pokedex_destruir(pokedex);
 }
 
-void probar_remover_pokemones() {
-    pa2m_nuevo_grupo("Pruebas de remover pokemones de la Pokedex");
-
-    Pokedex *pokedex = pokedex_crear();
-    Poke poke1 = {"Pikachu", 10};
-    Poke poke2 = {"Charmander", 15};
-
-    pokedex_agregar(pokedex, &poke1);
-    pokedex_agregar(pokedex, &poke2);
-
-    pokedex_remover(pokedex, 0);
-    pa2m_afirmar(pokedex_len(pokedex) == 1, "Se eliminó un pokemon de la Pokedex");
-
-    pokedex_remover(pokedex, 0);
-    pa2m_afirmar(pokedex_len(pokedex) == 0, "Se eliminó el último pokemon de la Pokedex");
-
-    pokedex_destruir(pokedex);
-}
-
 void probar_cargar_desde_archivo() {
     pa2m_nuevo_grupo("Pruebas de carga desde archivo");
 

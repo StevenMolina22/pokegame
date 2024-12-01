@@ -8,9 +8,17 @@ struct pokedex {
     Lista* lista;
 };
 
+// UTILS WRAPPERS
+void _poke_destruir(void* p) {
+    poke_destruir((Poke*)p);
+}
+
 // ---- INIT & DEINIT
 Pokedex* pokedex_crear() {
     Pokedex* pkx = malloc(sizeof(Pokedex));
+    if (pkx == NULL) {
+        return NULL;
+    }
     Lista* l = lista_crear();
     if (l == NULL) {
         free(pkx);
@@ -24,7 +32,7 @@ void pokedex_destruir(Pokedex* pkx) {
     if (pkx == NULL) {
         return;
     }
-    lista_destruir_todo(pkx->lista, &poke_destruir);
+    lista_destruir_todo(pkx->lista, &_poke_destruir);
     free(pkx);
 }
 
@@ -47,7 +55,7 @@ Pokedex* pokedex_copiar(Pokedex* pkx) {
 
 // ---- MAIN
 // TODO!: Es pokedex remover necesario?
-void pokedex_remover(Pokedex* pkx, size_t idx) {}
+
 
 void pokedex_agregar(Pokedex* pkx, Poke* p) {
     if (pkx == NULL) {
@@ -60,7 +68,7 @@ void pokedex_vaciar(Pokedex* pkx) {
     if (pkx == NULL) {
         return;
     }
-    lista_destruir_todo(pkx->lista, &poke_destruir);
+    lista_destruir_todo(pkx->lista, &_poke_destruir);
     Lista* l = lista_crear();
     if (l == NULL) {
         return;
