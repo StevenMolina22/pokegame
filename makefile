@@ -23,6 +23,7 @@ test: test_build
 	valgrind $(VALGRIND_FLAGS) ./pruebas_tablero
 	valgrind $(VALGRIND_FLAGS) ./pruebas_menu
 	valgrind $(VALGRIND_FLAGS) ./pruebas_juego
+	rm -f pruebas_pokedex pruebas_tablero pruebas_menu pruebas_juego
 
 
 valgrind-tp2: tp2

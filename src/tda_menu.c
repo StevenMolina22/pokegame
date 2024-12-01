@@ -1,18 +1,15 @@
 #include "tda_menu.h"
 #include "hash/hash.h"
 
-bool imprimir_entrada(char* clave, void* valor, void* ctx) {
-    char* descripcion = valor;
-
-    printf("\t[%s]. %s\n", clave, descripcion);
-    return true;
-}
-
 struct menu {
     Hash* opciones;
     Hash* acciones;
 };
 
+// Auxiliares:
+bool imprimir_entrada(char* clave, void* valor, void* ctx);
+
+// ---- INIT & DEINIT
 Menu* menu_crear() {
     Menu* m = malloc(sizeof(Menu));
     if (m == NULL) {
@@ -37,6 +34,16 @@ Menu* menu_crear() {
     return m;
 }
 
+void menu_destruir(Menu* m) {
+    if (m == NULL) {
+        return;
+    }
+    hash_destruir_todo(m->acciones, &free);
+    hash_destruir(m->opciones);
+    free(m);
+}
+
+// ---- PRINCIPALES
 bool menu_agregar(Menu* m, char id, char* opcion, Fn f_accion) {
     if (m == NULL) {
         return false;
@@ -79,13 +86,10 @@ void menu_mostrar(Menu* m) {
     hash_iterar(m->opciones, &imprimir_entrada, NULL);
 }
 
-void menu_destruir(Menu* m) {
-    if (m == NULL) {
-        return;
-    }
-    hash_destruir_todo(m->acciones, &free);
-    hash_destruir(m->opciones);
-    free(m);
-}
+// ---- AUXILIARES
+bool imprimir_entrada(char* clave, void* valor, void* ctx) {
+    char* descripcion = valor;
 
-// FUNCIONES PARA ACCIONES
+    printf("\t[%s]. %s\n", clave, descripcion);
+    return true;
+}

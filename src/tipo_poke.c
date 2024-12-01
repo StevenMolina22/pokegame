@@ -110,9 +110,11 @@ Poke *poke_leer(CSV *csv)
 }
 
 void poke_print(Poke* p, FILE* archivo) {
+    char s[100];
+    str_desde(p->color, s);
     fprintf(
         archivo,
-        "Nombre: %s Puntos: %zu Color: %d Patron: %s\n",
-        p->nombre, p->puntos, p->color, p->patron
+        "Nombre: %s Puntos: %zu Color: %s Patron: %s\n",
+        p->nombre, p->puntos, s, p->patron
     );
 }

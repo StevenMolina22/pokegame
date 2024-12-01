@@ -39,7 +39,7 @@ void tablero_destruir(Tablero* t) {
     free(t);
 }
 
-// GENERALES
+// ----GENERALES
 void tablero_vaciar(Tablero* t) {
     if (t == NULL) {
         return;
@@ -73,7 +73,7 @@ void tablero_mostrar(Tablero* t) {
     // Posición del jugador
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;
-    strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω"); // Jugador representado como "Ω"
+    strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "🧍"); // Jugador representado como "Ω"
 
     // Encabezado con estadísticas
     printf("%s╔══════════════════════════════════════════════════════════╗\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);

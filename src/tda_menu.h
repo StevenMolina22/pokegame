@@ -11,29 +11,35 @@ typedef struct {
 
 typedef struct menu Menu;
 
+// ---- INIT & DEINIT
+
 /**
  *
  */
 Menu* menu_crear();
+/**
+ *
+ */
+void menu_destruir(Menu* m);
+
+
+
+// ---- PRINCIPALES
 
 /**
  *
  */
 bool menu_accion(Menu* m, char c, void* ctx);
-
 /**
  *
  */
 bool menu_agregar(Menu* m, char id, char* opcion, Fn f_accion);
 
-/**
- *
- */
-void menu_mostrar(Menu* m);
+// ---- IO
 
 /**
  *
  */
-void menu_destruir(Menu* m);
+void menu_mostrar(Menu* m);
 
 #endif

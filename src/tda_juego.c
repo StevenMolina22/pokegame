@@ -15,6 +15,7 @@ void procesar_entrada(Juego* j, Direccion d);
 void verificar_capturas(Juego* j);
 void actualizar_captura(Juego* j, Poke* p);
 
+// ---- INIT & DEINIT
 Juego* juego_crear() {
     Juego* juego = calloc(1, sizeof(Juego));
     if (juego == NULL) {
@@ -42,12 +43,28 @@ Juego* juego_crear() {
     return juego;
 }
 
+void juego_destruir(Juego* j) {
+    if (j == NULL) {
+        return;
+    }
+    tablero_destruir(j->tablero);
+    free(j);
+}
+
+
+// ---- PRINCIPALES
 void juego_iniciar(Juego* j, CSV* csv) {
+    if (j == NULL) {
+        return;
+    }
     Pokedex* pkx = tablero_pokedex(j->tablero);
     pokedex_cargar_desde(pkx, csv);
 }
 
 void juego_correr(Juego* j, int entrada) {
+    if (j == NULL) {
+        return;
+    }
     procesar_entrada(j, tecla_a_direccion(entrada));
     verificar_capturas(j);
     // pokedex_print(tablero_pokedex(j->tablero), stdout);
@@ -55,9 +72,15 @@ void juego_correr(Juego* j, int entrada) {
 }
 
 void juego_terminar(Juego* j) {
+    if (j == NULL) {
+        return;
+    }
 }
 
 void juego_mostrar_resultados(Juego* j) {
+    if (j == NULL) {
+        return;
+    }
     Jugador* jug = tablero_jugador(j->tablero);
 
     printf("Cadena mas larga: \n");
@@ -67,13 +90,6 @@ void juego_mostrar_resultados(Juego* j) {
     printf("Maximo multiplicador: %zu\n", jug->multiplicador_max);
 }
 
-void juego_destruir(Juego* j) {
-    if (j == NULL) {
-        return;
-    }
-    tablero_destruir(j->tablero);
-    free(j);
-}
 
 // ---- FUNCIONES AUXILIARES
 void procesar_entrada(Juego* j, Direccion d) {
@@ -135,11 +151,7 @@ void actualizar_captura(Juego* j, Poke* p) {
     jug->ultimo_capturado = p;
 }
 
-// TODO! Eliminar esta funcion
-Jugador* juego_jugador(Juego* j) {
-    return tablero_jugador(j->tablero);
-}
-
+// ---- GETTERS
 time_t juego_tiempo_inicio(Juego* j) {
     if (j == NULL) {
         return 0;

@@ -80,7 +80,6 @@ bool entrada_es_valida(Tablero* t, Direccion d) {
 }
 
 bool es_patron_valido(Tablero* t, Poke* p, Patron patron) {
-    // TODO!
     switch (patron) {
         case PatronArriba:
             return esta_en_rango(t, p->x, p->y, patron_a_direccion(patron));
@@ -129,51 +128,5 @@ void mover_random(Tablero* t, Poke* p) {
             mover_entidad(&p->x, &p->y, d);
             return;
         }
-    }
-}
-
-Direccion direccion_inversa(Direccion d) {
-    switch (d) {
-        case Arriba:
-            return Abajo;
-        case Abajo:
-            return Arriba;
-        case Derecha:
-            return Izquierda;
-        case Izquierda:
-            return Derecha;
-        default:
-            return ERROR;
-    }
-}
-
-// conversiones
-Direccion patron_a_direccion(Patron p) {
-    switch (p) {
-    case PatronArriba:
-        return Arriba;
-    case PatronAbajo:
-        return Abajo;
-    case PatronDerecha:
-        return Derecha;
-    case PatronIzquierda:
-        return Izquierda;
-    default:
-        return ERROR;
-    }
-}
-
-Direccion tecla_a_direccion(Tecla t) {
-    switch (t) {
-        case TeclaArriba:
-            return Arriba;
-        case TeclaAbajo:
-            return Abajo;
-        case TeclaDerecha:
-            return Derecha;
-        case TeclaIzquierda:
-            return Izquierda;
-        default:
-            return ERROR;
     }
 }

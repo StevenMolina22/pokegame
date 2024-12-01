@@ -8,10 +8,12 @@ struct pokedex {
     Lista* lista;
 };
 
-// UTILS WRAPPERS
-void _poke_destruir(void* p) {
-    poke_destruir((Poke*)p);
-}
+// Utils:
+bool agregar_a_abb(void* poke, void* ctx);
+void _poke_destruir(void* p);
+bool _poke_print(void* poke, void* ctx);
+bool _poke_print_nombre(void* poke, void* ctx);
+int _cmp(void* p1, void* p2);
 
 // ---- INIT & DEINIT
 Pokedex* pokedex_crear() {
@@ -53,10 +55,7 @@ Pokedex* pokedex_copiar(Pokedex* pkx) {
     return pkx_nueva;
 }
 
-// ---- MAIN
-// TODO!: Es pokedex remover necesario?
-
-
+// ---- PRINCIPALES
 void pokedex_agregar(Pokedex* pkx, Poke* p) {
     if (pkx == NULL) {
         return;
@@ -74,20 +73,6 @@ void pokedex_vaciar(Pokedex* pkx) {
         return;
     }
     pkx->lista = l;
-}
-
-size_t pokedex_len(Pokedex* pkx) {
-    if (pkx == NULL) {
-        return 0;
-    }
-    return lista_len(pkx->lista);
-}
-
-Lista* pokedex_lista(Pokedex* pkx) {
-    if (pkx == NULL) {
-        return NULL;
-    }
-    return pkx->lista;
 }
 
 void pokedex_agregar_random(Pokedex* pkx) {
@@ -122,41 +107,27 @@ void pokedex_agregar_random(Pokedex* pkx) {
     pokedex_destruir(pkx_temp);
 }
 
+// ---- GETTERS
+size_t pokedex_len(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return 0;
+    }
+    return lista_len(pkx->lista);
+}
+
+Lista* pokedex_lista(Pokedex* pkx) {
+    if (pkx == NULL) {
+        return NULL;
+    }
+    return pkx->lista;
+}
+
 
 // ---- IO & CSV
-bool _poke_print(void* poke, void* ctx) {
-    poke_print((Poke*)poke, stdout);
-    return true;
-}
-
-bool _poke_print_nombre(void* poke, void* ctx) {
-    fprintf((FILE*)ctx, "%s\n", ((Poke*)poke)->nombre);
-    return true;
-}
-
-int cmp(void* p1, void* p2) {
-    Poke* _p1 = p1;
-    Poke* _p2 = p2;
-    return strcmp(_p1->nombre, _p2->nombre);
-}
-
-bool agregar_a_abb(void* poke, void* ctx) {
-    ABB* abb = ctx;
-    abb_insertar(abb, poke);
-    return true;
-}
-
 void pokedex_print(Pokedex* pkx, FILE* archivo) {
-    ABB* abb = abb_crear(&cmp);
+    ABB* abb = abb_crear(&_cmp);
     lista_iterar(pkx->lista, &agregar_a_abb, abb);
     abb_iterar_inorden(abb, &_poke_print, NULL);
-    abb_destruir(abb);
-}
-
-void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
-    ABB* abb = abb_crear(&cmp);
-    lista_iterar(pkx->lista, &agregar_a_abb, abb);
-    abb_iterar_inorden(abb, &_poke_print_nombre, archivo);
     abb_destruir(abb);
 }
 
@@ -169,4 +140,39 @@ bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
 		}
 	}
 	return true;
+}
+
+void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
+    ABB* abb = abb_crear(&_cmp);
+    lista_iterar(pkx->lista, &agregar_a_abb, abb);
+    abb_iterar_inorden(abb, &_poke_print_nombre, archivo);
+    abb_destruir(abb);
+}
+
+
+// UTILS WRAPPERS
+bool agregar_a_abb(void* poke, void* ctx) {
+    ABB* abb = ctx;
+    abb_insertar(abb, poke);
+    return true;
+}
+
+void _poke_destruir(void* p) {
+    poke_destruir((Poke*)p);
+}
+
+bool _poke_print(void* poke, void* ctx) {
+    poke_print((Poke*)poke, stdout);
+    return true;
+}
+
+bool _poke_print_nombre(void* poke, void* ctx) {
+    fprintf((FILE*)ctx, "%s\n", ((Poke*)poke)->nombre);
+    return true;
+}
+
+int _cmp(void* p1, void* p2) {
+    Poke* _p1 = p1;
+    Poke* _p2 = p2;
+    return strcmp(_p1->nombre, _p2->nombre);
 }

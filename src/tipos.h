@@ -53,5 +53,6 @@ typedef enum color {
 
 // Conversores
 Color color_desde(char* s);
+void str_desde(Color color, char* s);
 
 #endif
