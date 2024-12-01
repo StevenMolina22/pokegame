@@ -84,9 +84,6 @@ void procesar_entrada(Juego* j, Direccion d) {
 }
 
 void verificar_capturas(Juego* j) {
-    // TODO!: Elegir como se va encontrar y eliminar el pokemon capturado
-    // NOTA: A tener en cuenta el hecho de iterar y eliminar a la vez
-    //      o el hecho de iterar primero y buscar todos para luego eliminar
     size_t i = 0;
     Pokedex* pkx = tablero_pokedex(j->tablero);
     Lista* l = pokedex_lista(pkx);
@@ -96,6 +93,9 @@ void verificar_capturas(Juego* j) {
         Poke* p = lista_it_actual(it);
         lista_it_avanzar(it);
         if (tablero_esta_capturado(j->tablero, p)) {
+            // IMPORTANTE: PROBLEMAS DE MEMORIA ACA
+            // TODO!: Solucionar problemas de memoria en esta seccion
+            //
             actualizar_captura(j, p);
             lista_remover(l, i, NULL);
             pokedex_agregar_random(pkx);
@@ -116,6 +116,7 @@ void actualizar_captura(Juego* j, Poke* p) {
         size_t actual_len = pokedex_len(jug->combo_actual);
         size_t max_len = pokedex_len(jug->combo_max);
         if (actual_len > max_len) {
+            pokedex_destruir(jug->combo_max);
             jug->combo_max = pokedex_copiar(jug->combo_actual);
         }
     } else {

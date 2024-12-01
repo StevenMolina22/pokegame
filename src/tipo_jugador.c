@@ -34,5 +34,8 @@ void jugador_destruir(Jugador* j) {
     }
     pokedex_destruir(j->combo_max);
     pokedex_destruir(j->combo_actual);
+    // if (j->ultimo_capturado) {
+    //     free(j->ultimo_capturado);
+    // }
     free(j);
 }
