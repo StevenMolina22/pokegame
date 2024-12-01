@@ -99,6 +99,7 @@ bool juego_jugar_semilla(void* ctx) {
     if (scanf("%zu", &semilla) == -1) {
         return false;
     };
+
     srand((unsigned int)semilla);
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;

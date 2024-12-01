@@ -69,6 +69,10 @@ void tablero_mostrar(Tablero* t) {
     size_t y = t->jugador->y;
     strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "Ω");
 
+    printf("Puntos: %zu\n", t->jugador->puntos);
+    printf("Multiplicador: %zu\n", t->jugador->multiplicador);
+    printf("Combo actual: \n");
+
     // pokemones
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {

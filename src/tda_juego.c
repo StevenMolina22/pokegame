@@ -52,8 +52,10 @@ void juego_terminar(Juego* j) {
 
 void juego_mostrar_resultados(Juego* j) {
     Jugador* jug = tablero_jugador(j->tablero);
+
     printf("Cadena mas larga: \n");
-    // iterar y mostrar pokemones de j->board->player->cadena_max
+    pokedex_print(jug->combo_max, stdout);
+
     printf("Maximos puntos: %zu\n", jug->puntos);
     printf("Maximo multiplicador: %zu\n", jug->multiplicador_max);
 }

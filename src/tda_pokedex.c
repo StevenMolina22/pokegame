@@ -121,6 +121,11 @@ bool _poke_print(void* poke, void* ctx) {
     return true;
 }
 
+bool _poke_print_nombre(void* poke, void* ctx) {
+    fprintf((FILE*)ctx, "%s\n", ((Poke*)poke)->nombre);
+    return true;
+}
+
 int cmp(void* p1, void* p2) {
     Poke* _p1 = p1;
     Poke* _p2 = p2;
@@ -137,7 +142,13 @@ void pokedex_print(Pokedex* pkx, FILE* archivo) {
     ABB* abb = abb_crear(&cmp);
     lista_iterar(pkx->lista, &agregar_a_abb, abb);
     abb_iterar_inorden(abb, &_poke_print, NULL);
-    // fprintf(archivo, "\n");
+    abb_destruir(abb);
+}
+
+void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
+    ABB* abb = abb_crear(&cmp);
+    lista_iterar(pkx->lista, &agregar_a_abb, abb);
+    abb_iterar_inorden(abb, &_poke_print_nombre, archivo);
     abb_destruir(abb);
 }
 
