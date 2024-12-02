@@ -1,4 +1,5 @@
 #include "tda_juego.h"
+// #include "io/io_utils.h"
 #include "tda_pokedex.h"
 #include "tda_tablero.h"
 #include "tipo_poke.h"
@@ -67,7 +68,6 @@ void juego_correr(Juego* j, int entrada) {
     }
     procesar_entrada(j, tecla_a_direccion(entrada));
     verificar_capturas(j);
-    // pokedex_print(tablero_pokedex(j->tablero), stdout);
     tablero_mostrar(j->tablero);
 }
 
@@ -84,8 +84,6 @@ void juego_mostrar_resultados(Juego* j) {
     Jugador* jug = tablero_jugador(j->tablero);
 
     printf("Cadena mas larga: \n");
-    pokedex_print(jug->combo_max, stdout);
-
     printf("Maximos puntos: %zu\n", jug->puntos);
     printf("Maximo multiplicador: %zu\n", jug->multiplicador_max);
 }
@@ -105,14 +103,18 @@ void verificar_capturas(Juego* j) {
     Pokedex* pkx = tablero_pokedex(j->tablero);
     Lista* l = pokedex_lista(pkx);
     ListaIt* it = lista_it_crear(l);
+    Jugador* jug = tablero_jugador(j->tablero);
 
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
         lista_it_avanzar(it);
         if (tablero_esta_capturado(j->tablero, p)) {
-            // TODO!: Solucionar problemas de memoria en esta seccion
+            if (jug->ultimo_capturado == p) {
+                jug->ultimo_capturado = NULL; // Limpiar referencia si es el mismo Poke
+            }
             actualizar_captura(j, p);
             lista_remover(l, i, NULL);
+            poke_destruir(p);
             pokedex_agregar_random(pkx);
         } else {
             i++;
@@ -125,22 +127,23 @@ void actualizar_captura(Juego* j, Poke* p) {
     Jugador* jug = tablero_jugador(j->tablero);
     Poke* ultimo = jug->ultimo_capturado;
 
-    if (ultimo == NULL || ultimo->nombre[0] == p->nombre[0] || ultimo->color == p->color) {
+    if (
+        ultimo == NULL ||
+        ultimo->nombre[0] == p->nombre[0] ||
+        ultimo->color == p->color
+    ) {
         jug->multiplicador++;
-        pokedex_agregar(jug->combo_actual, p);
-        size_t actual_len = pokedex_len(jug->combo_actual);
-        size_t max_len = pokedex_len(jug->combo_max);
-
-        if (actual_len > max_len) {
-            pokedex_destruir(jug->combo_max);
-            jug->combo_max = pokedex_copiar(jug->combo_actual);
+        // if (ultimo == NULL) {
+        //     jug->cant_combo = 0; // si es null
+        // }
+        jug->cant_combo++;
+        if (jug->cant_combo > jug->max_cant_combo) {
+            jug->max_cant_combo = jug->cant_combo;
         }
     } else {
-        // HAY FUGAS DE MEMORIA EN ESTE BLOQUE
-        pokedex_destruir(jug->combo_actual);
-        jug->combo_actual = pokedex_crear();
+        jug->cant_combo = 0;
         jug->multiplicador = 1;
-        jug->ultimo_capturado = NULL;
+        // jug->ultimo_capturado = NULL;
     }
 
     if (jug->multiplicador > jug->multiplicador_max) {
@@ -148,7 +151,7 @@ void actualizar_captura(Juego* j, Poke* p) {
     }
 
     jug->puntos += jug->multiplicador * p->puntos;
-    jug->ultimo_capturado = p;
+    // jug->ultimo_capturado = p;
 }
 
 // ---- GETTERS

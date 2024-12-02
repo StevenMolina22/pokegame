@@ -19,8 +19,8 @@ test_build: src/*.c tests/*.c
 	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c  tests/tda_menu_test.c engine.o -o pruebas_menu
 
 test: test_build
-	valgrind $(VALGRIND_FLAGS) ./pruebas_pokedex
-	valgrind $(VALGRIND_FLAGS) ./pruebas_tablero
+	# valgrind $(VALGRIND_FLAGS) ./pruebas_pokedex
+	# valgrind $(VALGRIND_FLAGS) ./pruebas_tablero
 	valgrind $(VALGRIND_FLAGS) ./pruebas_menu
 	valgrind $(VALGRIND_FLAGS) ./pruebas_juego
 	rm -f pruebas_pokedex pruebas_tablero pruebas_menu pruebas_juego

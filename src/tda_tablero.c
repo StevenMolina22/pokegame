@@ -1,4 +1,5 @@
 #include "tda_tablero.h"
+#include "lista/lista.h"
 #include "tda_tablero_priv.h"
 #include "tipo_poke.h"
 
@@ -63,6 +64,10 @@ bool tablero_esta_capturado(Tablero* t, Poke* p) {
 
 // IO
 
+bool _print_nombre(void* s, void* file) {
+    fprintf((FILE*)file, "%s ", (char*)s);
+    return true;
+}
 
 void tablero_mostrar(Tablero* t) {
     if (t == NULL) {
@@ -96,7 +101,11 @@ void tablero_mostrar(Tablero* t) {
            ANSI_COLOR_CYAN, "Activa tus combos!",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     printf("%s╚══════════════════════════════════════════════════════════╝\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-    pokedex_print_nombres(t->jugador->combo_actual, stdout);
+
+    // pokedex_print_nombres(t->jugador->combo_actual, stdout);
+    printf("Elementos son: \n");
+    // lista_iterar(t->jugador->atrapados, _print_nombre, stdout);
+    printf("\n");
 
     // Actualiza la posición de los pokemones en el tablero
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));

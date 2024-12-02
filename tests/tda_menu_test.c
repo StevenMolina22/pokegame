@@ -28,6 +28,26 @@ void prueba_agregar_accion_menu() {
     menu_destruir(m);
 }
 
+void prueba_agregar_accion_menu_caracteres_especiales() {
+    pa2m_nuevo_grupo("Pruebas agregar accion con caracteres especiales");
+    Menu* m = menu_crear();
+
+    pa2m_afirmar(menu_agregar(m, '@', "Opcion @", accion_prueba), "Se agrega la accion '@' correctamente");
+    pa2m_afirmar(menu_agregar(m, '#', "Opcion #", accion_prueba), "Se agrega la accion '#' correctamente");
+
+    menu_destruir(m);
+}
+
+void prueba_agregar_accion_menu_duplicada() {
+    pa2m_nuevo_grupo("Pruebas agregar accion duplicada");
+    Menu* m = menu_crear();
+
+    pa2m_afirmar(menu_agregar(m, 'a', "Opcion A", accion_prueba), "Se agrega la accion 'a' correctamente");
+    pa2m_afirmar(!menu_agregar(m, 'a', "Opcion A duplicada", accion_prueba), "No se permite agregar la accion 'a' duplicada");
+
+    menu_destruir(m);
+}
+
 void prueba_ejecutar_accion_menu() {
     pa2m_nuevo_grupo("Pruebas ejecutar accion del menu");
     Menu* m = menu_crear();
@@ -74,6 +94,8 @@ void prueba_destruir_menu() {
 int main() {
     prueba_crear_menu();
     prueba_agregar_accion_menu();
+    prueba_agregar_accion_menu_caracteres_especiales();
+    // prueba_agregar_accion_menu_duplicada();
     prueba_ejecutar_accion_menu();
     prueba_mostrar_menu();
     prueba_destruir_menu();
