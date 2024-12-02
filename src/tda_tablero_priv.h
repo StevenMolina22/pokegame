@@ -9,6 +9,7 @@ struct tablero {
     str_t matriz[ALTO][ANCHO]; // matriz de strings
     Jugador* jugador;
     Pokedex* pokes;
+    // Lista* pokes;
     size_t ancho;
     size_t alto;
     // TODO!: Verifica si agregar atributos de tiempo

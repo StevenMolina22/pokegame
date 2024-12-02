@@ -53,7 +53,6 @@ int main(int argc, char* argv[])
 
     char id_opcion = (char)getchar();
     id_opcion = (char)toupper(id_opcion);
-    // char id_opcion = 'J';
     menu_accion(m, id_opcion, &ctx);
 
     mostrar_cursor();

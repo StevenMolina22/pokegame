@@ -5,8 +5,11 @@
 #include "tipo_poke.h"
 #include "lista/lista.h"
 
+#define N_POKES_TABLERO 7
+
 struct juego {
     Tablero* tablero;
+    Pokedex* pokedex;
     size_t semilla;
     time_t tiempo_inicio;
 };
@@ -29,14 +32,22 @@ Juego* juego_crear() {
         return NULL;
     }
 
-    Pokedex* pkx = pokedex_crear();
-    if (pkx == NULL) {
+    Pokedex* pkx_tablero = pokedex_crear();
+    if (pkx_tablero == NULL) {
         free(juego);
         free(jugador);
         return NULL;
     }
 
-    juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx);
+    juego->pokedex = pokedex_crear();
+    if (juego->pokedex == NULL) {
+        free(juego);
+        free(jugador);
+        free(pkx_tablero);
+        return NULL;
+    }
+
+    juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx_tablero);
     if (juego->tablero == NULL) {
         return NULL;
     }
@@ -49,6 +60,7 @@ void juego_destruir(Juego* j) {
         return;
     }
     tablero_destruir(j->tablero);
+    pokedex_destruir(j->pokedex);
     free(j);
 }
 
@@ -59,7 +71,29 @@ void juego_iniciar(Juego* j, CSV* csv) {
         return;
     }
     Pokedex* pkx = tablero_pokedex(j->tablero);
-    pokedex_cargar_desde(pkx, csv);
+    pokedex_cargar_desde(j->pokedex, csv);
+
+    size_t i = 0;
+    size_t pkx_len = pokedex_len(j->pokedex);
+    while (i < N_POKES_TABLERO && i < pkx_len) {
+        size_t idx = (size_t)rand() % pkx_len;
+        Poke* p;
+        lista_obtener(pokedex_lista(j->pokedex), idx, (void**)&p);
+        pokedex_agregar(pkx, poke_copiar(p));
+        i++;
+    }
+    // ListaIt* it = lista_it_crear(pokedex_lista(j->pokedex));
+    // size_t i = 0;
+    // while (lista_it_hay_siguiente(it)) {
+    //     if (i == N_POKES_TABLERO) {
+    //         break;
+    //     }
+    //     Poke* p = lista_it_actual(it);
+    //     pokedex_agregar(pkx, poke_copiar(p));
+    //     lista_it_avanzar(it);
+    //     i++;
+    // }
+    // lista_it_destruir(it);
 }
 
 void juego_correr(Juego* j, int entrada) {
