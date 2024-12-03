@@ -40,6 +40,6 @@ bool menu_agregar(Menu* m, char id, char* opcion, Fn f_accion);
 /**
  *
  */
-void menu_mostrar(Menu* m);
+void menu_print(Menu* m);
 
 #endif

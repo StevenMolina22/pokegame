@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         return ERROR;
     }
     init_menu(m);
-    menu_mostrar(m);
+    menu_print(m);
 
     Juego* juego = juego_crear();
     if (juego == NULL) {
@@ -116,5 +116,5 @@ bool opcion_juego_jugar_semilla(void* ctx) {
 
 bool opcion_salir(void* ctx) {
     printf("Saliendo...\n");
-    return false;
+    return true;
 }

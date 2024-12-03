@@ -34,8 +34,8 @@ typedef enum direccion {
 typedef enum patron {
     PatronArriba      = 'N',
     PatronAbajo       = 'S',
-    PatronIzquierda   = 'E',
-    PatronDerecha     = 'O',
+    PatronDerecha     = 'E',
+    PatronIzquierda   = 'O',
     PatronEspejo      = 'J',
     PatronInverso     = 'I',
     PatronRandom      = 'R',
@@ -54,5 +54,7 @@ typedef enum color {
 // Conversores
 Color color_desde(char* s);
 void str_desde(Color color, char* s);
+Direccion patron_a_direccion(Patron p);
+Direccion tecla_a_direccion(Tecla t);
 
 #endif

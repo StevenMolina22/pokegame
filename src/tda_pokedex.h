@@ -32,15 +32,15 @@ Pokedex* pokedex_copiar(Pokedex* pkx);
 /**
  * Agrega un pokemon a la pokedex
  */
-void pokedex_agregar(Pokedex* pkx, Poke* p);
+bool pokedex_agregar(Pokedex* pkx, Poke* p);
 /**
  * Vacia la pokedex de todos sus pokemones
  */
-void pokedex_vaciar(Pokedex* pkx);
+bool pokedex_vaciar(Pokedex* pkx);
 /**
  * Agrega un pokemon random a la pokedex
  */
-void pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta);
+bool pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta);
 
 
 

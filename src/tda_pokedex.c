@@ -55,30 +55,36 @@ Pokedex* pokedex_copiar(Pokedex* pkx) {
 }
 
 // ---- PRINCIPALES
-void pokedex_agregar(Pokedex* pkx, Poke* p) {
+bool pokedex_agregar(Pokedex* pkx, Poke* p) {
     if (pkx == NULL) {
-        return;
+        return false;
     }
     lista_agregar(pkx->lista, p);
+    return true;
 }
 
-void pokedex_vaciar(Pokedex* pkx) {
+bool pokedex_vaciar(Pokedex* pkx) {
     if (pkx == NULL) {
-        return;
+        return false;
     }
     lista_destruir_todo(pkx->lista, &_poke_destruir);
     Lista* l = lista_crear();
     if (l == NULL) {
-        return;
+        return false;
     }
     pkx->lista = l;
+    return true;
 }
 
-void pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta) {
+bool pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta) {
+    if (pkx_desde == NULL || pkx_hasta == NULL) {
+        return false;
+    }
     size_t idx = (size_t)rand() % pokedex_len(pkx_desde);
     Poke* p;
     lista_obtener(pokedex_lista(pkx_desde), idx, (void**)&p);
     pokedex_agregar(pkx_hasta, poke_copiar(p));
+    return true;
 }
 
 // ---- GETTERS

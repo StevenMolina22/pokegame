@@ -70,7 +70,9 @@ void juego_iniciar(Juego* j, CSV* csv) {
         return;
     }
     Pokedex* pkx = tablero_pokedex(j->tablero);
-    pokedex_cargar_desde(j->pokedex, csv);
+    if (!pokedex_cargar_desde(j->pokedex, csv)){
+        return;
+    };
 
     size_t i = 0;
     size_t pkx_len = pokedex_len(j->pokedex);
@@ -100,6 +102,7 @@ void juego_mostrar_resultados(Juego* j) {
 
     printf("Puntaje alzanzado: %zu\n", jug->puntos);
     printf("Maximo multiplicador: %zu\n", jug->multiplicador_max);
+    // TODO!
     // printf("Cadena mas larga: \n");
     printf("Maximo cantidad de combo: %zu\n", jug->max_cant_combo);
 }
@@ -152,7 +155,7 @@ void actualizar_captura(Juego* j, Poke* p) {
     } else {
         jug->cant_combo = 0;
         jug->multiplicador = 1;
-        // jug->ultimo_capturado = NULL;
+        // jug->ultimo_capturado = NULL; ??? Remove or let be?
     }
 
     if (jug->multiplicador > jug->multiplicador_max) {

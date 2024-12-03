@@ -25,7 +25,7 @@ void tablero_destruir(Tablero* t);
 /**
  * Limpia el tablero de cualquier elemento que tenga, dejandolo completamento vacio
  */
-void tablero_vaciar(Tablero* t);
+void tablero_vaciar_celdas(Tablero* t);
 /**
  * Verifica que el jugador haya captura el pokemon dado
  */

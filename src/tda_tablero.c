@@ -42,7 +42,7 @@ void tablero_destruir(Tablero* t) {
 }
 
 // ----GENERALES
-void tablero_vaciar(Tablero* t) {
+void tablero_vaciar_celdas(Tablero* t) {
     if (t == NULL) {
         return;
     }
@@ -72,7 +72,7 @@ void tablero_mostrar(Tablero* t) {
     if (t == NULL) {
         return;
     }
-    tablero_vaciar(t);
+    tablero_vaciar_celdas(t);
 
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;

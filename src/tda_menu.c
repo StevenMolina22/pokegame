@@ -44,26 +44,41 @@ void menu_destruir(Menu* m) {
 }
 
 // ---- PRINCIPALES
+
 bool menu_agregar(Menu* m, char id, char* opcion, Fn f_accion) {
-    if (m == NULL) {
+    if (m == NULL || opcion == NULL || opcion[0] == '\0' || f_accion == NULL) {
         return false;
     }
     char s_id[2];
-    s_id[0] = id;
+    s_id[0] = (char)toupper(id);
     s_id[1] = '\0';
-    hash_insertar(m->opciones, s_id, opcion, NULL);
+
+    if (hash_contiene(m->acciones, s_id)) {
+        return false; // No se permiten claves repetidas
+    }
+    if (!hash_insertar(m->opciones, s_id, opcion, NULL)) {
+        return false;
+    }
+
     FuncAccion* fn = malloc(sizeof(FuncAccion));
+    if (fn == NULL) {
+        return false;
+    }
     fn->accion = f_accion;
-    hash_insertar(m->acciones, s_id, fn, NULL);
+
+    if (!hash_insertar(m->acciones, s_id, fn, NULL)) {
+        free(fn);
+        return false;
+    }
     return true;
 }
 
 bool menu_accion(Menu* m, char c, void* ctx) {
-    if (c == 'q' || c == 'Q') {
+    if (m == NULL) {
         return false;
     }
     char s[2];
-    s[0] = c;
+    s[0] = (char)toupper(c);
     s[1] = '\0';
     FuncAccion* fn = hash_buscar(m->acciones, s);
     if (fn == NULL || fn->accion == NULL) {
@@ -73,7 +88,10 @@ bool menu_accion(Menu* m, char c, void* ctx) {
     return true;
 }
 
-void menu_mostrar(Menu* m) {
+void menu_print(Menu* m) {
+    if (m == NULL) {
+        return;
+    }
     printf("Opciones: \n");
     hash_iterar(m->opciones, &imprimir_entrada, NULL);
 }
