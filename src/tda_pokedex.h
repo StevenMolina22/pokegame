@@ -50,7 +50,7 @@ bool pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta);
 /**
  * Devuelve la cantidad de pokemones en la pokedex
  */
-size_t pokedex_len(Pokedex* pkx);
+size_t pokedex_cant(Pokedex* pkx);
 /**
  * Devuelve una lista con todos los pokemones de la pokedex
  */

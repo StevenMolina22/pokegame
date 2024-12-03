@@ -5,10 +5,7 @@
 #include <stdbool.h>
 
 typedef struct lista Lista;
-typedef struct lista_it ListaIt;
-
-// NOTA IMPORTANTE: El nombre de algunas funciones y estructuras fue acortado para mayor legibilidad del codigo,
-//              el funcionamiento de las funciones y sus firmas es exactamente el mismo
+typedef struct lista_iterador Lista_iterador;
 
 Lista *lista_crear();
 void lista_destruir(Lista *);
@@ -22,7 +19,7 @@ void lista_destruir_todo(Lista *, void (*destructor)(void *));
  * Devuelve la cantidad de elementos de la lista.
  * Una lista NULL tiene 0 elementos.
  */
-size_t lista_len(Lista *);
+size_t lista_cantidad_elementos(Lista *);
 
 /**
  * Inserta un elemento en la lista en la posicion dada.
@@ -32,12 +29,12 @@ size_t lista_len(Lista *);
  * Devuelve true si pudo, false en caso de error.
  *
  */
-bool lista_insertar(Lista *l, size_t posicion, void *cosa);
+bool lista_agregar_elemento(Lista *lista, size_t posicion, void *cosa);
 
 /**
   * Inserta un elemento al final de la lista.
   */
-bool lista_agregar(Lista *l, void *cosa);
+bool lista_agregar_al_final(Lista *lista, void *cosa);
 
 /**
  * Elimina un elemento de la posicion dada.
@@ -46,8 +43,8 @@ bool lista_agregar(Lista *l, void *cosa);
  *
  * En caso de error devuelve false, caso contrario true.
  */
-bool lista_remover(Lista *l, size_t idx,
-			   void **removido);
+bool lista_quitar_elemento(Lista *lista, size_t posicion,
+			   void **elemento_quitado);
 
 /**
  * Busca el elemento buscado en la lista y lo devuelve si lo encuentra.
@@ -56,7 +53,7 @@ bool lista_remover(Lista *l, size_t idx,
  *
  * En caso de no encontrarlo devuelve NULL.
  */
-void *lista_buscar(Lista *l, void *buscado,
+void *lista_buscar_elemento(Lista *lista, void *buscado,
 			    int (*comparador)(void *, void *));
 
 /**
@@ -68,8 +65,8 @@ void *lista_buscar(Lista *l, void *buscado,
  *
  * Devuelve true si pudo obtener el elemento o false en caso de error.
  */
-bool lista_obtener(Lista *l, size_t posicion,
-			    void **encontrado);
+bool lista_obtener_elemento(Lista *lista, size_t posicion,
+			    void **elemento_encontrado);
 
 /**
  * Recorre la lista aplicando la funcion f a cada elemento en orden.
@@ -80,7 +77,7 @@ bool lista_obtener(Lista *l, size_t posicion,
  *
  * Devuelve la cantidad de elementos iterados.
  * */
-size_t lista_iterar(Lista *l, bool (*f)(void *, void *),
+size_t lista_iterar_elementos(Lista *lista, bool (*f)(void *, void *),
 			      void *ctx);
 
 /**
@@ -88,28 +85,28 @@ size_t lista_iterar(Lista *l, bool (*f)(void *, void *),
  *
  * En caso de error devuelve NULL
  */
-ListaIt *lista_it_crear(Lista *l);
+Lista_iterador *lista_iterador_crear(Lista *lista);
 
 /**
  * Devuelve true si hay siguiente.
  */
-bool lista_it_hay_siguiente(ListaIt *);
+bool lista_iterador_hay_siguiente(Lista_iterador *);
 
 /**
  *
  * Hace que el iterador avance al siguiente elemento de la lista.
  *
  */
-void lista_it_avanzar(ListaIt *);
+void lista_iterador_avanzar(Lista_iterador *);
 
 /**
  * Devuelve el elemento iterado
  */
-void *lista_it_actual(ListaIt *);
+void *lista_iterador_obtener_elemento_actual(Lista_iterador *);
 
 /**
  * Eso
  */
-void lista_it_destruir(ListaIt *);
+void lista_iterador_destruir(Lista_iterador *);
 
 #endif /* LISTA_H */

@@ -10,7 +10,7 @@ valgrind-alumno: pruebas_alumno
 	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
 
 pruebas_alumno: src/*.c pruebas_alumno.c engine
-	$(CC) $(CFLAGSDEBUG) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
+	$(CC) $(CFLAGS) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
 
 test_build: src/*.c tests/*.c
 	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_pokedex_test.c engine.o -o pruebas_pokedex
