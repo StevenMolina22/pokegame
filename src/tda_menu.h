@@ -2,6 +2,7 @@
 #define TDA_MENU_H
 
 #include "tipos.h"
+#include "hash.h"
 
 typedef bool (*Fn)(void* ctx);
 

@@ -1,7 +1,5 @@
 #include "tda_tablero.h"
-#include "lista/lista.h"
 #include "tda_tablero_priv.h"
-#include "tipo_poke.h"
 
 
 // ---- INTERFAZ TDA

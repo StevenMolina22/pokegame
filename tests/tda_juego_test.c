@@ -1,6 +1,6 @@
 #include "pa2m.h"
 #include "../src/tda_juego.h"
-#include "../src/io/io_csv.h"
+#include "../src/io_csv.h"
 
 void prueba_crear_juego() {
     pa2m_nuevo_grupo("Pruebas de creación de juego");

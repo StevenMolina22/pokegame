@@ -1,5 +1,4 @@
 #include "tda_menu.h"
-#include "hash/hash.h"
 
 struct menu {
     Hash* opciones;

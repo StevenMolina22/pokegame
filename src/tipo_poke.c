@@ -1,7 +1,4 @@
 #include "tipo_poke.h"
-#include "io/io_csv.h"
-#include "io/io_utils.h"
-#include "tipos.h"
 
 #define N_COLS 4
 

@@ -1,9 +1,4 @@
 #include "tda_juego.h"
-#include "tda_pokedex.h"
-#include "tda_tablero.h"
-#include "tipo_poke.h"
-#include "lista/lista.h"
-
 #define N_POKES_TABLERO 7
 
 struct juego {

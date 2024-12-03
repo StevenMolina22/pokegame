@@ -155,7 +155,7 @@ void prueba_tablero_mover_pokemon_borde() {
     tablero_destruir(t);
 }
 
-void prueba_tablero_captura_pokemon_extendida() {
+void prueba_tablero_captura_pokemon_borde() {
     pa2m_nuevo_grupo("Pruebas borde de captura de pokémon");
     Tablero* t = tablero_crear(32, 15);
     Jugador* j = tablero_jugador(t);
@@ -175,6 +175,7 @@ void prueba_tablero_captura_pokemon_extendida() {
 
     tablero_destruir(t);
 }
+
 int main() {
     prueba_crear_tablero();
     prueba_crear_tablero_borde();
@@ -185,7 +186,7 @@ int main() {
     prueba_tablero_mover_pokemon();
     prueba_tablero_mover_pokemon_borde();
     prueba_tablero_captura_pokemon();
-    prueba_tablero_captura_pokemon_extendida();
+    prueba_tablero_captura_pokemon_borde();
     prueba_tablero_mostrar();
     return pa2m_mostrar_reporte();
 }

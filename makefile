@@ -10,13 +10,13 @@ valgrind-alumno: pruebas_alumno
 	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
 
 pruebas_alumno: src/*.c pruebas_alumno.c engine
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c pruebas_alumno.c engine.o -o pruebas_alumno
+	$(CC) $(CFLAGSDEBUG) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
 
 test_build: src/*.c tests/*.c
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c  tests/tda_pokedex_test.c engine.o -o pruebas_pokedex
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c  tests/tda_tablero_test.c engine.o -o pruebas_tablero
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c  tests/tda_menu_test.c engine.o -o pruebas_menu
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c  tests/tda_juego_test.c engine.o -o pruebas_juego
+	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_pokedex_test.c engine.o -o pruebas_pokedex
+	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_tablero_test.c engine.o -o pruebas_tablero
+	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_menu_test.c engine.o -o pruebas_menu
+	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_juego_test.c engine.o -o pruebas_juego
 
 test: test_build
 	valgrind $(VALGRIND_FLAGS) ./pruebas_pokedex
@@ -32,10 +32,10 @@ engine:
 	$(CC) $(ENGINECFLAGS) -c extra/engine.c -o engine.o
 
 tp2: engine
-	$(CC) $(CFLAGS) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c tp2.c engine.o -o tp2
+	$(CC) $(CFLAGS) src/*.c tp2.c engine.o -o tp2
 
 tp2-debug: engine
-	$(CC) $(CFLAGSDEBUG) src/*.c src/abb/*.c src/lista/*.c src/hash/*.c src/io/*.c tp2.c engine.o -o tp2
+	$(CC) $(CFLAGSDEBUG) src/*.c tp2.c engine.o -o tp2
 
 debug: tp2-debug
 	gdb --args ./tp2 datos/pokedex.csv

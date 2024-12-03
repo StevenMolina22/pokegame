@@ -1,5 +1,4 @@
 #include "tipo_jugador.h"
-#include "tipo_poke.h"
 
 Jugador* jugador_crear() {
     Jugador* jugador = calloc(1, sizeof(Jugador));

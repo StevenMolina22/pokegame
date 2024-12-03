@@ -5,7 +5,7 @@
 #include <string.h>
 #include "../src/tda_pokedex.h"
 #include "../src/tipo_poke.h"
-#include "../src/io/io_csv.h"
+#include "../src/io_csv.h"
 
 void test_pokedex_crear_destruir() {
     Pokedex* pkx = pokedex_crear();
