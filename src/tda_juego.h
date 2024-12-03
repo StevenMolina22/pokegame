@@ -39,7 +39,7 @@ void juego_mostrar_resultados(Juego* j);
 
 
 // ---- GETTERS
-
+Tablero* juego_tablero(Juego* j);
 /**
  * Devuelve el tiempo en el que se empezo el juego
  */

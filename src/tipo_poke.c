@@ -8,12 +8,12 @@ Poke* poke_crear(char* nombre, size_t puntos, Color color, char* patron) {
     if (poke == NULL) {
         return NULL;
     }
-    poke->nombre = my_strdup(nombre);
+    poke->nombre = str_copy(nombre);
     if (poke->nombre == NULL) {
         free(poke);
         return NULL;
     }
-    poke->patron = my_strdup(patron);
+    poke->patron = str_copy(patron);
     if (poke->patron == NULL) {
         free(poke->nombre);
         free(poke);
@@ -34,12 +34,12 @@ Poke* poke_copiar(Poke* p) {
     if (nuevo == NULL) {
         return NULL;
     }
-    nuevo->nombre = my_strdup(p->nombre);
+    nuevo->nombre = str_copy(p->nombre);
     if (nuevo->nombre == NULL) {
         free(nuevo);
         return NULL;
     }
-    nuevo->patron = my_strdup(p->patron);
+    nuevo->patron = str_copy(p->patron);
     if (nuevo->patron == NULL) {
         free(nuevo->nombre);
         free(nuevo);

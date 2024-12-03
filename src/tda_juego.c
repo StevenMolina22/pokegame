@@ -142,6 +142,12 @@ void actualizar_captura(Juego *j, Poke *p) {
 }
 
 // ---- GETTERS
+Tablero* juego_tablero(Juego* j) {
+    if (j == NULL) {
+        return NULL;
+    }
+    return j->tablero;
+}
 time_t juego_tiempo_inicio(Juego *j) {
     if (j == NULL) {
         return 0;

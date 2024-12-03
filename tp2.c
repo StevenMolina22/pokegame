@@ -16,15 +16,7 @@ bool opcion_mostrar_pokedex(void* ctx);
 bool opcion_juego_jugar(void* ctx);
 bool opcion_juego_jugar_semilla(void* ctx);
 bool opcion_salir(void* ctx);
-
-int logica(int entrada, void* datos) {
-    Juego* juego = datos;
-    borrar_pantalla();
-    juego_correr(juego, entrada);
-    esconder_cursor();
-    bool tiempo_limite = (difftime(time(NULL), juego_tiempo_inicio(juego)) >= TIEMPO_MAX);
-    return entrada == 'q' || entrada == 'Q' || tiempo_limite;
-}
+int logica(int entrada, void* datos);
 
 int main(int argc, char* argv[])
 {
@@ -63,6 +55,16 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+int logica(int entrada, void* datos) {
+    Juego* juego = datos;
+    borrar_pantalla();
+    juego_correr(juego, entrada);
+    esconder_cursor();
+    bool tiempo_limite = (difftime(time(NULL), juego_tiempo_inicio(juego)) >= TIEMPO_MAX);
+    return entrada == 'q' || entrada == 'Q' || tiempo_limite;
+}
+
+// ---- OPCIONES AGREGADAS AL MENU
 void init_menu(Menu* m) {
     menu_agregar(m, 'P', "Pokedex", &opcion_mostrar_pokedex);
     menu_agregar(m, 'J', "Jugar", &opcion_juego_jugar);
