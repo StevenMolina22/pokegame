@@ -25,28 +25,14 @@ Juego* juego_crear() {
         return NULL;
     }
 
-    Jugador* jugador = jugador_crear();
-    if (jugador == NULL) {
-        free(juego);
-        return NULL;
-    }
-
-    Pokedex* pkx_tablero = pokedex_crear();
-    if (pkx_tablero == NULL) {
-        free(juego);
-        free(jugador);
-        return NULL;
-    }
 
     juego->pokedex = pokedex_crear();
     if (juego->pokedex == NULL) {
         free(juego);
-        free(jugador);
-        free(pkx_tablero);
         return NULL;
     }
 
-    juego->tablero = tablero_crear(ANCHO, ALTO, jugador, pkx_tablero);
+    juego->tablero = tablero_crear(ANCHO, ALTO);
     if (juego->tablero == NULL) {
         return NULL;
     }

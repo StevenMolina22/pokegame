@@ -12,7 +12,7 @@ typedef struct tablero Tablero;
 /**
  * Crea un tablero que guarda un jugador y una pokedex, para luego ser representados
  */
-Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* j, Pokedex* pkx);
+Tablero* tablero_crear(size_t ancho, size_t alto);
 /**
  * Destruye el tablero y todas las estructuras relacionados a este
  */

@@ -6,12 +6,24 @@
 
 // ---- INTERFAZ TDA
 // INIT & DEINIT
-Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx) {
+Tablero* tablero_crear(size_t ancho, size_t alto) {
     Tablero* t = calloc(1, sizeof(Tablero));
     if (t == NULL) {
         return NULL;
     }
 
+    Jugador* jugador = jugador_crear();
+        if (jugador == NULL) {
+            free(t);
+            return NULL;
+        }
+
+    Pokedex* pkx = pokedex_crear();
+    if (pkx == NULL) {
+        free(t);
+        free(jugador);
+        return NULL;
+    }
     // TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
     for (size_t i = 0; i < ALTO; i++) {
         for (size_t j = 0; j < ANCHO; j++) {
