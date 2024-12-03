@@ -12,7 +12,6 @@ struct tablero {
     // Lista* pokes;
     size_t ancho;
     size_t alto;
-    // TODO!: Verifica si agregar atributos de tiempo
 };
 
 // VERIFICACIONES

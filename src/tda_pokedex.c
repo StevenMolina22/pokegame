@@ -2,7 +2,6 @@
 #include "abb/abb.h"
 #include "lista/lista.h"
 #include "tipo_poke.h"
-// #include "tipos.h"
 
 struct pokedex {
     Lista* lista;

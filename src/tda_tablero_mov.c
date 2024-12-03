@@ -121,7 +121,6 @@ bool esta_en_rango(Tablero* t, size_t x, size_t y, Direccion d) {
 
 // Movimientos Auxiliares
 void mover_random(Tablero* t, Poke* p) {
-    // TODO!
     while (true) {
         Direccion d = rand() % 4;
         if (esta_en_rango(t, p->x, p->y, d)) {

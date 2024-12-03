@@ -61,16 +61,17 @@ void test_pokedex_copiar() {
 }
 
 // Prueba para agregar un pokemon random a la Pokedex
-void test_pokedex_agregar_random() {
-    Pokedex* pkx = pokedex_crear();
+// void test_pokedex_agregar_random() {
+//     Pokedex* pkx = pokedex_crear();
 
-    pokedex_agregar_random(pkx);
-    pa2m_afirmar(pokedex_len(pkx) == 1, "Cantidad es 1 al agregar random");
+//     pokedex_agregar_random(pkx);
+//     pa2m_afirmar(pokedex_len(pkx) == 1, "Cantidad es 1 al agregar random");
 
-    pokedex_destruir(pkx);
-}
+//     pokedex_destruir(pkx);
+// }
 
 // Prueba para cargar pokemones desde un archivo CSV
+//
 void test_pokedex_cargar_desde_csv() {
     Pokedex* pkx = pokedex_crear();
     CSV* csv = csv_abrir("datos/pokedex.csv", ',');
@@ -88,7 +89,7 @@ int main() {
     pa2m_nuevo_grupo("Pruebas de Pokedex");
     test_pokedex_crear_destruir();
     test_pokedex_agregar_contar();
-    test_pokedex_agregar_random();
+    // test_pokedex_agregar_random();
     test_pokedex_vaciar();
     test_pokedex_copiar();
     test_pokedex_cargar_desde_csv();

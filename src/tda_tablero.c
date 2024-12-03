@@ -17,7 +17,6 @@ Tablero* tablero_crear(size_t ancho, size_t alto, Jugador* jugador, Pokedex* pkx
         for (size_t j = 0; j < ANCHO; j++) {
             t->matriz[i][j] = malloc(20 * sizeof(char));
             strcpy(t->matriz[i][j], " ");
-            // t->matriz[i][j] = " ";
         }
     }
 
@@ -73,7 +72,6 @@ void tablero_mostrar(Tablero* t) {
     if (t == NULL) {
         return;
     }
-
     tablero_vaciar(t);
 
     size_t x = t->jugador->x;
@@ -94,20 +92,16 @@ void tablero_mostrar(Tablero* t) {
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
            ANSI_COLOR_YELLOW, t->jugador->multiplicador,
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-    printf("%s║   %sNro Atrapados: %-40zu%s║\n",
+    printf("%s║   %sNro de atrapados en combo: %-28zu%s║\n",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
            ANSI_COLOR_CYAN, t->jugador->cant_combo,
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-    printf("%s║   %sUltimo Atrapado: %-40s%s\n",
+    printf("%s║   %sUltimo Atrapado: %-38s%s║\n",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
            ANSI_COLOR_CYAN,
            ultimo ? t->jugador->ultimo_capturado->nombre : "",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     printf("%s╚══════════════════════════════════════════════════════════╝\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-
-    printf("Elementos son: \n");
-    // lista_iterar(t->jugador->atrapados, _print_nombre, stdout);
-    printf("\n");
 
     // Actualiza la posición de los pokemones en el tablero
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
@@ -120,7 +114,6 @@ void tablero_mostrar(Tablero* t) {
     }
     lista_it_destruir(it);
 
-    // Imprime la matriz del tablero
     matriz_print(t->matriz);
 }
 
@@ -156,11 +149,12 @@ size_t tablero_alto(Tablero* t) {
 }
 
 
+
 void matriz_print(str_t m[ALTO][ANCHO]) {
     // Línea superior
     printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "+");
     for (size_t j = 0; j < ANCHO; j++) {
-        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "--");
+        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "-");
     }
     printf("%s+\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
 
@@ -180,7 +174,7 @@ void matriz_print(str_t m[ALTO][ANCHO]) {
     // Línea inferior
     printf("%s", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "+");
     for (size_t j = 0; j < ANCHO; j++) {
-        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "--");
+        printf("%s-", ANSI_COLOR_WHITE ANSI_COLOR_BOLD "-");
     }
     printf("%s+\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
 }

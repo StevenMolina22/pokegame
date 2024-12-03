@@ -12,10 +12,10 @@ typedef struct accion_ctx {
 } AccionCtx;
 
 void init_menu(Menu* m);
-bool mostrar_pokedex(void* ctx);
-bool juego_jugar(void* ctx);
-bool juego_jugar_semilla(void* ctx);
-bool salir(void* ctx);
+bool opcion_mostrar_pokedex(void* ctx);
+bool opcion_juego_jugar(void* ctx);
+bool opcion_juego_jugar_semilla(void* ctx);
+bool opcion_salir(void* ctx);
 
 int logica(int entrada, void* datos) {
     Juego* juego = datos;
@@ -64,13 +64,13 @@ int main(int argc, char* argv[])
 }
 
 void init_menu(Menu* m) {
-    menu_agregar(m, 'P', "Pokedex", &mostrar_pokedex);
-    menu_agregar(m, 'J', "Jugar", &juego_jugar);
-    menu_agregar(m, 'S', "Semilla", &juego_jugar_semilla);
-    menu_agregar(m, 'Q', "Quit", &salir);
+    menu_agregar(m, 'P', "Pokedex", &opcion_mostrar_pokedex);
+    menu_agregar(m, 'J', "Jugar", &opcion_juego_jugar);
+    menu_agregar(m, 'S', "Semilla", &opcion_juego_jugar_semilla);
+    menu_agregar(m, 'Q', "Quit", &opcion_salir);
 }
 
-bool mostrar_pokedex(void* ctx) {
+bool opcion_mostrar_pokedex(void* ctx) {
     AccionCtx* _ctx = ctx;
     CSV* csv = _ctx->csv;
 
@@ -82,7 +82,7 @@ bool mostrar_pokedex(void* ctx) {
     return false;
 }
 
-bool juego_jugar(void* ctx) {
+bool opcion_juego_jugar(void* ctx) {
     srand((unsigned int)time(NULL));
     AccionCtx* _ctx = ctx;
     Juego* juego = _ctx->juego;
@@ -95,7 +95,7 @@ bool juego_jugar(void* ctx) {
 	return true;
 }
 
-bool juego_jugar_semilla(void* ctx) {
+bool opcion_juego_jugar_semilla(void* ctx) {
     size_t semilla;
     printf("Ingrese una semilla: ");
     if (scanf("%zu", &semilla) == -1) {
@@ -114,7 +114,7 @@ bool juego_jugar_semilla(void* ctx) {
     return false;
 }
 
-bool salir(void* ctx) {
-    printf("Salir");
+bool opcion_salir(void* ctx) {
+    printf("Saliendo...\n");
     return false;
 }

@@ -1,5 +1,4 @@
 #include "tda_juego.h"
-// #include "io/io_utils.h"
 #include "tda_pokedex.h"
 #include "tda_tablero.h"
 #include "tipo_poke.h"
@@ -82,18 +81,6 @@ void juego_iniciar(Juego* j, CSV* csv) {
         pokedex_agregar(pkx, poke_copiar(p));
         i++;
     }
-    // ListaIt* it = lista_it_crear(pokedex_lista(j->pokedex));
-    // size_t i = 0;
-    // while (lista_it_hay_siguiente(it)) {
-    //     if (i == N_POKES_TABLERO) {
-    //         break;
-    //     }
-    //     Poke* p = lista_it_actual(it);
-    //     pokedex_agregar(pkx, poke_copiar(p));
-    //     lista_it_avanzar(it);
-    //     i++;
-    // }
-    // lista_it_destruir(it);
 }
 
 void juego_correr(Juego* j, int entrada) {
@@ -111,9 +98,10 @@ void juego_mostrar_resultados(Juego* j) {
     }
     Jugador* jug = tablero_jugador(j->tablero);
 
-    printf("Cadena mas larga: \n");
-    printf("Maximos puntos: %zu\n", jug->puntos);
+    printf("Puntaje alzanzado: %zu\n", jug->puntos);
     printf("Maximo multiplicador: %zu\n", jug->multiplicador_max);
+    // printf("Cadena mas larga: \n");
+    printf("Maximo cantidad de combo: %zu\n", jug->max_cant_combo);
 }
 
 
@@ -131,15 +119,11 @@ void verificar_capturas(Juego* j) {
     Pokedex* pkx = tablero_pokedex(j->tablero);
     Lista* l = pokedex_lista(pkx);
     ListaIt* it = lista_it_crear(l);
-    // Jugador* jug = tablero_jugador(j->tablero);
 
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
         lista_it_avanzar(it);
         if (tablero_esta_capturado(j->tablero, p)) {
-            // if (jug->ultimo_capturado == p) {
-            //     jug->ultimo_capturado = NULL;
-            // }
             lista_remover(l, i, NULL);
             actualizar_captura(j, p);
             poke_destruir(p);
@@ -161,9 +145,6 @@ void actualizar_captura(Juego* j, Poke* p) {
         ultimo->color == p->color
     ) {
         jug->multiplicador++;
-        if (ultimo == NULL) {
-            jug->cant_combo = 0; // si es null
-        }
         jug->cant_combo++;
         if (jug->cant_combo > jug->max_cant_combo) {
             jug->max_cant_combo = jug->cant_combo;
