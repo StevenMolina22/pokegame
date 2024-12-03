@@ -24,7 +24,7 @@ struct hash {
 size_t hasher(const char *str);
 Nodo *nodo_crear(char *clave, void *valor);
 void nodo_destruir(Nodo *nodo);
-Nodo *encontrar_nodo(Hash *hash, char *clave);
-bool agregar_entrada(Hash *hash, char *clave, void *valor);
-bool hash_rehash(Hash *hash);
+Nodo *encontrar_nodo(hash_t *hash, char *clave);
+bool agregar_entrada(hash_t *hash, char *clave, void *valor);
+bool hash_rehash(hash_t *hash);
 #endif

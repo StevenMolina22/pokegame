@@ -1,8 +1,8 @@
 #include "tda_menu.h"
 
 struct menu {
-    Hash* opciones;
-    Hash* acciones;
+    hash_t* opciones;
+    hash_t* acciones;
 };
 
 // Auxiliares:
@@ -15,13 +15,13 @@ Menu* menu_crear() {
         return NULL;
     }
 
-    Hash* opciones = hash_crear(8);
+    hash_t* opciones = hash_crear(8);
     if (opciones == NULL) {
         free(m);
         return NULL;
     }
 
-    Hash* acciones = hash_crear(8);
+    hash_t* acciones = hash_crear(8);
     if (acciones == NULL) {
         free(m);
         free(opciones);

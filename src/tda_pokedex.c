@@ -111,7 +111,7 @@ Lista *pokedex_lista(Pokedex *pkx)
 // ---- IO & CSV
 void pokedex_print(Pokedex *pkx, FILE *archivo)
 {
-	ABB *abb = abb_crear(&_cmp);
+	abb_t *abb = abb_crear(&_cmp);
 	lista_iterar_elementos(pkx->lista, &agregar_a_abb, abb);
 	abb_iterar_inorden(abb, &_poke_print, NULL);
 	abb_destruir(abb);
@@ -119,7 +119,7 @@ void pokedex_print(Pokedex *pkx, FILE *archivo)
 
 void pokedex_print_nombres(Pokedex *pkx, FILE *archivo)
 {
-	ABB *abb = abb_crear(&_cmp);
+	abb_t *abb = abb_crear(&_cmp);
 	if (abb == NULL) {
 		return;
 	}
@@ -146,7 +146,7 @@ bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv)
 // UTILS WRAPPERS
 bool agregar_a_abb(void *poke, void *ctx)
 {
-	ABB *abb = ctx;
+	abb_t *abb = ctx;
 	abb_insertar(abb, poke);
 	return true;
 }

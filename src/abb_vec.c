@@ -51,7 +51,7 @@ static size_t nodo_vectorizar_postorden(Nodo *nodo, void **vector,
 	return contador;
 }
 
-size_t abb_vectorizar_inorden(ABB *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_inorden(abb_t *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
@@ -59,7 +59,7 @@ size_t abb_vectorizar_inorden(ABB *abb, void **vector, size_t tamaño)
 	return nodo_vectorizar_inorden(abb->raiz, vector, tamaño, &indice);
 }
 
-size_t abb_vectorizar_preorden(ABB *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_preorden(abb_t *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
@@ -67,7 +67,7 @@ size_t abb_vectorizar_preorden(ABB *abb, void **vector, size_t tamaño)
 	return nodo_vectorizar_preorden(abb->raiz, vector, tamaño, &indice);
 }
 
-size_t abb_vectorizar_postorden(ABB *abb, void **vector, size_t tamaño)
+size_t abb_vectorizar_postorden(abb_t *abb, void **vector, size_t tamaño)
 {
 	if (!abb || !vector)
 		return 0;
