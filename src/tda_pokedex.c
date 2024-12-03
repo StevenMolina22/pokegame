@@ -164,7 +164,7 @@ bool _poke_print(void *poke, void *ctx)
 
 bool _poke_print_nombre(void *poke, void *ctx)
 {
-	fprintf((FILE *)ctx, "%s\n", ((Poke *)poke)->nombre);
+	fprintf((FILE *)ctx, "%s ", ((Poke *)poke)->nombre);
 	return true;
 }
 

@@ -1,25 +1,28 @@
 #include "extra/engine.h"
+#include "src/opciones_menu.h"
 #include "src/tda_menu.h"
 #include "src/tda_juego.h"
 #include "src/io_csv.h"
-#include "src/tda_pokedex.h"
 
-#define TIEMPO_MAX 60 // 1 minuto max
+void print_pokemon_ascii() {
+    printf("  _____      _                             \n");
+    printf(" |  __ \\    | |                            \n");
+    printf(" | |__) |__ | | _____ _ __ ___   ___  _ __ \n");
+    printf(" |  ___/ _ \\| |/ / _ \\ '_ ` _ \\ / _ \\| '_ \\ \n");
+    printf(" | |  | (_) |   <  __/ | | | | | (_) | | | |\n");
+    printf(" |_|   \\___/|_|\\_\\___|_| |_| |_|\\___/|_| |_|\n");
+}
 
-typedef struct accion_ctx {
-    CSV* csv;
-    Juego* juego;
-} AccionCtx;
-
-void init_menu(Menu* m);
-bool opcion_mostrar_pokedex(void* ctx);
-bool opcion_juego_jugar(void* ctx);
-bool opcion_juego_jugar_semilla(void* ctx);
-bool opcion_salir(void* ctx);
-int logica(int entrada, void* datos);
+void bienvenida() {
+    printf("%s", ANSI_COLOR_MAGENTA);
+    print_pokemon_ascii();
+    printf("%s", ANSI_COLOR_WHITE);
+    printf("Bienvenido al juego de Pokemon, selecciona una opcion\n");
+}
 
 int main(int argc, char* argv[])
 {
+    // Args & CSV
     if (argc != 2) {
         printf("Uso: %s <archivo.csv>\n", argv[0]);
         return ERROR;
@@ -30,13 +33,19 @@ int main(int argc, char* argv[])
         return ERROR;
     }
 
+    bienvenida();
+
+    // Menu
     Menu* m = menu_crear();
     if (m == NULL) {
         return ERROR;
     }
     init_menu(m);
+    printf("%s", ANSI_COLOR_CYAN);
     menu_print(m);
+    printf("%s", ANSI_COLOR_WHITE);
 
+    // Juego
     Juego* juego = juego_crear();
     if (juego == NULL) {
         return ERROR;
@@ -47,76 +56,10 @@ int main(int argc, char* argv[])
     id_opcion = (char)toupper(id_opcion);
     menu_accion(m, id_opcion, &ctx);
 
+    // Cerrar
     mostrar_cursor();
-
     csv_cerrar(csv);
     juego_destruir(juego);
     menu_destruir(m);
 	return 0;
-}
-
-int logica(int entrada, void* datos) {
-    Juego* juego = datos;
-    borrar_pantalla();
-    juego_correr(juego, entrada);
-    esconder_cursor();
-    bool tiempo_limite = (difftime(time(NULL), juego_tiempo_inicio(juego)) >= TIEMPO_MAX);
-    return entrada == 'q' || entrada == 'Q' || tiempo_limite;
-}
-
-// ---- OPCIONES AGREGADAS AL MENU
-void init_menu(Menu* m) {
-    menu_agregar(m, 'P', "Pokedex", &opcion_mostrar_pokedex);
-    menu_agregar(m, 'J', "Jugar", &opcion_juego_jugar);
-    menu_agregar(m, 'S', "Semilla", &opcion_juego_jugar_semilla);
-    menu_agregar(m, 'Q', "Quit", &opcion_salir);
-}
-
-bool opcion_mostrar_pokedex(void* ctx) {
-    AccionCtx* _ctx = ctx;
-    CSV* csv = _ctx->csv;
-
-    Pokedex* pkx = pokedex_crear();
-    pokedex_cargar_desde(pkx, csv);
-
-    pokedex_print(pkx, stdout);
-    pokedex_destruir(pkx);
-    return false;
-}
-
-bool opcion_juego_jugar(void* ctx) {
-    srand((unsigned int)time(NULL));
-    AccionCtx* _ctx = ctx;
-    Juego* juego = _ctx->juego;
-    CSV* csv = _ctx->csv;
-
-    juego_iniciar(juego, csv);
-    game_loop(logica, juego);
-
-    juego_mostrar_resultados(juego);
-	return true;
-}
-
-bool opcion_juego_jugar_semilla(void* ctx) {
-    size_t semilla;
-    printf("Ingrese una semilla: ");
-    if (scanf("%zu", &semilla) == -1) {
-        return false;
-    };
-
-    srand((unsigned int)semilla);
-    AccionCtx* _ctx = ctx;
-    Juego* juego = _ctx->juego;
-    CSV* csv = _ctx->csv;
-
-    juego_iniciar(juego, csv);
-    game_loop(logica, juego);
-
-    juego_mostrar_resultados(juego);
-    return false;
-}
-
-bool opcion_salir(void* ctx) {
-    printf("Saliendo...\n");
-    return true;
 }

@@ -227,8 +227,8 @@ void prueba_pokedex_agregar_contar()
 void prueba_pokedex_vaciar()
 {
 	Pokedex *pkx = pokedex_crear();
-	Poke *p1 = poke_crear("Bulbasaur", 150, Verde, "Grass");
-	Poke *p2 = poke_crear("Squirtle", 120, Azul, "Water");
+	Poke *p1 = poke_crear("Bulbasaur", 150, Verde, "N");
+	Poke *p2 = poke_crear("Squirtle", 120, Azul, "O");
 
 	pokedex_agregar(pkx, p1);
 	pokedex_agregar(pkx, p2);
@@ -249,8 +249,7 @@ void prueba_pokedex_copiar()
 	pokedex_agregar(pkx, p1);
 
 	Pokedex *pkx_copia = pokedex_copiar(pkx);
-	pa2m_afirmar(pokedex_cant(pkx_copia) == 1,
-		     "La cantidad es 1 luego de insertar");
+	pa2m_afirmar(pokedex_cant(pkx_copia) == 1, "La cantidad es 1 luego de insertar");
 
 	pokedex_destruir(pkx);
 	pokedex_destruir(pkx_copia);
@@ -297,8 +296,8 @@ void prueba_pokedex_agregar_random()
 void prueba_pokedex_lista()
 {
 	Pokedex *pkx = pokedex_crear();
-	Poke *p1 = poke_crear("Snorlax", 300, Verde, "Normal");
-	Poke *p2 = poke_crear("Lapras", 400, Azul, "Agua/Hielo");
+	Poke *p1 = poke_crear("Snorlax", 300, Verde, "NSEJ");
+	Poke *p2 = poke_crear("Lapras", 400, Azul, "JJO");
 
 	pokedex_agregar(pkx, p1);
 	pokedex_agregar(pkx, p2);
@@ -314,8 +313,8 @@ void prueba_pokedex_lista()
 void prueba_pokedex_imprimir_nombres()
 {
 	Pokedex *pkx = pokedex_crear();
-	Poke *p1 = poke_crear("Zapdos", 500, Amarillo, "Eléctrico");
-	Poke *p2 = poke_crear("Articuno", 500, Azul, "Hielo");
+	Poke *p1 = poke_crear("Zapdos", 500, Amarillo, "RIJOEEE");
+	Poke *p2 = poke_crear("Articuno", 500, Azul, "JJOOESN");
 
 	pokedex_agregar(pkx, p1);
 	pokedex_agregar(pkx, p2);
@@ -333,7 +332,7 @@ void prueba_pokedex_copiar_independencia()
 	Pokedex *pkx_original = pokedex_crear();
 	Pokedex *pkx_copia = pokedex_copiar(pkx_original);
 
-	Poke *p1 = poke_crear("Dragonite", 600, Amarillo, "Dragón");
+	Poke *p1 = poke_crear("Dragonite", 600, Amarillo, "NJIRRRS");
 	pokedex_agregar(pkx_original, p1);
 
 	pa2m_afirmar(pokedex_cant(pkx_original) == 1,

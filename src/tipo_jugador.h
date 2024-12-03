@@ -8,7 +8,8 @@ typedef struct jugador Jugador;
 struct jugador {
     Poke* ultimo_capturado;
     Direccion ultimo_movimiento;
-    // Lista* atrapados; // nombre de los pokemones atrapados
+    Pokedex* atrapados; // nombre de los pokemones atrapados
+    Pokedex* atrapados_max;
     size_t max_cant_combo;
     size_t cant_combo;
     size_t multiplicador_max;

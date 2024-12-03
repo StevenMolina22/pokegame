@@ -3,171 +3,172 @@
 ## Repositorio de (Marlon Stiven Molia Buitrago) - (112018) - (mmolinab@fi.uba.ar)
 
 ---
-## Instrucciones de Compilación y Ejecución
+## **Compilación y Ejecución**
 
-### Compilación:
+### **Compilación**:
 ```bash
 make tp2
 ```
 
-### Ejecución:
+### **Ejecución**:
 ```bash
 ./tp2 archivo.csv
 ```
 
-### Ejecución con Valgrind:
+### **Ejecución con Valgrind**:
 ```bash
-./valgrind tp2 archivo.csv
+make valgrind-tp2
 ```
 
 ---
 
-## Introducción
+## **Introducción**
 
-El TP2 consiste en la implementación de un juego que simula un escenario de captura de Pokémon en un tablero de dimensiones **32x15**, con un límite de tiempo de 60 segundos. El jugador debe capturar Pokémon que se generan aleatoriamente en el tablero mientras estos se mueven según patrones específicos. El juego evalúa habilidades estratégicas del jugador a través de un sistema de puntuación y multiplicadores, incentivando la optimización de movimientos.
+Este trabajo práctico implementa un juego basado en la captura de Pokémon en un entorno controlado dentro de la terminal. Se utilizan una arquitectura de archivos y logica que promueve el mantenimiento del codigo, diseño modular y manejo de TDAs.
 
----
-
-## Reglas y Mecánica del Juego
-
-1. **Tablero y Jugador**:
-   - El juego inicia con el jugador colocado en la primera celda del tablero.
-   - El jugador puede moverse usando los cursores de dirección: Arriba, Abajo, Izquierda, Derecha.
-
-2. **Pokémons**:
-   - Al iniciar el juego, se generan **7 Pokémon aleatorios** tomados de un archivo CSV (pueden repetirse) y se posicionan aleatoriamente en el tablero.
-   - Cada Pokémon tiene un patrón de movimiento único:
-     - **N**: Arriba
-     - **S**: Abajo
-     - **E**: Derecha
-     - **O**: Izquierda
-     - **J**: Sigue los movimientos del jugador.
-     - **I**: Movimiento opuesto al del jugador.
-     - **R**: Movimiento aleatorio en una de las 4 direcciones.
-   - Si el jugador no se mueve, los Pokémon tampoco.
-
-3. **Captura y Puntuación**:
-   - Un Pokémon es capturado al compartir la misma posición en el tablero que el jugador.
-   - Al capturarlo:
-     - El puntaje del Pokémon capturado se multiplica por el multiplicador actual del jugador.
-     - Se genera un nuevo Pokémon aleatorio que reemplaza al capturado.
-   - El multiplicador incrementa si el nombre o color del Pokémon capturado coincide con el último capturado; de lo contrario, se reinicia a 1.
-
-4. **Fin del Juego**:
-   - El juego finaliza cuando:
-     - Se alcanza el límite de tiempo de **60 segundos**.
-     - El jugador presiona la tecla `q` o `Q`.
+El juego se da un escenario de terminal jugandose a través de movimientos estratégicos, donde se deben capturar Pokémon generados aleatoriamente en un tablero de dimensiones **32x15**. Las interacciones del jugador y las mecánicas del juego están diseñadas para promover una buena experiencia para el jugador pero tambien para ponerle un reto que debe cumplir en **60 segundos**.
 
 ---
 
-## Menú Principal
+## **Estructura del Programa**
 
-El menú principal permite al usuario interactuar con el programa mediante las siguientes opciones obligatorias:
+### Diseño General
+El programa se organiza en módulos independientes que se comunican a través de funciones específicas y estructuras compartidas de manera controlada. Esto asegura encapsulamiento, estructura de caja negra para cada TDA, mantenimiento sencillo y adaptabilidad a nuevas funcionalidades.
 
-- **P (Pokedex):** Muestra los Pokémon cargados desde el archivo, ordenados alfabéticamente.
-- **J (Jugar):** Inicia el juego con generación aleatoria de Pokémon.
-- **S (Semilla):** Inicia el juego solicitando una semilla específica para controlar la aleatoriedad.
-- **Q (Salir):** Termina la ejecución del programa.
+### **Módulos Principales**
+El programa está compuesto por los siguientes TDAs y módulos:
 
-Opciones adicionales (como elegir tableros o niveles de dificultad) son opcionales y pueden ser implementadas para enriquecer la experiencia del usuario.
+1. **TDA Juego**
+   Coordina el flujo general del juego, incluyendo:
+   - Gestión del tiempo.
+   - Actualización del estado del tablero.
+   - Control de eventos como capturas y finalización.
 
----
+2. **TDA Tablero**
+   Representa la estructura física donde se desarrolla el juego.
+   - Almacena las posiciones de Pokémon y del jugador.
+   - Coordina movimientos y verifica capturas.
 
-## Estructura del Código
+3. **TDA Pokedex**
+   - Administra la lista de Pokémon disponibles en el juego.
+   - Facilita la generación aleatoria y la visualización ordenada de Pokémon.
 
-El programa se organiza en módulos independientes, cada uno con responsabilidades claras:
+4. **Módulo CSV**
+   - Carga y lectura de archivos de datos.
+   - Permite la reutilización de información externa.
 
-### 1. **TDA Juego**
-
-Gestión principal del flujo del juego. Incluye datos sobre el estado del tablero, los Pokémon y el jugador.
-
-**Responsabilidades**:
-- Iniciar y finalizar el juego.
-- Procesar movimientos del jugador y actualizar el tablero.
-- Evaluar capturas y calcular puntajes.
-
-**Operaciones Principales**:
-- `juego_crear` / `juego_destruir`: Inicialización y liberación de recursos.
-- `juego_iniciar`: Configuración inicial del juego.
-- `juego_correr`: Procesamiento del juego durante cada turno.
-- `juego_mostrar_resultados`: Despliegue de estadísticas finales.
-
----
-
-### 2. **TDA Tablero**
-
-Gestión del espacio de juego y la interacción entre el jugador y los Pokémon.
-
-**Responsabilidades**:
-- Controlar las posiciones del jugador y los Pokémon.
-- Verificar capturas.
-- Mostrar el estado actual del tablero.
-
-**Operaciones Principales**:
-- `tablero_crear` / `tablero_destruir`: Gestión de memoria para el tablero.
-- `tablero_mover_jugador`: Procesar movimientos del jugador.
-- `tablero_mover_pokes`: Actualizar la posición de los Pokémon según su patrón.
-- `tablero_esta_capturado`: Verificar si un Pokémon fue capturado.
+5. **TDA Menú**
+   - Gestión de opciones principales del juego.
+   - Encapsula la lógica de interacción usuario-programa.
 
 ---
 
-### 3. **TDA Pokedex**
+## **Explicación de los TDAs**
 
-Gestión de la lista de Pokémon disponibles en el juego.
+### **1. TDA Juego**
+**Propósito**:
+Gestión principal del flujo y lógica del juego.
 
-**Responsabilidades**:
-- Cargar Pokémon desde un archivo CSV.
-- Generar Pokémon aleatorios en el tablero.
-- Mostrar los datos de la Pokédex.
+**Estructura Interna**:
+- **Tablero**: Administra la ubicación del jugador y Pokémon.
+- **Pokédex**: Contiene los datos de los Pokémon disponibles.
+- **Estado del Juego**: Tiempo inicial, puntaje, multiplicador y estadísticas.
 
-**Operaciones Principales**:
-- `pokedex_crear` / `pokedex_destruir`: Gestión de memoria para la Pokédex.
-- `pokedex_cargar_desde`: Carga de datos desde el archivo CSV.
-- `pokedex_print`: Mostrar los Pokémon en pantalla.
-- `pokedex_agregar_random`: Agregar Pokémon aleatorios al tablero.
-
----
-
-### Estadísticas Finales
-
-Al concluir el juego, se muestran los siguientes datos:
-- **Puntaje total**: Puntos acumulados por capturas.
-- **Máximo multiplicador**: Multiplicador más alto alcanzado durante el juego.
-- **Combo más largo**: Secuencia más larga de capturas que incrementaron el multiplicador.
+**Funciones Principales**:
+- `juego_crear`: Inicializa el TDA.
+- `juego_iniciar`: Configura las condiciones iniciales.
+- `juego_correr`: Ejecuta el bucle principal del juego, actualizando el tablero y controlando eventos.
+- `juego_mostrar_resultados`: Imprime las estadísticas finales del jugador.
 
 ---
 
-## Desarrollo Teórico
+### **2. TDA Tablero**
+**Propósito**:
+Gestión del espacio físico del juego.
 
-### Diseño Modular
+**Estructura Interna**:
+- **Dimensiones**: 32x15.
+- **Entidades**: Almacena las posiciones de Pokémon y jugador.
 
-- Cada TDA encapsula una responsabilidad específica, facilitando el mantenimiento y la ampliación del programa.
-- Los TDAs reutilizados de trabajos anteriores se adaptaron para integrarse con las nuevas estructuras y reglas del juego.
-
----
-
-## Ejemplo de Flujo de Juego
-
-1. El usuario selecciona la opción **J** para iniciar el juego.
-2. El jugador utiliza las teclas de dirección para moverse en el tablero.
-3. Los Pokémon se mueven automáticamente según sus patrones.
-4. Al capturar un Pokémon:
-   - Se actualizan los puntos y el multiplicador.
-   - Se genera un nuevo Pokémon en el tablero.
-5. El juego termina tras **60 segundos** o al presionar `Q`.
+**Funciones Principales**:
+- `tablero_crear`: Inicializa el tablero vacío.
+- `tablero_esta_capturado`: Verifica la captura de un pokemon por el jugador
+- `tablero_mover_jugador`: Procesa movimientos del jugador en el tablero.
+- `tablero_mover_pokes`: Coordina movimientos de los Pokémon según patrones definidos.
+- `tablero_mostrar`: Imprime el estado del tablero.
 
 ---
 
-## Decisiones de Diseño
+### **3. TDA Pokedex**
+**Propósito**:
+Administra los datos de los Pokémon en el juego.
 
-1. **Estructura del Juego**:
-   - Centralizar el flujo del juego en el TDA `Juego` para simplificar la lógica y facilitar las pruebas.
+**Estructura Interna**:
+- **Lista Enlazada**: Almacena los Pokémon ordenados alfabéticamente.
+- **Hash Map**: Asocia características únicas de los Pokémon, como color y nombre.
 
-2. **Pokedex**:
-   - Usar listas dinámicas para gestionar los Pokémon, permitiendo escalabilidad y simplicidad en la búsqueda.
+**Funciones Principales**:
+- `pokedex_crear`: Inicializa la estructura.
+- `pokedex_cargar_desde`: Lee los datos de Pokémon desde un archivo CSV.
+- `pokedex_agregar_random`: Selecciona Pokémon al azar para colocarlos en el tablero.
+- `pokedex_mostrar`: Imprime el contenido de la Pokédex ordenado.
 
-3. **Patrones de Movimiento**:
-   - Utilizar un sistema flexible basado en caracteres (`N`, `S`, etc.) que permite la expansión de patrones en el futuro.
+---
+
+### **4. Módulo CSV**
+**Propósito**:
+Carga de datos externos desde archivos en formato CSV.
+
+**Funciones Principales**:
+- `csv_abrir`: Abre y valida el archivo CSV.
+- `csv_leer_fila`: Procesa una fila del archivo en formato clave-valor.
+- `csv_cerrar`: Libera los recursos asociados.
+
+---
+
+### **5. TDA Menú**
+**Propósito**:
+Interacción principal entre el usuario y las opciones del programa.
+
+**Funciones Principales**:
+- `menu_crear`: Inicializa el menú.
+- `menu_agregar`: Agrega una opción con su acción asociada.
+- `menu_accion`: Ejecuta la función asociada a una opción seleccionada.
+- `menu_destruir`: Libera los recursos.
+- `menu_print`: Muestra el menu por pantalla.
+---
+
+## **Reutilización de TDAs**
+
+- **Lista Enlazada**:
+  Utilizada en `Pokedex` para mantener Pokémon ordenados alfabéticamente.
+  - **Ventaja**: Inserciones y eliminaciones eficientes.
+
+- **Árbol Binario de Búsqueda (ABB)**:
+  Utilizado para el almacenamiento y búsqueda de Pokémon por nombre.
+  - **Ventaja**: Optimiza las consultas y ordena por nombre.
+
+- **Hash Map**:
+  Implementado para asociar atributos únicos (por ejemplo, colores) a cada Pokémon.
+  - **Ventaja**: Búsquedas rápidas.
+
+---
+
+## **Pruebas y Validación**
+
+### **Pruebas Unitarias**
+Se desarrollaron pruebas para cada TDA:
+- **Juego**: Verificación del flujo y finalización correcta.
+- **Tablero**: Validación de movimientos y capturas.
+- **Pokédex**: Pruebas de carga y ordenamiento.
+- **CSV**: Validación de archivos malformados y correctos.
+- **Menú**: Verificación de interacciones válidas e inválidas.
+
+---
+
+## **Conclusión**
+
+El proyecto demostró la utilidad de aplicar conceptos avanzados como diseño modular y abstracción. La correcta organización del código permitió un desarrollo limpio y eficiente. Este enfoque asegura una base sólida para futuras expansiones o adaptaciones del juego.
 
 ---
 
@@ -183,7 +184,8 @@ Al concluir el juego, se muestran los siguientes datos:
 |---------------------|
 | + juego_iniciar()   |
 | + juego_correr()    |
-| + juego_terminar()  |
+| + juego_mostrar     |
+|     resultados()    |
 +---------------------+
 
 +---------------------+
@@ -205,5 +207,15 @@ Al concluir el juego, se muestran los siguientes datos:
 | + cargar_desde()    |
 | + agregar_random()  |
 | + mostrar()         |
++---------------------+
+
++---------------------+
+|       Menu          |
+|---------------------|
+| - Lista de Pokémon  |
+|---------------------|
+| + menu_agregar()    |
+| + menu_accion()     |
+| + menu_print()      |
 +---------------------+
 ```

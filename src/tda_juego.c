@@ -1,4 +1,5 @@
 #include "tda_juego.h"
+#include "tda_pokedex.h"
 #define N_POKES_TABLERO 7
 
 struct juego {
@@ -8,7 +9,7 @@ struct juego {
     time_t tiempo_inicio;
 };
 
-// ---- FUNCIONES AUXILIARES
+// ---- FUNCIONES AUXILIARESWHITE
 void procesar_entrada(Juego *j, Direccion d);
 void verificar_capturas(Juego *j);
 void actualizar_captura(Juego *j, Poke *p);
@@ -81,9 +82,12 @@ void juego_mostrar_resultados(Juego *j) {
     }
     Jugador *jug = tablero_jugador(j->tablero);
 
-    printf("Puntaje alcanzado: %zu\n", jug->puntos);
-    printf("Máximo multiplicador: %zu\n", jug->multiplicador_max);
-    printf("Máximo cantidad de combo: %zu\n", jug->max_cant_combo);
+    printf(ANSI_COLOR_CYAN "Puntaje alcanzado: %zu\n", jug->puntos);
+    printf(ANSI_COLOR_MAGENTA "Máximo multiplicador: %zu\n", jug->multiplicador_max);
+    printf(ANSI_COLOR_CYAN "Máximo cantidad de combo: %zu\n", jug->max_cant_combo);
+    printf(ANSI_COLOR_MAGENTA "Cadena mas larga: \n");
+    pokedex_print_nombres(jug->atrapados_max, stdout);
+    printf("\n");
 }
 
 // ---- FUNCIONES AUXILIARES
@@ -123,10 +127,14 @@ void actualizar_captura(Juego *j, Poke *p) {
     if (ultimo == NULL || ultimo->nombre[0] == p->nombre[0] || ultimo->color == p->color) {
         jug->multiplicador++;
         jug->cant_combo++;
+        pokedex_agregar(jug->atrapados, poke_copiar(p));
         if (jug->cant_combo > jug->max_cant_combo) {
             jug->max_cant_combo = jug->cant_combo;
+            pokedex_destruir(jug->atrapados_max);
+            jug->atrapados_max = pokedex_copiar(jug->atrapados);
         }
     } else {
+        pokedex_vaciar(jug->atrapados);
         jug->cant_combo = 0;
         jug->multiplicador = 1;
     }

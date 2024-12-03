@@ -12,19 +12,6 @@ valgrind-alumno: pruebas_alumno
 pruebas_alumno: src/*.c pruebas_alumno.c engine
 	$(CC) $(CFLAGS) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
 
-test_build: src/*.c tests/*.c
-	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_pokedex_test.c engine.o -o pruebas_pokedex
-	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_tablero_test.c engine.o -o pruebas_tablero
-	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_menu_test.c engine.o -o pruebas_menu
-	$(CC) $(CFLAGSDEBUG) src/*.c  tests/tda_juego_test.c engine.o -o pruebas_juego
-
-test: test_build
-	valgrind $(VALGRIND_FLAGS) ./pruebas_pokedex
-	valgrind $(VALGRIND_FLAGS) ./pruebas_tablero
-	valgrind $(VALGRIND_FLAGS) ./pruebas_menu
-	valgrind $(VALGRIND_FLAGS) ./pruebas_juego
-	rm -f pruebas_pokedex pruebas_tablero pruebas_menu pruebas_juego
-
 valgrind-tp2: tp2
 	valgrind $(VALGRIND_FLAGS) ./tp2 datos/pokedex.csv
 
