@@ -7,6 +7,9 @@
 // ---- INTERFAZ TDA
 // INIT & DEINIT
 Tablero* tablero_crear(size_t ancho, size_t alto) {
+    if (ancho == 0 || alto == 0 ) {
+        return NULL;
+    }
     Tablero* t = calloc(1, sizeof(Tablero));
     if (t == NULL) {
         return NULL;

@@ -122,6 +122,9 @@ void pokedex_print_nombres(Pokedex* pkx, FILE* archivo) {
 }
 
 bool pokedex_cargar_desde(Pokedex *pkx, CSV *csv) {
+    if (csv == NULL) {
+        return false;
+    }
 	Poke *p;
 	while ((p = poke_leer(csv)) != NULL) {
 		if (!lista_agregar(pkx->lista, p)) {

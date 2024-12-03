@@ -89,14 +89,13 @@ void prueba_tablero_mostrar() {
 void prueba_crear_tablero_borde() {
     pa2m_nuevo_grupo("Pruebas creación de tablero borde");
     Tablero* t = tablero_crear(0, 0);
-
     pa2m_afirmar(t == NULL, "No se puede crear un tablero con dimensiones inválidas");
 
     Tablero* t2 = tablero_crear(32, 15);
-    pa2m_afirmar(t2 == NULL, "No se puede crear un tablero sin jugador");
+    pa2m_afirmar(t2 != NULL, "Se puede crear un tablero");
 
     Tablero* t3 = tablero_crear(32, 15);
-    pa2m_afirmar(t3 == NULL, "No se puede crear un tablero sin pokedex");
+    pa2m_afirmar(t3 != NULL, "Se puede crear un tablero grande");
 
     tablero_destruir(t2);
     tablero_destruir(t3);
@@ -178,7 +177,7 @@ void prueba_tablero_captura_pokemon_extendida() {
 }
 int main() {
     prueba_crear_tablero();
-    // prueba_crear_tablero_borde();
+    prueba_crear_tablero_borde();
     prueba_destruir_tablero();
     prueba_destruir_tablero_borde();
     prueba_tablero_mover_jugador();
