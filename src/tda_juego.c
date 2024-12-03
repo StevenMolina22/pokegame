@@ -105,12 +105,6 @@ void juego_correr(Juego* j, int entrada) {
     tablero_mostrar(j->tablero);
 }
 
-void juego_terminar(Juego* j) {
-    if (j == NULL) {
-        return;
-    }
-}
-
 void juego_mostrar_resultados(Juego* j) {
     if (j == NULL) {
         return;
@@ -137,19 +131,19 @@ void verificar_capturas(Juego* j) {
     Pokedex* pkx = tablero_pokedex(j->tablero);
     Lista* l = pokedex_lista(pkx);
     ListaIt* it = lista_it_crear(l);
-    Jugador* jug = tablero_jugador(j->tablero);
+    // Jugador* jug = tablero_jugador(j->tablero);
 
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
         lista_it_avanzar(it);
         if (tablero_esta_capturado(j->tablero, p)) {
-            if (jug->ultimo_capturado == p) {
-                jug->ultimo_capturado = NULL; // Limpiar referencia si es el mismo Poke
-            }
-            actualizar_captura(j, p);
+            // if (jug->ultimo_capturado == p) {
+            //     jug->ultimo_capturado = NULL;
+            // }
             lista_remover(l, i, NULL);
+            actualizar_captura(j, p);
             poke_destruir(p);
-            pokedex_agregar_random(pkx);
+            pokedex_agregar_random(j->pokedex, pkx);
         } else {
             i++;
         }
@@ -167,9 +161,9 @@ void actualizar_captura(Juego* j, Poke* p) {
         ultimo->color == p->color
     ) {
         jug->multiplicador++;
-        // if (ultimo == NULL) {
-        //     jug->cant_combo = 0; // si es null
-        // }
+        if (ultimo == NULL) {
+            jug->cant_combo = 0; // si es null
+        }
         jug->cant_combo++;
         if (jug->cant_combo > jug->max_cant_combo) {
             jug->max_cant_combo = jug->cant_combo;
@@ -185,7 +179,9 @@ void actualizar_captura(Juego* j, Poke* p) {
     }
 
     jug->puntos += jug->multiplicador * p->puntos;
-    // jug->ultimo_capturado = p;
+
+    poke_destruir(jug->ultimo_capturado);
+    jug->ultimo_capturado = poke_copiar(p);
 }
 
 // ---- GETTERS

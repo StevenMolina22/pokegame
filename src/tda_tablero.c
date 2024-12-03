@@ -74,18 +74,16 @@ void tablero_mostrar(Tablero* t) {
         return;
     }
 
-    // Limpia el tablero
     tablero_vaciar(t);
 
-    // Posición del jugador
     size_t x = t->jugador->x;
     size_t y = t->jugador->y;
     strcpy(t->matriz[y][x], ANSI_COLOR_MAGENTA ANSI_COLOR_BOLD "🧍"); // Jugador representado como "Ω"
 
+    Poke* ultimo = t->jugador->ultimo_capturado;
     // Encabezado con estadísticas
     printf("%s╔══════════════════════════════════════════════════════════╗\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-    printf("%s║   %sEstadísticas: %-50s║\n",
-           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+    printf("%s║   %sEstadísticas: %-50s║\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
            ANSI_COLOR_GREEN,
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     printf("%s║   %sPuntos: %-47zu%s║\n",
@@ -96,13 +94,17 @@ void tablero_mostrar(Tablero* t) {
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
            ANSI_COLOR_YELLOW, t->jugador->multiplicador,
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
-    printf("%s║   %sCombo actual: %-41s%s║\n",
+    printf("%s║   %sNro Atrapados: %-40zu%s║\n",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
-           ANSI_COLOR_CYAN, "Activa tus combos!",
+           ANSI_COLOR_CYAN, t->jugador->cant_combo,
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
+    printf("%s║   %sUltimo Atrapado: %-40s%s\n",
+           ANSI_COLOR_WHITE ANSI_COLOR_BOLD,
+           ANSI_COLOR_CYAN,
+           ultimo ? t->jugador->ultimo_capturado->nombre : "",
            ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
     printf("%s╚══════════════════════════════════════════════════════════╝\n", ANSI_COLOR_WHITE ANSI_COLOR_BOLD);
 
-    // pokedex_print_nombres(t->jugador->combo_actual, stdout);
     printf("Elementos son: \n");
     // lista_iterar(t->jugador->atrapados, _print_nombre, stdout);
     printf("\n");
@@ -111,7 +113,9 @@ void tablero_mostrar(Tablero* t) {
     ListaIt* it = lista_it_crear(pokedex_lista(t->pokes));
     while (lista_it_hay_siguiente(it)) {
         Poke* p = lista_it_actual(it);
-        poke_inicial_color(p, t->matriz[p->y][p->x]); // Asigna colores y representaciones únicas
+        if (p != NULL) {
+            poke_inicial_color(p, t->matriz[p->y][p->x]);
+        }
         lista_it_avanzar(it);
     }
     lista_it_destruir(it);
@@ -166,7 +170,7 @@ void matriz_print(str_t m[ALTO][ANCHO]) {
 
         // Imprimir celdas de la fila
         for (size_t j = 0; j < ANCHO; j++) {
-            printf("%s %s ", ANSI_COLOR_RESET, m[i][j]);
+            printf("%s%s ", ANSI_COLOR_RESET, m[i][j]);
         }
 
         // Separador derecho

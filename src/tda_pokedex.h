@@ -40,11 +40,12 @@ void pokedex_vaciar(Pokedex* pkx);
 /**
  * Agrega un pokemon random a la pokedex
  */
-void pokedex_agregar_random(Pokedex* pkx);
+void pokedex_agregar_random(Pokedex* pkx_desde, Pokedex* pkx_hasta);
 
 
 
 // ---- GETTERS
+
 /**
  * Devuelve la cantidad de pokemones en la pokedex
  */
@@ -57,6 +58,7 @@ Lista* pokedex_lista(Pokedex* pkx);
 
 
 // ---- IO & CSV
+
 /**
  *
  */

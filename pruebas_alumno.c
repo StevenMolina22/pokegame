@@ -46,19 +46,6 @@ void probar_cargar_desde_archivo() {
     pokedex_destruir(pokedex);
 }
 
-void prueba1() {
-    pa2m_nuevo_grupo("Pruebas de generación de pokemones");
-
-    Pokedex *pokedex = pokedex_crear();
-
-    // pokedex_spawn(pokedex);
-    // pa2m_afirmar(pokedex_len(pokedex) > 0, "Se generaron pokemones automáticamente");
-
-    pokedex_agregar_random(pokedex);
-    pa2m_afirmar(pokedex_len(pokedex) > 0, "Se agregó un pokemon random a la Pokedex");
-
-    pokedex_destruir(pokedex);
-}
 
 int main() {
     pa2m_nuevo_grupo("============== Pruebas de la Pokedex ===============");
