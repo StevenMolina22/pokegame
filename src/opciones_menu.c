@@ -2,10 +2,10 @@
 
 // ---- OPCIONES AGREGADAS AL MENU
 void init_menu(Menu* m) {
-    menu_agregar(m, 'P', "Pokedex", &opcion_mostrar_pokedex);
+    menu_agregar(m, 'P', "Mostrar Pokedex", &opcion_mostrar_pokedex);
     menu_agregar(m, 'J', "Jugar", &opcion_juego_jugar);
-    menu_agregar(m, 'S', "Semilla", &opcion_juego_jugar_semilla);
-    menu_agregar(m, 'Q', "Quit", &opcion_salir);
+    menu_agregar(m, 'S', "Jugar con Semilla", &opcion_juego_jugar_semilla);
+    menu_agregar(m, 'Q', "Salir", &opcion_salir);
 }
 
 bool opcion_mostrar_pokedex(void* ctx) {

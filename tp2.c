@@ -55,6 +55,8 @@ int main(int argc, char* argv[])
     char id_opcion = (char)getchar();
     id_opcion = (char)toupper(id_opcion);
     menu_accion(m, id_opcion, &ctx);
+    printf("%s", ANSI_COLOR_WHITE);
+
 
     // Cerrar
     mostrar_cursor();
