@@ -1,0 +1,14 @@
+# Add patterns to ignore here, one per line
+# Example:
+# *.log
+# tmp/
+
+img/
+extra/
+datos/
+
+.repomixignore
+repomix.config.json
+.gitignore
+tests.c
+pa2m.h

@@ -13,26 +13,26 @@ engine:
 
 # TESTS
 tests: engine
-	@$(CC) $(CFLAGS) $(FILES) pruebas_alumno.c engine.o -o pruebas_alumno
+	@$(CC) $(CFLAGS) $(FILES) tests.c engine.o -o tests
 
 tests-run: tests
-	@valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
+	@valgrind $(VALGRIND_FLAGS) ./tests
 
 # TP2
 build: engine
-	@$(CC) $(CFLAGS) $(FILES) tp2.c engine.o -o tp2
+	@$(CC) $(CFLAGS) $(FILES) pokegame.c engine.o -o pokegame
 
 debug: engine
-	@$(CC) $(FILES) $(CFLAGSDEBUG) tp2.c engine.o -o tp2
+	@$(CC) $(FILES) $(CFLAGSDEBUG) pokegame.c engine.o -o tp2
 
 run: build
-	@./tp2 datos/pokedex.csv
+	@./pokegame datos/pokedex.csv
 
 run-valgrind: build
-	@valgrind $(VALGRIND_FLAGS) ./tp2 datos/pokedex.csv
+	@valgrind $(VALGRIND_FLAGS) ./pokegame datos/pokedex.csv
 
 run-debug: debug
-	@gdb --args ./tp2 datos/pokedex.csv
+	@gdb --args ./pokegame datos/pokedex.csv
 
 clean:
-	@rm -f pruebas_alumno tp2 engine.o
+	@rm -f tests pokegame engine.o

@@ -1,30 +1,21 @@
-## TP2: Juego de Captura de Pokémons
-
-## Repositorio de (Marlon Stiven Molia Buitrago) - (112018) - (mmolinab@fi.uba.ar)
+# Pokegame
 
 ---
-## **Compilación y Ejecución**
-
-### **Compilación**:
-```bash
-make tp2
-```
-
 ### **Ejecución**:
 ```bash
-./tp2 archivo.csv
+make
 ```
 
 ### **Ejecución con Valgrind**:
 ```bash
-make valgrind-tp2
+make run-valgrind
 ```
 
 ---
 
 ## **Introducción**
 
-Este trabajo práctico implementa un juego basado en la captura de Pokémon en un entorno controlado dentro de la terminal. Se utilizan una arquitectura de archivos y logica que promueve el mantenimiento del codigo, diseño modular y manejo de TDAs.
+Este project implementa un juego basado en la captura de Pokémon en un entorno controlado dentro de la terminal. Se utilizan una arquitectura de archivos y logica que promueve el mantenimiento del codigo, diseño modular y manejo de TDAs.
 
 El juego se da un escenario de terminal jugandose a través de movimientos estratégicos, donde se deben capturar Pokémon generados aleatoriamente en un tablero de dimensiones **32x15**. Las interacciones del jugador y las mecánicas del juego están diseñadas para promover una buena experiencia para el jugador pero tambien para ponerle un reto que debe cumplir en **60 segundos**.
 
