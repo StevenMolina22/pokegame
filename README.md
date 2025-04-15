@@ -19,6 +19,7 @@ Este project implementa un juego basado en la captura de Pokémon en un entorno 
 
 El juego se da un escenario de terminal jugandose a través de movimientos estratégicos, donde se deben capturar Pokémon generados aleatoriamente en un tablero de dimensiones **32x15**. Las interacciones del jugador y las mecánicas del juego están diseñadas para promover una buena experiencia para el jugador pero tambien para ponerle un reto que debe cumplir en **60 segundos**.
 
+![Imagen del juego de Pokémon](img/pokegame.png)
 ---
 
 ## **Estructura del Programa**
