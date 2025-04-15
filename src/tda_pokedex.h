@@ -3,9 +3,9 @@
 
 #include "tipo_poke.h"
 #include "tipos.h"
-#include "lista.h"
-#include "abb.h"
-#include "io_csv.h"
+#include "lista/lista.h"
+#include "abb/abb.h"
+#include "io/io_csv.h"
 
 typedef struct pokedex Pokedex;
 typedef struct it_pokedex ItPokedex;

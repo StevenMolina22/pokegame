@@ -1,5 +1,4 @@
 #include "tda_pokedex.h"
-#include "lista.h"
 
 struct pokedex {
 	Lista *lista;
