@@ -1,10 +1,10 @@
 #include "pa2m.h"
-#include "src/io_csv.h"
 #include "src/tipo_poke.h"
 #include "src/tda_juego.h"
 #include "src/tda_pokedex.h"
 #include "src/tda_menu.h"
 #include "src/tda_tablero.h"
+#include "src/io/io_csv.h"
 
 // ---- TDA JUEGO
 void prueba_crear_juego() {

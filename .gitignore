@@ -10,3 +10,6 @@ tp2
 .clang-format
 ejemplo
 shared.map
+
+.gdb_history
+pokegame.md

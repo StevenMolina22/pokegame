@@ -2,8 +2,8 @@
 #define TIPO_POKE_H
 
 #include "tipos.h"
-#include "io_csv.h"
-#include "io_utils.h"
+#include "io/io_csv.h"
+#include "io/io_utils.h"
 
 typedef struct poke {
     char* nombre;

@@ -2,7 +2,7 @@
 #include "src/opciones_menu.h"
 #include "src/tda_menu.h"
 #include "src/tda_juego.h"
-#include "src/io_csv.h"
+#include "src/io/io_csv.h"
 
 void print_pokemon_ascii() {
     printf("  _____      _                             \n");

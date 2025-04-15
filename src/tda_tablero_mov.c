@@ -1,4 +1,3 @@
-#include "lista.h"
 #include "tda_tablero.h"
 #include "tda_tablero_priv.h"
 

@@ -25,7 +25,6 @@ Tablero *tablero_crear(size_t ancho, size_t alto)
 		free(jugador);
 		return NULL;
 	}
-	// TODO!: Verificar que la asignacion del string no rompa por temas de stack y stack frames
 	for (size_t i = 0; i < ALTO; i++) {
 		for (size_t j = 0; j < ANCHO; j++) {
 			t->matriz[i][j] = malloc(20 * sizeof(char));

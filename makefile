@@ -3,29 +3,36 @@ CFLAGS =-std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g
 CFLAGSDEBUG =-std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0 -g
 ENGINECFLAGS =-Wall -Werror -O2 -g
 CC = gcc
+FILES = src/*.c src/io/*.c src/lista/*.c src/abb/*.c src/hash/*.c
 
-all: clean valgrind-alumno valgrind-tp2
-
-valgrind-alumno: pruebas_alumno
-	valgrind $(VALGRIND_FLAGS) ./pruebas_alumno
-
-pruebas_alumno: src/*.c pruebas_alumno.c engine
-	$(CC) $(CFLAGS) src/*.c pruebas_alumno.c engine.o -o pruebas_alumno
-
-valgrind-tp2: tp2
-	valgrind $(VALGRIND_FLAGS) ./tp2 datos/pokedex.csv
+all: run clean
+test: tests-run clean
 
 engine:
-	$(CC) $(ENGINECFLAGS) -c extra/engine.c -o engine.o
+	@$(CC) $(ENGINECFLAGS) -c extra/engine.c -o engine.o
 
-tp2: engine
-	$(CC) $(CFLAGS) src/*.c tp2.c engine.o -o tp2
+# TESTS
+tests: engine
+	@$(CC) $(CFLAGS) $(FILES) tests.c engine.o -o tests
 
-tp2-debug: engine
-	$(CC) $(CFLAGSDEBUG) src/*.c tp2.c engine.o -o tp2
+tests-run: tests
+	@valgrind $(VALGRIND_FLAGS) ./tests
 
-debug: tp2-debug
-	gdb --args ./tp2 datos/pokedex.csv
+# TP2
+build: engine
+	@$(CC) $(CFLAGS) $(FILES) pokegame.c engine.o -o pokegame
+
+debug: engine
+	@$(CC) $(FILES) $(CFLAGSDEBUG) pokegame.c engine.o -o tp2
+
+run: build
+	@./pokegame datos/pokedex.csv
+
+run-valgrind: build
+	@valgrind $(VALGRIND_FLAGS) ./pokegame datos/pokedex.csv
+
+run-debug: debug
+	@gdb --args ./pokegame datos/pokedex.csv
 
 clean:
-	rm -f pruebas_alumno tp2 engine.o
+	@rm -f tests pokegame engine.o
